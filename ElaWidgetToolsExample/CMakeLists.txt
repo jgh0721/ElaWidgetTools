@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.5)
+﻿cmake_minimum_required(VERSION 3.20)
 
 project(ElaWidgetToolsExample VERSION 0.1 LANGUAGES CXX)
 
@@ -20,7 +20,6 @@ FILE(GLOB EAXMPLEPAGE ExamplePage/*.h ExamplePage/*.cpp)
 
 source_group(ModelView FILES ${MODELVIEW})
 source_group(ExamplePage FILES ${EAXMPLEPAGE})
-
 
 set(PROJECT_SOURCES
     ${ORIGIN}
