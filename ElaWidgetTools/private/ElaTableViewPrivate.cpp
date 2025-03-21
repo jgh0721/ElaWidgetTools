@@ -8,3 +8,12 @@ ElaTableViewPrivate::ElaTableViewPrivate(QObject* parent)
 ElaTableViewPrivate::~ElaTableViewPrivate()
 {
 }
+
+ElaTableWidgetPrivate::ElaTableWidgetPrivate( QObject* parent )
+    : QObject{ parent }
+{
+}
+
+ElaTableWidgetPrivate::~ElaTableWidgetPrivate()
+{
+}

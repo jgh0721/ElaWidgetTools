@@ -175,7 +175,7 @@ void ElaTableViewStyle::drawControl(ControlElement element, const QStyleOption* 
         if (const QStyleOptionViewItem* vopt = qstyleoption_cast<const QStyleOptionViewItem*>(option))
         {
             // 背景绘制
-            const ElaTableView* tabView = dynamic_cast<const ElaTableView*>(widget);
+            const QTableView* tabView = dynamic_cast<const QTableView*>(widget);
             if (!tabView)
             {
                 return;

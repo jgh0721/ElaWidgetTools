@@ -8,3 +8,12 @@ ElaListViewPrivate::ElaListViewPrivate(QObject* parent)
 ElaListViewPrivate::~ElaListViewPrivate()
 {
 }
+
+ElaListWidgetPrivate::ElaListWidgetPrivate(QObject* parent)
+    : QObject{parent}
+{
+}
+
+ElaListWidgetPrivate::~ElaListWidgetPrivate()
+{
+}

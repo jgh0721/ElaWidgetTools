@@ -120,7 +120,7 @@ void ElaListViewStyle::drawControl(ControlElement element, const QStyleOption* o
             QRect itemRect = option->rect;
             painter->save();
             painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
-            const ElaListView* listView = dynamic_cast<const ElaListView*>(widget);
+            const QListView* listView = dynamic_cast<const QListView*>(widget);
             QListView::ViewMode viewMode = listView->viewMode();
             // QRect checkRect = proxy()->subElementRect(SE_ItemViewItemCheckIndicator, vopt, widget);
             QRect iconRect = proxy()->subElementRect(SE_ItemViewItemDecoration, vopt, widget);
@@ -176,7 +176,7 @@ QSize ElaListViewStyle::sizeFromContents(ContentsType type, const QStyleOption* 
     case QStyle::CT_ItemViewItem:
     {
         QSize itemSize = QProxyStyle::sizeFromContents(type, option, size, widget);
-        const ElaListView* listView = dynamic_cast<const ElaListView*>(widget);
+        const QListView* listView = dynamic_cast<const QListView*>(widget);
         QListView::ViewMode viewMode = listView->viewMode();
         if (viewMode == QListView::ListMode)
         {

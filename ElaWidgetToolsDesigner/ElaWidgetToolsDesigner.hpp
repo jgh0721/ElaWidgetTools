@@ -71,6 +71,10 @@ private:
     QString Name##Plugin::includeFile() const { return QStringLiteral( #Name ".h" ); }
 #define DEFINE_BASE_ICON( Name, Icon ) \
     QIcon Name##Plugin::icon() const { return QIcon( Icon ); }
+#define DEFINE_BASE_XML( Name, Value, Width, Height ) \
+    QString Name##Plugin::domXml() const {                          \
+        const auto ClassName = QStringLiteral( #Name );             \
+    }
 
 #define DEFINE_BASE(Name) \
     DEFINE_BASE_CONSTRUCTOR(Name)       \
@@ -82,8 +86,22 @@ private:
     DEFINE_BASE_TOOLTIP(Name)           \
     DEFINE_BASE_INCLUDE(Name)
 
+DECLARE_ELAWIDGET_PLUGIN( ElaAcrylicUrlCard );
+
+DECLARE_ELAWIDGET_PLUGIN( ElaBreadcrumbBar );
+
+DECLARE_ELAWIDGET_PLUGIN( ElaCalendarPicker );
 DECLARE_ELAWIDGET_PLUGIN( ElaCheckBox );
+DECLARE_ELAWIDGET_PLUGIN( ElaComboBox );
+
 DECLARE_ELAWIDGET_PLUGIN( ElaLineEdit );
+DECLARE_ELAWIDGET_PLUGIN( ElaListView );
+DECLARE_ELAWIDGET_PLUGIN( ElaListWidget );
+
+DECLARE_ELAWIDGET_PLUGIN( ElaTableView );
+DECLARE_ELAWIDGET_PLUGIN( ElaTableWidget );
+DECLARE_ELAWIDGET_PLUGIN( ElaToggleButton );
+DECLARE_ELAWIDGET_PLUGIN( ElaToggleSwitch );
 DECLARE_ELAWIDGET_PLUGIN( ElaTreeView );
 
 #endif //ELAWIDGETTOOLSDESIGNER_HPP
