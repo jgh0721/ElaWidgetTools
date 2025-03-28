@@ -55,6 +55,8 @@ class ELA_EXPORT ElaAppBar : public QWidget
     Q_Q_CREATE(ElaAppBar)
     Q_PROPERTY_CREATE_Q_H(bool, IsStayTop)
     Q_PROPERTY_CREATE_Q_H(bool, IsFixedSize)
+    Q_PROPERTY_CREATE_Q_H(bool, IsDefaultMin)
+    Q_PROPERTY_CREATE_Q_H(bool, IsDefaultMax)
     Q_PROPERTY_CREATE_Q_H(bool, IsDefaultClosed)
     Q_PROPERTY_CREATE_Q_H(bool, IsOnlyAllowMinAndClose)
     Q_PROPERTY_CREATE_Q_H(int, AppBarHeight)
@@ -84,6 +86,8 @@ Q_SIGNALS:
     Q_SIGNAL void routeBackButtonClicked();
     Q_SIGNAL void navigationButtonClicked();
     Q_SIGNAL void themeChangeButtonClicked();
+    Q_SIGNAL void minButtonClicked();
+    Q_SIGNAL void maxButtonClicked();
     Q_SIGNAL void closeButtonClicked();
     Q_SIGNAL void customWidgetChanged();
 

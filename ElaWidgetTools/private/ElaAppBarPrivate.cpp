@@ -27,19 +27,22 @@ ElaAppBarPrivate::~ElaAppBarPrivate()
 void ElaAppBarPrivate::onMinButtonClicked()
 {
     Q_Q(ElaAppBar);
-    q->window()->showMinimized();
+    if( _pIsDefaultMin )
+        q->window()->showMinimized();
+    else
+        Q_EMIT q_ptr->minButtonClicked();
 }
 
 void ElaAppBarPrivate::onMaxButtonClicked()
 {
     Q_Q(ElaAppBar);
-    if (q->window()->isMaximized())
+    if( _pIsDefaultMax )
     {
-        q->window()->showNormal();
+        q->window()->setWindowState( q->window()->windowState() ^ Qt::WindowMaximized );
     }
     else
     {
-        q->window()->showMaximized();
+        Q_EMIT q_ptr->maxButtonClicked();
     }
 }
 

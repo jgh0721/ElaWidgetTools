@@ -25,6 +25,8 @@
 #include "ElaTheme.h"
 #include "private/ElaAppBarPrivate.h"
 Q_PROPERTY_CREATE_Q_CPP(ElaAppBar, bool, IsStayTop)
+Q_PROPERTY_CREATE_Q_CPP(ElaAppBar, bool, IsDefaultMin )
+Q_PROPERTY_CREATE_Q_CPP(ElaAppBar, bool, IsDefaultMax )
 Q_PROPERTY_CREATE_Q_CPP(ElaAppBar, bool, IsDefaultClosed)
 Q_PROPERTY_CREATE_Q_CPP(ElaAppBar, bool, IsOnlyAllowMinAndClose)
 
@@ -40,6 +42,8 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->q_ptr = this;
     d->_pIsStayTop = false;
     d->_pIsFixedSize = false;
+    d->_pIsDefaultMin = true;
+    d->_pIsDefaultMax = true;
     d->_pIsDefaultClosed = true;
     d->_pIsOnlyAllowMinAndClose = false;
     d->_pCustomWidget = nullptr;
