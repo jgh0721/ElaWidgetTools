@@ -30,7 +30,7 @@ void ElaTableViewStyle::drawPrimitive(PrimitiveElement element, const QStyleOpti
         // 行覆盖绘制
         if (const QStyleOptionViewItem* vopt = qstyleoption_cast<const QStyleOptionViewItem*>(option))
         {
-            const ElaTableView* tabView = dynamic_cast<const ElaTableView*>(widget);
+            const QTableView* tabView = dynamic_cast<const QTableView*>(widget);
             if (!tabView)
             {
                 return;

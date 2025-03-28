@@ -226,7 +226,8 @@ int ElaAppBarPrivate::_calculateMinimumWidth()
         width += 10;
     }
     bool isHasNavigationBar = false;
-    if (q->parentWidget()->findChild<ElaNavigationBar*>())
+    const auto ElaNaviBar = q->parentWidget()->findChild<ElaNavigationBar*>();
+    if ( ElaNaviBar && ElaNaviBar->isVisible() == true )
     {
         isHasNavigationBar = true;
         width += 305;
