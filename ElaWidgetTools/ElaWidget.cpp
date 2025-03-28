@@ -10,6 +10,50 @@
 #include "ElaTheme.h"
 #include "private/ElaWidgetPrivate.h"
 Q_TAKEOVER_NATIVEEVENT_CPP(ElaWidget, d_func()->_appBar);
+
+ElaWidgetBase::ElaWidgetBase( QWidget* parent )
+    : QWidget{ parent }, d_ptr( new ElaWidgetBasePrivate() )
+{
+    Q_D( ElaWidgetBase );
+    d->q_ptr = this;
+    setWindowTitle( "ElaWidget" );
+    setObjectName( "ElaWidget" );
+
+    // 主题
+    d->_themeMode = eTheme->getThemeMode();
+    connect( eTheme, &ElaTheme::themeModeChanged, this, [=]( ElaThemeType::ThemeMode themeMode ) {
+        d->_themeMode = themeMode;
+        update();
+    } );
+
+    d->_isEnableMica = eApp->getIsEnableMica();
+    connect( eApp, &ElaApplication::pIsEnableMicaChanged, this, [=]() {
+        d->_isEnableMica = eApp->getIsEnableMica();
+        update();
+    } );
+    eApp->syncMica( this );
+}
+
+ElaWidgetBase::~ElaWidgetBase()
+{
+}
+
+void ElaWidgetBase::paintEvent( QPaintEvent* event )
+{
+    Q_D( ElaWidgetBase );
+    if( !d->_isEnableMica )
+    {
+        QPainter painter( this );
+        painter.save();
+        painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
+        painter.setPen( Qt::NoPen );
+        painter.setBrush( ElaThemeColor( d->_themeMode, WindowBase ) );
+        painter.drawRect( rect() );
+        painter.restore();
+    }
+    QWidget::paintEvent( event );
+}
+
 ElaWidget::ElaWidget(QWidget* parent)
     : QWidget{parent}, d_ptr(new ElaWidgetPrivate())
 {

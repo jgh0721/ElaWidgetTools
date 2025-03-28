@@ -6,6 +6,19 @@
 #include "Def.h"
 #include "ElaAppBar.h"
 class ElaWidgetPrivate;
+class ElaWidgetBasePrivate;
+class ELA_EXPORT ElaWidgetBase : public QWidget
+{
+    Q_OBJECT
+    Q_Q_CREATE(ElaWidgetBase)
+public:
+    explicit ElaWidgetBase( QWidget* parent = nullptr );
+    ~ElaWidgetBase();
+
+protected:
+    virtual void paintEvent( QPaintEvent* event ) override;
+};
+
 class ELA_EXPORT ElaWidget : public QWidget
 {
     Q_OBJECT
