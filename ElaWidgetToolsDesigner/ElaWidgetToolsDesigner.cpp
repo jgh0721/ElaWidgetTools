@@ -59,6 +59,8 @@
 #include "ElaToolBar.h"
 #include "ElaToolButton.h"
 #include "ElaTreeView.h"
+#include "ElaTreeWidget.h"
+
 #include "ElaWidget.h"
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -703,6 +705,37 @@ QString ElaTreeViewPlugin::domXml() const
     QString className = QStringLiteral("ElaTreeView");
     return QStringLiteral("<ui language=\"c++\">\n"
            " <widget class=\"" "%1" "\" name=\"elatreeview\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaTreeWidget)
+DEFINE_BASE_ICON( ElaTreeWidget, ElaIcon::getInstance()->getElaIcon( ElaIconType::ListTree ) )
+DEFINE_BASE_WHATS_THIS(ElaTreeWidget, "ElaTreeWidget on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaTreeWidget, false )
+
+QString ElaTreeWidgetPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaTreeWidget");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elatreewidget\">\n"
            "  <property name=\"geometry\">\n"
            "   <rect>\n"
            "    <x>0</x>\n"

@@ -8,3 +8,12 @@ ElaTreeViewPrivate::ElaTreeViewPrivate(QObject* parent)
 ElaTreeViewPrivate::~ElaTreeViewPrivate()
 {
 }
+
+ElaTreeWidgetPrivate::ElaTreeWidgetPrivate( QObject* parent )
+    : QObject{ parent }
+{
+}
+
+ElaTreeWidgetPrivate::~ElaTreeWidgetPrivate()
+{
+}
