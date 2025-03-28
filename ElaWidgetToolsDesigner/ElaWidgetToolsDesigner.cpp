@@ -6,6 +6,7 @@
 #include <QDesignerPropertyEditorInterface>
 
 #include "ElaAcrylicUrlCard.h"
+#include "ElaApplication.h"
 
 #include "ElaBreadcrumbBar.h"
 
@@ -72,6 +73,8 @@
 ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 : QObject(parent)
 {
+    eApp->init();
+
     m_extensions
     << new ElaAcrylicUrlCardPlugin(this)
 
@@ -84,6 +87,8 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 
     << new ElaDockWidgetPlugin(this)
     << new ElaDoubleSpinBoxPlugin(this)
+
+    << new ElaFlowLayoutPlugin(this)
 
     << new ElaLineEditPlugin(this)
     << new ElaListViewPlugin(this)
@@ -102,6 +107,7 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 
     << new ElaSliderPlugin(this)
     << new ElaSpinBoxPlugin(this)
+    << new ElaSuggestBoxPlugin(this)
 
     << new ElaTabBarPlugin(this)
     << new ElaTabWidgetPlugin(this)
@@ -114,6 +120,7 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaTreeViewPlugin(this)
     << new ElaTreeWidgetPlugin(this)
 
+    << new ElaWidgetPlugin(this)
     << new ElaWindowPlugin(this)
     ;
 }
@@ -746,6 +753,37 @@ QString ElaSpinBoxPlugin::domXml() const
 ///////////////////////////////////////////////////////////////////////////////
 ///
 
+DEFINE_BASE(ElaSuggestBox)
+DEFINE_BASE_ICON( ElaSuggestBox, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaSuggestBox, "ElaSuggestBox on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaSuggestBox, false )
+
+QString ElaSuggestBoxPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaSuggestBox");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elasuggestbox\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
 DEFINE_BASE(ElaRoller)
 DEFINE_BASE_ICON( ElaRoller, QStringLiteral(":res/TreeView.png") )
 DEFINE_BASE_WHATS_THIS(ElaRoller, "ElaRoller on ElaWidgetTools")
@@ -1079,6 +1117,31 @@ QString ElaTreeWidgetPlugin::domXml() const
            "  </property>\n"
            "  <property name=\"whatsThis\" >\n"
            "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaWidget)
+DEFINE_BASE_ICON( ElaWidget, ElaIcon::getInstance()->getElaIcon( ElaIconType::ListTree ) )
+DEFINE_BASE_WHATS_THIS(ElaWidget, "ElaWidget on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaWidget, true )
+
+QString ElaWidgetPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaWidget");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elawidget\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
