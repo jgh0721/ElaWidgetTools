@@ -5,7 +5,7 @@ project(ElaPacketIO VERSION 2.0.0 LANGUAGES CXX)
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 add_definitions(-DELAPACKETIO_LIBRARY)
-option(ELAPACKETIO_BUILD_STATIC_LIB "Build static library." OFF)
+option(ELAPACKETIO_BUILD_STATIC_LIB "Build static library." ON)
 
 FILE(GLOB ORIGIN *.h *.cpp)
 FILE(GLOB PacketIO PacketIO/*.h PacketIO/*.cpp)

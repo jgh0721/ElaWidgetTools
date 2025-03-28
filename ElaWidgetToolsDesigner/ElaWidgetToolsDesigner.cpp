@@ -9,6 +9,7 @@
 
 #include "ElaBreadcrumbBar.h"
 
+#include "ElaCalendar.h"
 #include "ElaCalendarPicker.h"
 #include "ElaCheckBox.h"
 #include "ElaComboBox.h"
@@ -34,6 +35,7 @@
 #include "ElaMessageButton.h"
 #include "ElaMultiSelectComboBox.h"
 
+#include "ElaPivot.h"
 #include "ElaPlainTextEdit.h"
 #include "ElaPopularCard.h"
 #include "ElaProgressBar.h"
@@ -62,6 +64,7 @@
 #include "ElaTreeWidget.h"
 
 #include "ElaWidget.h"
+#include "ElaWindow.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 ///
@@ -74,18 +77,31 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 
     << new ElaBreadcrumbBarPlugin(this)
 
+    << new ElaCalendarPlugin(this)
     << new ElaCalendarPickerPlugin(this)
     << new ElaCheckBoxPlugin(this)
     << new ElaComboBoxPlugin(this)
+
+    << new ElaDockWidgetPlugin(this)
+    << new ElaDoubleSpinBoxPlugin(this)
 
     << new ElaLineEditPlugin(this)
     << new ElaListViewPlugin(this)
     << new ElaListWidgetPlugin(this)
 
+    << new ElaMessageButtonPlugin(this)
+    << new ElaMultiSelectComboBoxPlugin(this)
+
+    << new ElaPivotPlugin(this)
     << new ElaPlainTextEditPlugin(this)
+    << new ElaProgressBarPlugin(this)
     << new ElaPushButtonPlugin(this)
 
     << new ElaRadioButtonPlugin(this)
+    << new ElaRollerPlugin(this)
+
+    << new ElaSliderPlugin(this)
+    << new ElaSpinBoxPlugin(this)
 
     << new ElaTabBarPlugin(this)
     << new ElaTabWidgetPlugin(this)
@@ -94,7 +110,11 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaTextPlugin(this)
     << new ElaToggleButtonPlugin(this)
     << new ElaToggleSwitchPlugin(this)
+    << new ElaToolButtonPlugin(this)
     << new ElaTreeViewPlugin(this)
+    << new ElaTreeWidgetPlugin(this)
+
+    << new ElaWindowPlugin(this)
     ;
 }
 
@@ -147,6 +167,37 @@ QString ElaBreadcrumbBarPlugin::domXml() const
     QString className = QStringLiteral("ElaBreadcrumbBar");
     return QStringLiteral("<ui language=\"c++\">\n"
            " <widget class=\"" "%1" "\" name=\"elabreadcrumbar\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>80</width>\n"
+           "    <height>21</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaCalendar)
+DEFINE_BASE_ICON( ElaCalendar, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaCalendar, "ElaCalendar on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaCalendar, false )
+
+QString ElaCalendarPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaCalendar");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elacalendar\">\n"
            "  <property name=\"geometry\">\n"
            "   <rect>\n"
            "    <x>0</x>\n"
@@ -261,6 +312,68 @@ QString ElaComboBoxPlugin::domXml() const
 ///////////////////////////////////////////////////////////////////////////////
 ///
 
+DEFINE_BASE(ElaDockWidget)
+DEFINE_BASE_ICON( ElaDockWidget, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaDockWidget, "ElaDockWidget on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaDockWidget, true )
+
+QString ElaDockWidgetPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaDockWidget");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"eladockwidget\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>80</width>\n"
+           "    <height>21</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaDoubleSpinBox)
+DEFINE_BASE_ICON( ElaDoubleSpinBox, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaDoubleSpinBox, "ElaDoubleSpinBox on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaDoubleSpinBox, false )
+
+QString ElaDoubleSpinBoxPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaDoubleSpinBox");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"eladoublesphinbox\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>80</width>\n"
+           "    <height>21</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
 DEFINE_BASE(ElaLineEdit)
 DEFINE_BASE_ICON( ElaLineEdit, QStringLiteral(":res/TreeView.png") )
 DEFINE_BASE_WHATS_THIS(ElaLineEdit, "ElaLineEdit on ElaWidgetTools")
@@ -354,6 +467,99 @@ QString ElaListWidgetPlugin::domXml() const
 ///////////////////////////////////////////////////////////////////////////////
 ///
 
+DEFINE_BASE(ElaMessageButton)
+DEFINE_BASE_ICON( ElaMessageButton, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaMessageButton, "ElaMessageButton on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaMessageButton, false )
+
+QString ElaMessageButtonPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaMessageButton");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elamessagebutton\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaMultiSelectComboBox)
+DEFINE_BASE_ICON( ElaMultiSelectComboBox, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaMultiSelectComboBox, "ElaMultiSelectComboBox on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaMultiSelectComboBox, false )
+
+QString ElaMultiSelectComboBoxPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaMultiSelectComboBox");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elamultiselectcombobox\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaPivot)
+DEFINE_BASE_ICON( ElaPivot, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaPivot, "ElaPivot on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaPivot, false )
+
+QString ElaPivotPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaPivot");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elapivot\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
 DEFINE_BASE(ElaPlainTextEdit)
 DEFINE_BASE_ICON( ElaPlainTextEdit, QStringLiteral(":res/TreeView.png") )
 DEFINE_BASE_WHATS_THIS(ElaPlainTextEdit, "ElaPlainTextEdit on ElaWidgetTools")
@@ -364,6 +570,37 @@ QString ElaPlainTextEditPlugin::domXml() const
     QString className = QStringLiteral("ElaPlainTextEdit");
     return QStringLiteral("<ui language=\"c++\">\n"
            " <widget class=\"" "%1" "\" name=\"elaplaintextedit\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaProgressBar)
+DEFINE_BASE_ICON( ElaProgressBar, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaProgressBar, "ElaProgresBar on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaProgressBar, false )
+
+QString ElaProgressBarPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaProgressBar");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elaprogressbar\">\n"
            "  <property name=\"geometry\">\n"
            "   <rect>\n"
            "    <x>0</x>\n"
@@ -426,6 +663,68 @@ QString ElaRadioButtonPlugin::domXml() const
     QString className = QStringLiteral("ElaRadioButton");
     return QStringLiteral("<ui language=\"c++\">\n"
            " <widget class=\"" "%1" "\" name=\"elaradiobutton\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaSlider)
+DEFINE_BASE_ICON( ElaSlider, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaSlider, "ElaSlider on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaSlider, false )
+
+QString ElaSliderPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaSlider");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elaslider\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaSpinBox)
+DEFINE_BASE_ICON( ElaSpinBox, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaSpinBox, "ElaSpinBox on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaSpinBox, false )
+
+QString ElaSpinBoxPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaSpinBox");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elaspinbox\">\n"
            "  <property name=\"geometry\">\n"
            "   <rect>\n"
            "    <x>0</x>\n"
@@ -695,6 +994,37 @@ QString ElaToggleSwitchPlugin::domXml() const
 ///////////////////////////////////////////////////////////////////////////////
 ///
 
+DEFINE_BASE(ElaToolButton)
+DEFINE_BASE_ICON( ElaToolButton, ElaIcon::getInstance()->getElaIcon( ElaIconType::ListTree ) )
+DEFINE_BASE_WHATS_THIS(ElaToolButton, "ElaToolButton on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaToolButton, false )
+
+QString ElaToolButtonPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaToolButton");
+    return QStringLiteral("<ui language=\"c++\">\n"
+           " <widget class=\"" "%1" "\" name=\"elatoolbutton\">\n"
+           "  <property name=\"geometry\">\n"
+           "   <rect>\n"
+           "    <x>0</x>\n"
+           "    <y>0</y>\n"
+           "    <width>300</width>\n"
+           "    <height>200</height>\n"
+           "   </rect>\n"
+           "  </property>\n"
+           "  <property name=\"toolTip\" >\n"
+           "   <string>Advanced DataGrid for Qt</string>\n"
+           "  </property>\n"
+           "  <property name=\"whatsThis\" >\n"
+           "   <string>Advanced DataGrid for Qt.</string>\n"
+           "  </property>\n"
+           " </widget>\n"
+           "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
 DEFINE_BASE(ElaTreeView)
 DEFINE_BASE_ICON( ElaTreeView, ElaIcon::getInstance()->getElaIcon( ElaIconType::ListTree ) )
 DEFINE_BASE_WHATS_THIS(ElaTreeView, "ElaTreeView on ElaWidgetTools")
@@ -752,4 +1082,44 @@ QString ElaTreeWidgetPlugin::domXml() const
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaWindow)
+DEFINE_BASE_ICON( ElaWindow, ElaIcon::getInstance()->getElaIcon( ElaIconType::ListTree ) )
+DEFINE_BASE_WHATS_THIS(ElaWindow, "ElaWindow on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaWindow, true )
+
+QString ElaWindowPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaWindow");
+    return QStringLiteral(
+            R"(
+<ui language="c++" version="4.0">
+    <author></author>
+    <comment></comment>
+    <exportmacro></exportmacro>
+    <class>ElaWindow</class>
+    <widget class="%1" name="elawindow" >
+        <property name="geometry" >
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>800</width>
+                <height>600</height>
+            </rect>
+        </property>
+        <property name="windowTitle" >
+            <string>ElaWindow</string>
+        </property>
+        <widget class="ElaMenuBar" name="menubar" />
+        <widget class="ElaWidget" name="centralwidget" />
+        <widget class="ElaStatusBar" name="statusbar" />
+    </widget>
+    <pixmapfunction></pixmapfunction>
+    <connections/>
+</ui>
+)").arg( className );
 }
