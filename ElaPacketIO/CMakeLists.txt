@@ -5,7 +5,6 @@ project(ElaPacketIO VERSION 2.0.0 LANGUAGES CXX)
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
 add_definitions(-DELAPACKETIO_LIBRARY)
-option(ELAPACKETIO_BUILD_STATIC_LIB "Build static library." ON)
 
 FILE(GLOB ORIGIN *.h *.cpp)
 FILE(GLOB PacketIO PacketIO/*.h PacketIO/*.cpp)
@@ -28,6 +27,7 @@ set(PROJECT_SOURCES
 
 if (ELAPACKETIO_BUILD_STATIC_LIB)
     set(LIB_TYPE "STATIC")
+    add_definitions(-DELAPACKETIO_STATIC_LIBRARY)
 else ()
     set(LIB_TYPE "SHARED")
 endif ()
@@ -87,7 +87,7 @@ if (WIN32)
         LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/ElaWidgetToolsExample
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/ElaWidgetToolsExample
     )
-    if (MSVC AND NOT ELAPACKETIO_BUILD_STATIC_LIB STREQUAL "STATIC")
+    if (MSVC AND NOT LIB_TYPE STREQUAL "STATIC")
         install(
             FILES $<TARGET_PDB_FILE:${PROJECT_NAME}>
             DESTINATION ${CMAKE_INSTALL_PREFIX}/ElaWidgetToolsExample OPTIONAL)

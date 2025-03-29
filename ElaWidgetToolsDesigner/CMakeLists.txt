@@ -19,10 +19,6 @@ add_definitions(-DQT_PLUGIN)
 add_definitions(-DQDESIGNER_EXPORT_WIDGETS)
 add_definitions(-DELAWIDGETTOOLS_LIBRARY)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
-
 set(SOURCE_MAIN
     ${CMAKE_CURRENT_SOURCE_DIR}/ElaWidgetToolsDesigner.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ElaWidgetToolsDesigner.hpp
@@ -53,6 +49,14 @@ qt_add_resources( ${PROJECT_NAME} "ElaWidgetToolsDesigner"
 
 message(STATUS ${RESORUCE_MAIN})
 
+if (MSVC)
+    set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
+endif ()
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
+
 if( WIN32 )
     target_link_libraries(${PROJECT_NAME} PRIVATE
                           Qt${QT_VERSION_MAJOR}::Core
@@ -67,8 +71,18 @@ endif()
 
 if (WIN32)
     include(GNUInstallDirs)
+    install(TARGETS ${PROJECT_NAME}
+            LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}
+            )
+    if (MSVC)
+        install(
+                FILES $<TARGET_PDB_FILE:${PROJECT_NAME}>
+                DESTINATION ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME} OPTIONAL)
+    endif ()
 endif ()
 
 if (QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(${PROJECT_NAME})
 endif ()
+

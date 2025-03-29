@@ -183,14 +183,14 @@ QSize ElaTabBarStyle::sizeFromContents(ContentsType type, const QStyleOption* op
 {
     switch (type)
     {
-    case CT_TabBarTab:
-    {
-        return QSize(220, 35);
-    }
-    default:
-    {
-        break;
-    }
+        case CT_TabBarTab:
+        {
+            return QProxyStyle::sizeFromContents( type, option, size, widget ) + QSize( 18 + 14, 9 );
+        }
+        default:
+        {
+            break;
+        }
     }
     return QProxyStyle::sizeFromContents(type, option, size, widget);
 }

@@ -6,10 +6,17 @@
 
 //枚举类导出  兼容QT5低版本
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-#define Q_BEGIN_ENUM_CREATE(CLASS) \
+#if defined(ELAWIDGETTOOLS_STATIC_LIBRARY)
+    #define Q_BEGIN_ENUM_CREATE(CLASS) \
+    namespace CLASS                \
+    {                              \
+    Q_NAMESPACE
+#else
+    #define Q_BEGIN_ENUM_CREATE(CLASS) \
     namespace CLASS                \
     {                              \
     Q_NAMESPACE_EXPORT(ELA_EXPORT)
+#endif
 
 #define Q_END_ENUM_CREATE(CLASS) }
 

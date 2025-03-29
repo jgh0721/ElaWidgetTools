@@ -19,8 +19,6 @@
 #include "ElaDoubleSpinBox.h"
 #include "ElaDrawerArea.h"
 
-#include "ElaFlowLayout.h"
-
 #include "ElaIcon.h"
 #include "ElaIconButton.h"
 #include "ElaImageCard.h"
@@ -87,8 +85,6 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 
     << new ElaDockWidgetPlugin(this)
     << new ElaDoubleSpinBoxPlugin(this)
-
-    << new ElaFlowLayoutPlugin(this)
 
     << new ElaLineEditPlugin(this)
     << new ElaListViewPlugin(this)

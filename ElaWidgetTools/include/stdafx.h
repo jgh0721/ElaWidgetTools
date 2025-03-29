@@ -3,10 +3,14 @@
 
 #include <QtCore/qglobal.h>
 
-#ifdef ELAWIDGETTOOLS_LIBRARY
-#define ELA_EXPORT Q_DECL_EXPORT
+#ifdef ELAWIDGETTOOLS_STATIC_LIBRARY
+    #define ELA_EXPORT
 #else
-#define ELA_EXPORT Q_DECL_IMPORT
+    #ifdef ELAWIDGETTOOLS_LIBRARY
+        #define ELA_EXPORT Q_DECL_EXPORT
+    #else
+        #define ELA_EXPORT Q_DECL_IMPORT
+    #endif
 #endif
 
 #define Q_PROPERTY_CREATE(TYPE, M)                          \

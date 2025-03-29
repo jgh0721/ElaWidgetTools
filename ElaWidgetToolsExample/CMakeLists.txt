@@ -56,6 +56,14 @@ endif ()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
+
+IF(ELAPACKETIO_BUILD_STATIC_LIB)
+    add_definitions(-DELAPACKETIO_STATIC_LIBRARY)
+ENDIF()
+if (ELAWIDGETTOOLS_BUILD_STATIC_LIB)
+    add_definitions(-DELAWIDGETTOOLS_STATIC_LIBRARY)
+ENDIF()
+
 if (WIN32)
     target_include_directories(${PROJECT_NAME} PUBLIC
         ExamplePage
@@ -117,7 +125,8 @@ if (WIN32)
         FILES ${QT_SDK_DIR}/plugins/imageformats/qwebp.dll
         DESTINATION ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/imageformats
     )
-    install(FILES ${QT_SDK_DIR}/plugins/styles/qwindowsvistastyle.dll DESTINATION ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/styles)
+    FILE(GLOB STYLES ${QT_SDK_DIR}/plugins/styles/*.dll)
+    install(FILES ${STYLES} DESTINATION ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/styles)
     FILE(GLOB TRANSLATIONS ${QT_SDK_DIR}/translations_install/*.qm)
     install(FILES ${TRANSLATIONS} DESTINATION ${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/translations)
     install(
