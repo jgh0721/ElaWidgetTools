@@ -105,9 +105,12 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 
     //标题
     d->_titleLabel = new ElaText(this);
-    d->_titleLabel->setIsWrapAnywhere(false);
+    d->_titleLabel->setIsWrapAnywhere(true);
     d->_titleLabel->setTextPixelSize(13);
+    d->_titleLabel->setAlignment(Qt::AlignVCenter);
     d->_titleLabelLayout = d->_createVLayout(d->_titleLabel);
+    d->_titleLabelLayout->setAlignment(Qt::AlignVCenter);
+
     if (parent->windowTitle().isEmpty())
     {
         d->_titleLabel->setVisible(false);

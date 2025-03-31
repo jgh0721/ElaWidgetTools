@@ -147,12 +147,6 @@ QString ElaAcrylicUrlCardPlugin::domXml() const
            "    <height>21</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -178,12 +172,6 @@ QString ElaBreadcrumbBarPlugin::domXml() const
            "    <height>21</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -192,7 +180,7 @@ QString ElaBreadcrumbBarPlugin::domXml() const
 ///
 
 DEFINE_BASE(ElaCalendar)
-DEFINE_BASE_ICON( ElaCalendar, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_ICON( ElaCalendar, ElaIcon::getInstance()->getElaIcon( ElaIconType::Calendar ) )
 DEFINE_BASE_WHATS_THIS(ElaCalendar, "ElaCalendar on ElaWidgetTools")
 DEFINE_BASE_IS_CONTAINER(ElaCalendar, false )
 
@@ -209,12 +197,6 @@ QString ElaCalendarPlugin::domXml() const
            "    <height>21</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -223,7 +205,7 @@ QString ElaCalendarPlugin::domXml() const
 ///
 
 DEFINE_BASE(ElaCalendarPicker)
-DEFINE_BASE_ICON( ElaCalendarPicker, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_ICON( ElaCalendarPicker, ElaIcon::getInstance()->getElaIcon( ElaIconType::Calendar ) )
 DEFINE_BASE_WHATS_THIS(ElaCalendarPicker, "ElaCalendarPicker on ElaWidgetTools")
 DEFINE_BASE_IS_CONTAINER(ElaCalendarPicker, false )
 
@@ -240,12 +222,6 @@ QString ElaCalendarPickerPlugin::domXml() const
            "    <height>21</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -254,7 +230,7 @@ QString ElaCalendarPickerPlugin::domXml() const
 ///
 
 DEFINE_BASE(ElaCheckBox)
-DEFINE_BASE_ICON( ElaCheckBox, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_ICON( ElaCheckBox, ElaIcon::getInstance()->getElaIcon( ElaIconType::Check ) )
 DEFINE_BASE_WHATS_THIS(ElaCheckBox, "ElaCheckBox on ElaWidgetTools")
 DEFINE_BASE_IS_CONTAINER(ElaCheckBox, false )
 
@@ -271,12 +247,6 @@ QString ElaCheckBoxPlugin::domXml() const
            "    <height>21</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -285,7 +255,7 @@ QString ElaCheckBoxPlugin::domXml() const
 ///
 
 DEFINE_BASE(ElaComboBox)
-DEFINE_BASE_ICON( ElaComboBox, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_ICON( ElaComboBox, ElaIcon::getInstance()->getElaIcon( ElaIconType::CameraPolaroid ) )
 DEFINE_BASE_WHATS_THIS(ElaComboBox, "ElaComboBox on ElaWidgetTools")
 DEFINE_BASE_IS_CONTAINER(ElaComboBox, false )
 
@@ -301,12 +271,6 @@ QString ElaComboBoxPlugin::domXml() const
            "    <width>80</width>\n"
            "    <height>21</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -333,12 +297,6 @@ QString ElaDockWidgetPlugin::domXml() const
            "    <height>21</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -360,15 +318,9 @@ QString ElaDoubleSpinBoxPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>21</height>\n"
+           "    <width>120</width>\n"
+           "    <height>30</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -391,15 +343,9 @@ QString ElaLineEditPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>120</width>\n"
+           "    <height>20</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -426,12 +372,6 @@ QString ElaListViewPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -456,12 +396,6 @@ QString ElaListWidgetPlugin::domXml() const
            "    <width>300</width>\n"
            "    <height>200</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -488,12 +422,6 @@ QString ElaMessageButtonPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -518,12 +446,6 @@ QString ElaMultiSelectComboBoxPlugin::domXml() const
            "    <width>300</width>\n"
            "    <height>200</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -550,12 +472,6 @@ QString ElaPivotPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -577,15 +493,9 @@ QString ElaPlainTextEditPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>120</width>\n"
+           "    <height>50</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -608,15 +518,9 @@ QString ElaProgressBarPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>120</width>\n"
+           "    <height>20</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -639,15 +543,9 @@ QString ElaPushButtonPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>80</width>\n"
+           "    <height>38</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -674,12 +572,6 @@ QString ElaRadioButtonPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -705,12 +597,6 @@ QString ElaSliderPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -732,15 +618,9 @@ QString ElaSpinBoxPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>120</width>\n"
+           "    <height>30</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -767,12 +647,6 @@ QString ElaSuggestBoxPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -797,12 +671,6 @@ QString ElaRollerPlugin::domXml() const
            "    <width>300</width>\n"
            "    <height>200</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -829,12 +697,6 @@ QString ElaTabBarPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -860,12 +722,6 @@ QString ElaTabWidgetPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -874,7 +730,7 @@ QString ElaTabWidgetPlugin::domXml() const
 ///
 
 DEFINE_BASE(ElaTableView)
-DEFINE_BASE_ICON( ElaTableView, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_ICON( ElaTableView, ElaIcon::getInstance()->getElaIcon( ElaIconType::Table ) )
 DEFINE_BASE_WHATS_THIS(ElaTableView, "ElaTableView on ElaWidgetTools")
 DEFINE_BASE_IS_CONTAINER(ElaTableView, false )
 
@@ -891,12 +747,6 @@ QString ElaTableViewPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -905,7 +755,7 @@ QString ElaTableViewPlugin::domXml() const
 ///
 
 DEFINE_BASE(ElaTableWidget)
-DEFINE_BASE_ICON( ElaTableWidget, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_ICON( ElaTableWidget, ElaIcon::getInstance()->getElaIcon( ElaIconType::Table ) )
 DEFINE_BASE_WHATS_THIS(ElaTableWidget, "ElaTableWidget on ElaWidgetTools")
 DEFINE_BASE_IS_CONTAINER(ElaTableWidget, false )
 
@@ -922,12 +772,6 @@ QString ElaTableWidgetPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -936,7 +780,7 @@ QString ElaTableWidgetPlugin::domXml() const
 ///
 
 DEFINE_BASE(ElaText)
-DEFINE_BASE_ICON( ElaText, ElaIcon::getInstance()->getElaIcon( ElaIconType::ListTree ) )
+DEFINE_BASE_ICON( ElaText, ElaIcon::getInstance()->getElaIcon( ElaIconType::Text ) )
 DEFINE_BASE_WHATS_THIS(ElaText, "ElaText on ElaWidgetTools")
 DEFINE_BASE_IS_CONTAINER(ElaText, false )
 
@@ -949,15 +793,9 @@ QString ElaTextPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>60</width>\n"
+           "    <height>20</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -984,12 +822,6 @@ QString ElaToggleButtonPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -1014,12 +846,6 @@ QString ElaToggleSwitchPlugin::domXml() const
            "    <width>300</width>\n"
            "    <height>200</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
@@ -1046,12 +872,6 @@ QString ElaToolButtonPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -1077,12 +897,6 @@ QString ElaTreeViewPlugin::domXml() const
            "    <height>200</height>\n"
            "   </rect>\n"
            "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
-           "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);
 }
@@ -1107,12 +921,6 @@ QString ElaTreeWidgetPlugin::domXml() const
            "    <width>300</width>\n"
            "    <height>200</height>\n"
            "   </rect>\n"
-           "  </property>\n"
-           "  <property name=\"toolTip\" >\n"
-           "   <string>Advanced DataGrid for Qt</string>\n"
-           "  </property>\n"
-           "  <property name=\"whatsThis\" >\n"
-           "   <string>Advanced DataGrid for Qt.</string>\n"
            "  </property>\n"
            " </widget>\n"
            "</ui>\n").arg(className);

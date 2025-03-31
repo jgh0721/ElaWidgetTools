@@ -1,7 +1,9 @@
 #include "ElaTextPrivate.h"
 
 #include "ElaText.h"
+#include "ElaTheme.h"
 #include <QTimer>
+
 ElaTextPrivate::ElaTextPrivate(QObject* parent)
     : QObject{parent}
 {
@@ -31,14 +33,13 @@ void ElaTextPrivate::_changeTheme()
 {
     Q_Q(ElaText);
     QPalette palette = q->palette();
-    if (_themeMode == ElaThemeType::Light)
+    if( _pTextColor.isValid() == true )
     {
-        palette.setColor(QPalette::WindowText, Qt::black);
-        q->setPalette(palette);
+        palette.setColor(QPalette::Text, _pTextColor);
     }
     else
     {
-        palette.setColor(QPalette::WindowText, Qt::white);
-        q->setPalette(palette);
+        palette.setColor(QPalette::Text, eTheme->getThemeColor( eTheme->getThemeMode(), ElaThemeType::BasicText ) );
     }
+    q->setPalette(palette);
 }
