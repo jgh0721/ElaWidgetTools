@@ -1,6 +1,7 @@
 #ifndef ELAAPPBAR_H
 #define ELAAPPBAR_H
 
+#include <QLabel>
 #include <QWidget>
 
 #include "Def.h"
@@ -48,6 +49,7 @@
 #define Q_TAKEOVER_NATIVEEVENT_CPP(CLASS, ElaAppBar)
 #endif
 
+class ElaText;
 class ElaAppBarPrivate;
 class ELA_EXPORT ElaAppBar : public QWidget
 {
@@ -71,6 +73,9 @@ public:
     void setWindowButtonFlag(ElaAppBarType::ButtonType buttonFlag, bool isEnable = true);
     void setWindowButtonFlags(ElaAppBarType::ButtonFlags buttonFlags);
     ElaAppBarType::ButtonFlags getWindowButtonFlags() const;
+
+    QLabel *    iconLabel() const;
+    ElaText*    titleLabel() const;
 
     void setRouteBackButtonEnable(bool isEnable);
 

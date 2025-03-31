@@ -332,6 +332,18 @@ ElaAppBarType::ButtonFlags ElaAppBar::getWindowButtonFlags() const
     return d_ptr->_buttonFlags;
 }
 
+QLabel* ElaAppBar::iconLabel() const
+{
+    Q_D(const ElaAppBar);
+    return d->_iconLabel;
+}
+
+ElaText* ElaAppBar::titleLabel() const
+{
+    Q_D(const ElaAppBar);
+    return d->_titleLabel;
+}
+
 void ElaAppBar::setRouteBackButtonEnable(bool isEnable)
 {
     Q_D(ElaAppBar);
