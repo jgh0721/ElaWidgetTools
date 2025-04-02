@@ -31,6 +31,18 @@ void ElaPivotModel::removePivot(QString pivot)
     }
 }
 
+void ElaPivotModel::setPivot(const QStringList& pivots)
+{
+    beginResetModel();
+    _pivotList = pivots;
+    endResetModel();
+}
+
+QStringList ElaPivotModel::pivots() const
+{
+    return _pivotList;
+}
+
 int ElaPivotModel::getPivotListCount() const
 {
     return _pivotList.count();

@@ -42,6 +42,32 @@ ElaPlainTextEdit::~ElaPlainTextEdit()
 {
 }
 
+void ElaPlainTextEdit::setTextColor( QColor TextColor )
+{
+    Q_D(ElaPlainTextEdit);
+    d->_pTextColor = TextColor;
+    d->onThemeChanged( eTheme->getThemeMode() );
+}
+
+QColor ElaPlainTextEdit::getTextColor() const
+{
+    Q_D(const ElaPlainTextEdit);
+    return d->_pTextColor;
+}
+
+void ElaPlainTextEdit::setPlaceHolderTextColor( QColor PlaceHolderTextColor )
+{
+    Q_D(ElaPlainTextEdit);
+    d->_pPlaceHolderTextColor = PlaceHolderTextColor;
+    d->onThemeChanged( eTheme->getThemeMode() );
+}
+
+QColor ElaPlainTextEdit::getPlaceHolderTextColor() const
+{
+    Q_D(const ElaPlainTextEdit);
+    return d->_pPlaceHolderTextColor;
+}
+
 void ElaPlainTextEdit::focusInEvent(QFocusEvent* event)
 {
     Q_D(ElaPlainTextEdit);

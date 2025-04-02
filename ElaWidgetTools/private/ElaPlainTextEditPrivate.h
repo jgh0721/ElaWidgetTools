@@ -2,6 +2,7 @@
 #define ELAPLAINTEXTEDITPRIVATE_H
 
 #include <QObject>
+#include <QColor>
 
 #include "Def.h"
 class ElaEvent;
@@ -11,6 +12,8 @@ class ElaPlainTextEditPrivate : public QObject
 {
     Q_OBJECT
     Q_D_CREATE(ElaPlainTextEdit)
+    Q_PROPERTY_CREATE_D(QColor, TextColor)
+    Q_PROPERTY_CREATE_D(QColor, PlaceHolderTextColor)
 
 public:
     explicit ElaPlainTextEditPrivate(QObject* parent = nullptr);

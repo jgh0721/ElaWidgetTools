@@ -10,6 +10,8 @@ class ELA_EXPORT ElaPlainTextEdit : public QPlainTextEdit
 {
     Q_OBJECT
     Q_Q_CREATE(ElaPlainTextEdit)
+    Q_PROPERTY_CREATE_Q_H(QColor, TextColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, PlaceHolderTextColor)
 public:
     explicit ElaPlainTextEdit(QWidget* parent = nullptr);
     explicit ElaPlainTextEdit(const QString& text, QWidget* parent = nullptr);

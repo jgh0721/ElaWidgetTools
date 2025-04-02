@@ -17,6 +17,12 @@ Q_PROPERTY_CREATE_Q_CPP(ElaIconButton, QColor, DarkIconColor);
 Q_PROPERTY_CREATE_Q_CPP(ElaIconButton, QColor, LightHoverIconColor);
 Q_PROPERTY_CREATE_Q_CPP(ElaIconButton, QColor, DarkHoverIconColor);
 Q_PROPERTY_CREATE_Q_CPP(ElaIconButton, bool, IsSelected);
+
+ElaIconButton::ElaIconButton( QWidget* parent )
+    : ElaIconButton( ElaIconType::IconName::None, parent )
+{
+}
+
 ElaIconButton::ElaIconButton(QPixmap pix, QWidget* parent)
     : QPushButton(parent), d_ptr(new ElaIconButtonPrivate())
 {

@@ -2,6 +2,7 @@
 #define ELAPIVOTMODEL_H
 
 #include <QAbstractListModel>
+#include <QStringList>
 
 class ElaPivotModel : public QAbstractListModel
 {
@@ -12,6 +13,8 @@ public:
 
     void appendPivot(QString pivot);
     void removePivot(QString pivot);
+    void setPivot( const QStringList& pivots);
+    QStringList pivots() const;
 
     int getPivotListCount() const;
 

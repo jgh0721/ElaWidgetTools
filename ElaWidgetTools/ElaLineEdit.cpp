@@ -57,6 +57,32 @@ bool ElaLineEdit::getIsClearButtonEnable() const
     return d->_pIsClearButtonEnable;
 }
 
+void ElaLineEdit::setTextColor( QColor TextColor )
+{
+    Q_D(ElaLineEdit);
+    d->_pTextColor = TextColor;
+    d->onThemeChanged( eTheme->getThemeMode() );
+}
+
+QColor ElaLineEdit::getTextColor() const
+{
+    Q_D(const ElaLineEdit);
+    return d->_pTextColor;
+}
+
+void ElaLineEdit::setPlaceHolderTextColor( QColor PlaceHolderTextColor )
+{
+    Q_D(ElaLineEdit);
+    d->_pPlaceHolderTextColor = PlaceHolderTextColor;
+    d->onThemeChanged( eTheme->getThemeMode() );
+}
+
+QColor ElaLineEdit::getPlaceHolderTextColor() const
+{
+    Q_D(const ElaLineEdit);
+    return d->_pPlaceHolderTextColor;
+}
+
 void ElaLineEdit::focusInEvent(QFocusEvent* event)
 {
     Q_D(ElaLineEdit);

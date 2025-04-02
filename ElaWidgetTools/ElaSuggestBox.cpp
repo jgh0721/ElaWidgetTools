@@ -32,7 +32,7 @@ ElaSuggestBox::ElaSuggestBox(QWidget* parent)
     d->_pCaseSensitivity = Qt::CaseInsensitive;
     d->_searchEdit = new ElaLineEdit(this);
     d->_searchEdit->setFixedHeight(35);
-    d->_searchEdit->setPlaceholderText("查找功能");
+    d->_searchEdit->setPlaceholderText(tr("查找功能"));
     d->_searchEdit->setClearButtonEnabled(true);
     d->_lightSearchAction = new QAction(ElaIcon::getInstance()->getElaIcon(ElaIconType::MagnifyingGlass), "Search", this);
     d->_darkSearchAction = new QAction(ElaIcon::getInstance()->getElaIcon(ElaIconType::MagnifyingGlass, QColor(0xFF, 0xFF, 0xFF)), "Search", this);

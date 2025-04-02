@@ -166,3 +166,16 @@ int ElaPivot::getMarkWidth() const
     Q_D(const ElaPivot);
     return d->_listView->getMarkWidth();
 }
+
+void ElaPivot::setPivotTitles( QStringList PivotTitles )
+{
+    Q_D(ElaPivot);
+    d->_listModel->setPivot( PivotTitles );
+    d->_checkCurrentIndex();
+}
+
+QStringList ElaPivot::getPivotTitles() const
+{
+    Q_D(const ElaPivot);
+    return d->_listModel->pivots();
+}

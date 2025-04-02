@@ -33,6 +33,9 @@ void ElaTextPrivate::_changeTheme()
 {
     Q_Q(ElaText);
     QPalette palette = q->palette();
-    palette.setColor(QPalette::WindowText, _themeMode == ElaThemeType::Light ? Qt::black : Qt::white);
+    if( _pTextColor.isValid() == true )
+        palette.setColor(QPalette::WindowText, _pTextColor);
+    else
+        palette.setColor(QPalette::WindowText, eTheme->getThemeColor( _themeMode, ElaThemeType::BasicText ) );
     q->setPalette(palette);
 }

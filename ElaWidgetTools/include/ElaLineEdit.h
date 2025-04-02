@@ -12,6 +12,8 @@ class ELA_EXPORT ElaLineEdit : public QLineEdit
     Q_Q_CREATE(ElaLineEdit)
     Q_PROPERTY_CREATE_Q_H(int, BorderRadius)
     Q_PROPERTY_CREATE_Q_H(bool, IsClearButtonEnable)
+    Q_PROPERTY_CREATE_Q_H(QColor, TextColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, PlaceHolderTextColor)
 public:
     explicit ElaLineEdit(QWidget* parent = nullptr);
     ~ElaLineEdit();

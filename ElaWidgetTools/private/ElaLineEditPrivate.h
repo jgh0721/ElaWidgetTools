@@ -2,6 +2,7 @@
 #define ELALINEEDITPRIVATE_H
 
 #include <QObject>
+#include <QColor>
 
 #include "Def.h"
 #include "stdafx.h"
@@ -14,6 +15,8 @@ class ElaLineEditPrivate : public QObject
     Q_PROPERTY_CREATE_D(int, BorderRadius)
     Q_PROPERTY_CREATE_D(bool, IsClearButtonEnable)
     Q_PROPERTY_CREATE(qreal, ExpandMarkWidth)
+    Q_PROPERTY_CREATE_D(QColor, TextColor)
+    Q_PROPERTY_CREATE_D(QColor, PlaceHolderTextColor)
 public:
     explicit ElaLineEditPrivate(QObject* parent = nullptr);
     ~ElaLineEditPrivate();

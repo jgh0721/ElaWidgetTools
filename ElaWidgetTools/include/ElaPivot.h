@@ -13,6 +13,7 @@ class ELA_EXPORT ElaPivot : public QWidget
     Q_PROPERTY_CREATE_Q_H(int, CurrentIndex)
     Q_PROPERTY_CREATE_Q_H(int, PivotSpacing)
     Q_PROPERTY_CREATE_Q_H(int, MarkWidth)
+    Q_PROPERTY_CREATE_Q_H(QStringList, PivotTitles)
 public:
     explicit ElaPivot(QWidget* parent = nullptr);
     ~ElaPivot();

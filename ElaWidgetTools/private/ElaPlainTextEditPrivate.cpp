@@ -57,15 +57,27 @@ void ElaPlainTextEditPrivate::_changeTheme()
     if (_themeMode == ElaThemeType::Light)
     {
         QPalette palette;
-        palette.setColor(QPalette::Text, Qt::black);
-        palette.setColor(QPalette::PlaceholderText, QColor(0x00, 0x00, 0x00, 128));
+        if( _pTextColor.isValid() == false )
+            palette.setColor(QPalette::Text, Qt::black);
+        else
+            palette.setColor(QPalette::Text, _pTextColor);
+        if( _pPlaceHolderTextColor.isValid() == false )
+            palette.setColor(QPalette::PlaceholderText, QColor(0x00, 0x00, 0x00, 128));
+        else
+            palette.setColor(QPalette::PlaceholderText, _pPlaceHolderTextColor);
         q->setPalette(palette);
     }
     else
     {
         QPalette palette;
-        palette.setColor(QPalette::Text, Qt::white);
-        palette.setColor(QPalette::PlaceholderText, QColor(0xBA, 0xBA, 0xBA));
+        if( _pTextColor.isValid() == false )
+            palette.setColor(QPalette::Text, Qt::white);
+        else
+            palette.setColor(QPalette::Text, _pTextColor);
+        if( _pPlaceHolderTextColor.isValid() == false )
+            palette.setColor(QPalette::PlaceholderText, QColor(0xBA, 0xBA, 0xBA));
+        else
+            palette.setColor(QPalette::PlaceholderText, _pPlaceHolderTextColor);
         q->setPalette(palette);
     }
 }
