@@ -36,6 +36,9 @@ else ()
     set(LIB_TYPE "SHARED")
 endif ()
 
+set(QT_I18N_SOURCE_LANGUAGE cn)
+set(QT_I18N_TRANSLATED_LANGUAGES ko en)
+
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_library(${PROJECT_NAME} ${LIB_TYPE}
         ${PROJECT_SOURCES}
@@ -45,6 +48,16 @@ else ()
         ${PROJECT_SOURCES}
     )
 endif ()
+
+qt_add_lupdate( TS_FILES ElaWidgetTools_ko.ts ElaWidgetTools_en.ts
+                SOURCES ${PROJECT_SOURCES}
+                SOURCE_TARGETS ${PROJECT_NAME}
+                OPTIONS -source-language cn
+                )
+
+qt_add_lrelease( TS_FILES ElaWidgetTools_ko.ts ElaWidgetTools_en.ts
+                 QM_OUTPUT_DIRECTORY translations
+                 QM_FILES_OUTPUT_VARIABLE QM_FILES )
 
 FILE(GLOB EXPORT_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 target_include_directories(${PROJECT_NAME} PUBLIC
@@ -84,6 +97,7 @@ install(
     LIBRARY DESTINATION ${PROJECT_NAME}/lib
     RUNTIME DESTINATION ${PROJECT_NAME}/bin
 )
+
 install(TARGETS ${PROJECT_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/ElaWidgetToolsExample
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/ElaWidgetToolsExample
@@ -95,6 +109,7 @@ if (MSVC AND NOT LIB_TYPE STREQUAL "STATIC")
 endif ()
 
 install(FILES ${EXPORT_HEADERS} DESTINATION ${PROJECT_NAME}/include)
+install(FILES {translations} DESTINATION "translations" )
 
 set(INCLUDE_DIRS include)
 set(LIBRARIES ${PROJECT_NAME})
@@ -124,3 +139,4 @@ configure_package_config_file(
 install(
     FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake DESTINATION ${PROJECT_NAME}/lib/cmake
 )
+install(FILES ${QM_FILES} DESTINATION "translations")
