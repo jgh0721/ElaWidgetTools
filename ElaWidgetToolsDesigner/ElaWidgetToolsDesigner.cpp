@@ -4,6 +4,9 @@
 #include <QDesignerFormWindowManagerInterface>
 #include <QDesignerFormWindowInterface>
 #include <QDesignerPropertyEditorInterface>
+#include <QFile>
+#include <QMetaEnum>
+#include <QSettings>
 
 #include "ElaAcrylicUrlCard.h"
 #include "ElaApplication.h"
@@ -18,6 +21,7 @@
 #include "ElaDockWidget.h"
 #include "ElaDoubleSpinBox.h"
 #include "ElaDrawerArea.h"
+#include "ElaDxgi.h"
 
 #include "ElaIcon.h"
 #include "ElaIconButton.h"
@@ -55,6 +59,7 @@
 #include "ElaTabWidget.h"
 #include "ElaTableView.h"
 #include "ElaText.h"
+#include "ElaTheme.h"
 #include "ElaToggleButton.h"
 #include "ElaToggleSwitch.h"
 #include "ElaToolBar.h"
@@ -65,13 +70,60 @@
 #include "ElaWidget.h"
 #include "ElaWindow.h"
 
+const auto ElaWidgetToolsTheme = QStringLiteral("ElaWidgetToolsTheme.ini");
+
 ///////////////////////////////////////////////////////////////////////////////
 ///
 
 ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 : QObject(parent)
 {
+    int Theme = -1;
+    const auto ThemeColorEnum = QMetaEnum::fromType<ElaThemeType::ThemeColor>();
+
+    if( QFile::exists(ElaWidgetToolsTheme) == true )
+    {
+        QSettings Settings( ElaWidgetToolsTheme, QSettings::IniFormat );
+
+        Settings.beginGroup( "Common" );
+        const auto Th = Settings.value("Apply", "Auto" );
+        if( Th.isValid() == true && Th.toString().compare( "Light", Qt::CaseInsensitive ) == 0 )
+            Theme = ElaThemeType::Light;
+        if( Th.isValid() == true && Th.toString().compare( "Dark", Qt::CaseInsensitive ) == 0 )
+            Theme = ElaThemeType::Dark;
+        if( Th.isValid() == false )
+            Settings.setValue( "Apply", "Auto" );
+        Settings.endGroup();
+
+        const auto pfnApplyThemeColor = [&Settings, ThemeColorEnum]( const QString& Section, ElaThemeType::ThemeMode Mode ) {
+            Settings.beginGroup( Section );
+            for( int idx = 0; idx < ThemeColorEnum.keyCount(); ++idx )
+            {
+                const auto Key = ThemeColorEnum.key( idx );
+                if( Key == nullptr )
+                    continue;
+
+                const auto En = static_cast<ElaThemeType::ThemeColor>( ThemeColorEnum.keyToValue( Key ) );
+                const auto Value = QColor::fromString( Settings.value( Key ).toString() );
+                if( Value.isValid() == false )
+                {
+                    Settings.setValue( Key, eTheme->getThemeColor( Mode, En ).name( QColor::HexRgb ) );
+                    continue;
+                }
+
+                eTheme->setThemeColor( Mode, En, Value );
+            }
+            Settings.endGroup();
+        };
+
+        pfnApplyThemeColor( "Light", ElaThemeType::Light );
+        pfnApplyThemeColor( "Dark", ElaThemeType::Dark );
+    }
+
     eApp->init();
+
+    if( Theme >= 0 )
+        eTheme->setThemeMode( static_cast<ElaThemeType::ThemeMode>(Theme) );
 
     m_extensions
     << new ElaAcrylicUrlCardPlugin(this)
@@ -418,8 +470,8 @@ QString ElaMessageButtonPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>80</width>\n"
+           "    <height>38</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -443,8 +495,8 @@ QString ElaMultiSelectComboBoxPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>140</width>\n"
+           "    <height>36</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -568,8 +620,8 @@ QString ElaRadioButtonPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>80</width>\n"
+           "    <height>20</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -593,8 +645,8 @@ QString ElaSliderPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>150</width>\n"
+           "    <height>16</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -643,8 +695,8 @@ QString ElaSuggestBoxPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>100</width>\n"
+           "    <height>40</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -668,8 +720,8 @@ QString ElaRollerPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>80</width>\n"
+           "    <height>60</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -693,8 +745,8 @@ QString ElaTabBarPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>150</width>\n"
+           "    <height>30</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -818,8 +870,8 @@ QString ElaToggleButtonPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>80</width>\n"
+           "    <height>30</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -843,8 +895,8 @@ QString ElaToggleSwitchPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>80</width>\n"
+           "    <height>30</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
@@ -868,8 +920,8 @@ QString ElaToolButtonPlugin::domXml() const
            "   <rect>\n"
            "    <x>0</x>\n"
            "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
+           "    <width>80</width>\n"
+           "    <height>30</height>\n"
            "   </rect>\n"
            "  </property>\n"
            " </widget>\n"
