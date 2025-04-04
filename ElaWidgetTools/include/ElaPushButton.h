@@ -12,6 +12,8 @@ class ELA_EXPORT ElaPushButton : public QPushButton
     Q_PROPERTY_CREATE_Q_H(int, BorderRadius)
     Q_PROPERTY_CREATE_Q_H(QColor, LightDefaultColor)
     Q_PROPERTY_CREATE_Q_H(QColor, DarkDefaultColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, LightAlternateColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, DarkAlternateColor)
     Q_PROPERTY_CREATE_Q_H(QColor, LightHoverColor)
     Q_PROPERTY_CREATE_Q_H(QColor, DarkHoverColor)
     Q_PROPERTY_CREATE_Q_H(QColor, LightPressColor)

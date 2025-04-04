@@ -28,6 +28,12 @@ public:
 
     void setThemeColor(ElaThemeType::ThemeMode themeMode, ElaThemeType::ThemeColor themeColor, QColor newColor);
     const QColor& getThemeColor(ElaThemeType::ThemeMode themeMode, ElaThemeType::ThemeColor themeColor);
+
+    void setFontFamily(const QString& fontFamily);
+    QString getFontFamily() const;
+    void setFontSize(quint32 fontSize);
+    quint32 getFontSize() const;
+
 Q_SIGNALS:
     Q_SIGNAL void themeModeChanged(ElaThemeType::ThemeMode themeMode);
 };

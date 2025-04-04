@@ -59,6 +59,24 @@ qt_add_lrelease( TS_FILES ElaWidgetTools_ko.ts ElaWidgetTools_en.ts
                  QM_OUTPUT_DIRECTORY translations
                  QM_FILES_OUTPUT_VARIABLE QM_FILES )
 
+# Add generated .qm files as resources to the library
+set(QT_RESOURCE_FILES)
+foreach(QM_FILE ${QM_FILES})
+    # Extract the filename from the .qm file path
+    get_filename_component(qm_filename ${QM_FILE} NAME)
+
+    # Set resource alias for each .qm file
+    set_source_files_properties(${QM_FILE} PROPERTIES QT_RESOURCE_ALIAS translations/${qm_filename})
+
+    list(APPEND QT_RESOURCE_FILES ${QM_FILE})
+endforeach()
+
+qt_add_resources(${PROJECT_NAME}
+                 PREFIX "/translations"
+                 FILES
+                 ${QT_RESOURCE_FILES}
+                 )
+
 FILE(GLOB EXPORT_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
 target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -89,16 +107,15 @@ else ()
     )
 endif ()
 
-
 install(
-    TARGETS ${PROJECT_NAME}
-    EXPORT ${PROJECT_NAME}
+    TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_resources_1
+    EXPORT ${PROJECT_NAME}Targets
     ARCHIVE DESTINATION ${PROJECT_NAME}/lib
     LIBRARY DESTINATION ${PROJECT_NAME}/lib
     RUNTIME DESTINATION ${PROJECT_NAME}/bin
 )
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_resources_1
     LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/ElaWidgetToolsExample
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/ElaWidgetToolsExample
 )
@@ -109,14 +126,13 @@ if (MSVC AND NOT LIB_TYPE STREQUAL "STATIC")
 endif ()
 
 install(FILES ${EXPORT_HEADERS} DESTINATION ${PROJECT_NAME}/include)
-install(FILES {translations} DESTINATION "translations" )
 
 set(INCLUDE_DIRS include)
 set(LIBRARIES ${PROJECT_NAME})
 set(LIB_DIR lib)
 
 install(
-    EXPORT ${PROJECT_NAME}
+    EXPORT ${PROJECT_NAME}Targets
     FILE ${PROJECT_NAME}Targets.cmake
     DESTINATION ${PROJECT_NAME}/lib/cmake
 )

@@ -8,6 +8,8 @@
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, int, BorderRadius)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightDefaultColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkDefaultColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightAlternateColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkAlternateColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightHoverColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkHoverColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightPressColor)
@@ -21,6 +23,8 @@ ElaPushButton::ElaPushButton(QWidget* parent)
     d->_themeMode = eTheme->getThemeMode();
     d->_pLightDefaultColor = ElaThemeColor(ElaThemeType::Light, BasicBase);
     d->_pDarkDefaultColor = ElaThemeColor(ElaThemeType::Dark, BasicBase);
+    d->_pLightAlternateColor = ElaThemeColor(ElaThemeType::Light, BasicBaseAlternate);
+    d->_pDarkAlternateColor = ElaThemeColor(ElaThemeType::Dark, BasicBaseAlternate);
     d->_pLightHoverColor = ElaThemeColor(ElaThemeType::Light, BasicHover);
     d->_pDarkHoverColor = ElaThemeColor(ElaThemeType::Dark, BasicHover);
     d->_pLightPressColor = ElaThemeColor(ElaThemeType::Light, BasicPress);
@@ -101,12 +105,14 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
     if (d->_themeMode == ElaThemeType::Light)
     {
         painter.setPen(ElaThemeColor(ElaThemeType::Light, BasicBorder));
-        painter.setBrush(isEnabled() ? d->_isPressed ? d->_pLightPressColor : (underMouse() ? d->_pLightHoverColor : d->_pLightDefaultColor) : ElaThemeColor(d->_themeMode, BasicDisable));
+        const auto DefaultColor = isDefault() == true ? d->_pLightAlternateColor : d->_pLightDefaultColor;
+        painter.setBrush(isEnabled() ? d->_isPressed ? d->_pLightPressColor : (underMouse() ? d->_pLightHoverColor : DefaultColor) : ElaThemeColor(d->_themeMode, BasicDisable));
     }
     else
     {
         painter.setPen(Qt::NoPen);
-        painter.setBrush(isEnabled() ? d->_isPressed ? d->_pDarkPressColor : (underMouse() ? d->_pDarkHoverColor : d->_pDarkDefaultColor) : ElaThemeColor(d->_themeMode, BasicDisable));
+        const auto DefaultColor = isDefault() == true ? d->_pDarkAlternateColor : d->_pDarkDefaultColor;
+        painter.setBrush(isEnabled() ? d->_isPressed ? d->_pDarkPressColor : (underMouse() ? d->_pDarkHoverColor : DefaultColor) : ElaThemeColor(d->_themeMode, BasicDisable));
     }
     painter.drawRoundedRect(foregroundRect, d->_pBorderRadius, d->_pBorderRadius);
     // 底边线绘制

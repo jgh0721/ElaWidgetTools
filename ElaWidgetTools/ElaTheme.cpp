@@ -74,3 +74,27 @@ const QColor& ElaTheme::getThemeColor(ElaThemeType::ThemeMode themeMode, ElaThem
         return d->_darkThemeColorList[themeColor];
     }
 }
+
+void ElaTheme::setFontFamily( const QString& fontFamily )
+{
+    Q_D(ElaTheme);
+    d->_fontFamily = fontFamily;
+}
+
+QString ElaTheme::getFontFamily() const
+{
+    Q_D(const ElaTheme);
+    return d->_fontFamily;
+}
+
+void ElaTheme::setFontSize( quint32 fontSize )
+{
+    Q_D(ElaTheme);
+    d->_fontSizePx = fontSize;
+}
+
+quint32 ElaTheme::getFontSize() const
+{
+    Q_D(const ElaTheme);
+    return d->_fontSizePx;
+}

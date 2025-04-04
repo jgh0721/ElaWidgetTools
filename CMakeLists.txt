@@ -16,15 +16,15 @@ option(ELAWIDGETTOOLS_BUILD_STATIC_LIB "Build static library." ON)
 IF(DEFINED ENV{QT_PATH})
     SET(QT_SDK_DIR $ENV{QT_PATH})
 ELSE()
-    SET(QT_SDK_DIR D:/Qt/6.9.0/msvc2022_64 CACHE PATH "QT SDK DIR" FORCE)
+    SET(QT_SDK_DIR D:/Qt/Qt-6.9.0-VC2022-X64-D-MD-OCI-2025-04-03 CACHE PATH "QT SDK DIR" FORCE)
 ENDIF()
 
 SET(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/Install CACHE PATH "Installation path" FORCE)
 
 list(APPEND CMAKE_PREFIX_PATH ${QT_SDK_DIR})
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets LinguistTools)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets LinguistTools)
 
 add_subdirectory(ElaWidgetTools)
 if (WIN32)

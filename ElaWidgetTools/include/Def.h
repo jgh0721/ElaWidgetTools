@@ -70,6 +70,7 @@ enum ThemeColor
     BasicBorderDeep,
     BasicBorderHover,
     BasicBase,
+    BasicBaseAlternate,
     BasicBaseDeep,
     BasicDisable,
     BasicHover,
@@ -87,6 +88,7 @@ enum ThemeColor
     BasicSelectedAlpha,
     BasicSelectedHoverAlpha,
     StatusDanger,
+    MaxThemeColor = StatusDanger
 };
 Q_ENUM_CREATE(ThemeColor)
 Q_END_ENUM_CREATE(ElaThemeType)

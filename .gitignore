@@ -9,6 +9,8 @@
 *.so.*
 *.dll
 *.dylib
+cmake-build-debug/
+cmake-build-release/
 
 # Qt-es
 object_script.*.Release

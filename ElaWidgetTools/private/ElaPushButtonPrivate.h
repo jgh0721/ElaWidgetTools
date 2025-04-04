@@ -14,6 +14,8 @@ class ElaPushButtonPrivate : public QObject
     Q_PROPERTY_CREATE_D(int, BorderRadius)
     Q_PROPERTY_CREATE_D(QColor, LightDefaultColor)
     Q_PROPERTY_CREATE_D(QColor, DarkDefaultColor)
+    Q_PROPERTY_CREATE_D(QColor, LightAlternateColor)
+    Q_PROPERTY_CREATE_D(QColor, DarkAlternateColor)
     Q_PROPERTY_CREATE_D(QColor, LightHoverColor)
     Q_PROPERTY_CREATE_D(QColor, DarkHoverColor)
     Q_PROPERTY_CREATE_D(QColor, LightPressColor)

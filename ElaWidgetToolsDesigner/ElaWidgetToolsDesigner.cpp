@@ -23,6 +23,8 @@
 #include "ElaDrawerArea.h"
 #include "ElaDxgi.h"
 
+#include "ElaFrame.h"
+
 #include "ElaIcon.h"
 #include "ElaIconButton.h"
 #include "ElaImageCard.h"
@@ -72,6 +74,8 @@
 #include "ElaWidget.h"
 #include "ElaWindow.h"
 
+#include "QMessageBox"
+
 const auto ElaWidgetToolsTheme = QStringLiteral("ElaWidgetToolsTheme.ini");
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -80,52 +84,7 @@ const auto ElaWidgetToolsTheme = QStringLiteral("ElaWidgetToolsTheme.ini");
 ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 : QObject(parent)
 {
-    int Theme = -1;
-    const auto ThemeColorEnum = QMetaEnum::fromType<ElaThemeType::ThemeColor>();
-
-    if( QFile::exists(ElaWidgetToolsTheme) == true )
-    {
-        QSettings Settings( ElaWidgetToolsTheme, QSettings::IniFormat );
-
-        Settings.beginGroup( "Common" );
-        const auto Th = Settings.value("Apply", "Auto" );
-        if( Th.isValid() == true && Th.toString().compare( "Light", Qt::CaseInsensitive ) == 0 )
-            Theme = ElaThemeType::Light;
-        if( Th.isValid() == true && Th.toString().compare( "Dark", Qt::CaseInsensitive ) == 0 )
-            Theme = ElaThemeType::Dark;
-        if( Th.isValid() == false )
-            Settings.setValue( "Apply", "Auto" );
-        Settings.endGroup();
-
-        const auto pfnApplyThemeColor = [&Settings, ThemeColorEnum]( const QString& Section, ElaThemeType::ThemeMode Mode ) {
-            Settings.beginGroup( Section );
-            for( int idx = 0; idx < ThemeColorEnum.keyCount(); ++idx )
-            {
-                const auto Key = ThemeColorEnum.key( idx );
-                if( Key == nullptr )
-                    continue;
-
-                const auto En = static_cast<ElaThemeType::ThemeColor>( ThemeColorEnum.keyToValue( Key ) );
-                const auto Value = QColor::fromString( Settings.value( Key ).toString() );
-                if( Value.isValid() == false )
-                {
-                    Settings.setValue( Key, eTheme->getThemeColor( Mode, En ).name( QColor::HexRgb ) );
-                    continue;
-                }
-
-                eTheme->setThemeColor( Mode, En, Value );
-            }
-            Settings.endGroup();
-        };
-
-        pfnApplyThemeColor( "Light", ElaThemeType::Light );
-        pfnApplyThemeColor( "Dark", ElaThemeType::Dark );
-    }
-
-    eApp->init();
-
-    if( Theme >= 0 )
-        eTheme->setThemeMode( static_cast<ElaThemeType::ThemeMode>(Theme) );
+    eApp->init( ElaWidgetToolsTheme );
 
     m_extensions
     << new ElaAcrylicUrlCardPlugin(this)
@@ -139,6 +98,8 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 
     << new ElaDockWidgetPlugin(this)
     << new ElaDoubleSpinBoxPlugin(this)
+
+    << new ElaFramePlugin(this)
 
     << new ElaIconButtonPlugin(this)
     << new ElaImageCardPlugin(this)
@@ -190,6 +151,33 @@ QList<QDesignerCustomWidgetInterface*> ElaWidgetToolsDesignerPlugin::customWidge
     return m_extensions;
 }
 
+QString createWidgetXml( const QString& ClassName, const QString& DefaultWidgetName, QSize DefaultSize )
+{
+    return QStringLiteral( R"(
+<ui language="c++">
+    <widget class="%1" name="%2">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>%3</width>
+                <height>%4</height>
+            </rect>
+        </property>
+        <property name="font">
+            <font>
+                <family>%5</family>
+                <pointsize>-1</pointsize>
+            </font>
+        </property>
+    </widget>
+</ui>
+    )" )
+    .arg( ClassName ).arg( DefaultWidgetName )
+    .arg( DefaultSize.width() ).arg( DefaultSize.height() )
+    .arg( eTheme->getFontFamily() );
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 ///
 
@@ -200,19 +188,8 @@ DEFINE_BASE_IS_CONTAINER(ElaAcrylicUrlCard, false )
 
 QString ElaAcrylicUrlCardPlugin::domXml() const
 {
-    QString className = QStringLiteral("ElaAcrylicUrlCard");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaarcylicurlcard\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>21</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    const auto className = QStringLiteral("ElaAcrylicUrlCard");
+    return createWidgetXml( className, className.toLower(), QSize( 100, 50 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -226,18 +203,7 @@ DEFINE_BASE_IS_CONTAINER(ElaBreadcrumbBar, false )
 QString ElaBreadcrumbBarPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaBreadcrumbBar");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elabreadcrumbar\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>21</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 150, 36 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -251,18 +217,7 @@ DEFINE_BASE_IS_CONTAINER(ElaCalendar, false )
 QString ElaCalendarPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaCalendar");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elacalendar\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>21</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 305, 340 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -276,18 +231,7 @@ DEFINE_BASE_IS_CONTAINER(ElaCalendarPicker, false )
 QString ElaCalendarPickerPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaCalendarPicker");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elacalendarpicker\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>21</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 120, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -301,18 +245,7 @@ DEFINE_BASE_IS_CONTAINER(ElaCheckBox, false )
 QString ElaCheckBoxPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaCheckBox");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elacheckbox\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>21</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 100, 22 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -326,18 +259,7 @@ DEFINE_BASE_IS_CONTAINER(ElaComboBox, false )
 QString ElaComboBoxPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaComboBox");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elacombobox\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>21</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 100, 22 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -351,18 +273,7 @@ DEFINE_BASE_IS_CONTAINER(ElaDockWidget, true )
 QString ElaDockWidgetPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaDockWidget");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"eladockwidget\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>21</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 200, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -376,18 +287,21 @@ DEFINE_BASE_IS_CONTAINER(ElaDoubleSpinBox, false )
 QString ElaDoubleSpinBoxPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaDoubleSpinBox");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"eladoublesphinbox\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>120</width>\n"
-           "    <height>30</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 120, 30 ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaFrame)
+DEFINE_BASE_ICON( ElaFrame, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaFrame, "ElaFrame on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaFrame, true )
+
+QString ElaFramePlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaFrame");
+    return createWidgetXml( className, className.toLower(), QSize( 200, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -401,18 +315,7 @@ DEFINE_BASE_IS_CONTAINER(ElaIconButton, false )
 QString ElaIconButtonPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaIconButton");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaiconbutton\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>32</width>\n"
-           "    <height>32</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 32, 32 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -426,18 +329,7 @@ DEFINE_BASE_IS_CONTAINER(ElaImageCard, false )
 QString ElaImageCardPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaImageCard");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaimagecard\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>36</width>\n"
-           "    <height>36</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 350, 260 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -451,18 +343,7 @@ DEFINE_BASE_IS_CONTAINER(ElaInteractiveCard, false )
 QString ElaInteractiveCardPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaInteractiveCard");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elainteractivecard\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>36</width>\n"
-           "    <height>36</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 350, 260 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -476,18 +357,7 @@ DEFINE_BASE_IS_CONTAINER(ElaLCDNumber, false )
 QString ElaLCDNumberPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaLCDNumber");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elalcdnumber\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>120</width>\n"
-           "    <height>20</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 120, 20 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -501,18 +371,7 @@ DEFINE_BASE_IS_CONTAINER(ElaLineEdit, false )
 QString ElaLineEditPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaLineEdit");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elalineedit\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>120</width>\n"
-           "    <height>20</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 120, 20 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -526,18 +385,7 @@ DEFINE_BASE_IS_CONTAINER(ElaListView, false )
 QString ElaListViewPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaListView");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elalistview\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -551,18 +399,7 @@ DEFINE_BASE_IS_CONTAINER(ElaListWidget, false )
 QString ElaListWidgetPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaListWidget");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elalistwidget\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -576,18 +413,7 @@ DEFINE_BASE_IS_CONTAINER(ElaMessageButton, false )
 QString ElaMessageButtonPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaMessageButton");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elamessagebutton\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>38</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 80, 38 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -601,18 +427,7 @@ DEFINE_BASE_IS_CONTAINER(ElaMultiSelectComboBox, false )
 QString ElaMultiSelectComboBoxPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaMultiSelectComboBox");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elamultiselectcombobox\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>140</width>\n"
-           "    <height>36</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 140, 36 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -626,18 +441,7 @@ DEFINE_BASE_IS_CONTAINER(ElaPivot, false )
 QString ElaPivotPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaPivot");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elapivot\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 40 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -651,18 +455,7 @@ DEFINE_BASE_IS_CONTAINER(ElaPlainTextEdit, false )
 QString ElaPlainTextEditPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaPlainTextEdit");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaplaintextedit\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>120</width>\n"
-           "    <height>50</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 150, 36 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -676,18 +469,7 @@ DEFINE_BASE_IS_CONTAINER(ElaPopularCard, false )
 QString ElaPopularCardPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaPopularCard");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elapopularcard\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -701,18 +483,7 @@ DEFINE_BASE_IS_CONTAINER(ElaProgressBar, false )
 QString ElaProgressBarPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaProgressBar");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaprogressbar\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>120</width>\n"
-           "    <height>20</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 150, 16 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -726,18 +497,7 @@ DEFINE_BASE_IS_CONTAINER(ElaPushButton, false )
 QString ElaPushButtonPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaPushButton");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elapushbutton\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>38</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 80, 38 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -751,18 +511,7 @@ DEFINE_BASE_IS_CONTAINER(ElaRadioButton, false )
 QString ElaRadioButtonPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaRadioButton");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaradiobutton\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>20</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 120, 38 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -776,18 +525,7 @@ DEFINE_BASE_IS_CONTAINER(ElaReminderCard, false )
 QString ElaReminderCardPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaReminderCard");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaremindercard\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -801,18 +539,7 @@ DEFINE_BASE_IS_CONTAINER(ElaRoller, false )
 QString ElaRollerPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaRoller");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaroller\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>60</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 80, 60 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -826,18 +553,7 @@ DEFINE_BASE_IS_CONTAINER(ElaScrollArea, false )
 QString ElaScrollAreaPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaScrollArea");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elascrollarea\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>150</width>\n"
-           "    <height>16</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -851,18 +567,7 @@ DEFINE_BASE_IS_CONTAINER(ElaScrollPageArea, false )
 QString ElaScrollPageAreaPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaScrollPageArea");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elascrollpagearea\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>150</width>\n"
-           "    <height>16</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -876,18 +581,7 @@ DEFINE_BASE_IS_CONTAINER(ElaSlider, false )
 QString ElaSliderPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaSlider");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaslider\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>150</width>\n"
-           "    <height>16</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 150, 16 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -901,18 +595,7 @@ DEFINE_BASE_IS_CONTAINER(ElaSpinBox, false )
 QString ElaSpinBoxPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaSpinBox");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaspinbox\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>120</width>\n"
-           "    <height>30</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 120, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -926,18 +609,7 @@ DEFINE_BASE_IS_CONTAINER(ElaSuggestBox, false )
 QString ElaSuggestBoxPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaSuggestBox");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elasuggestbox\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>100</width>\n"
-           "    <height>40</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 120, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -951,18 +623,7 @@ DEFINE_BASE_IS_CONTAINER(ElaTabBar, false )
 QString ElaTabBarPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaTabBar");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatabbar\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>150</width>\n"
-           "    <height>30</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 150, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -976,18 +637,7 @@ DEFINE_BASE_IS_CONTAINER(ElaTableView, false )
 QString ElaTableViewPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaTableView");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatableview\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1001,18 +651,7 @@ DEFINE_BASE_IS_CONTAINER(ElaTableWidget, false )
 QString ElaTableWidgetPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaTableWidget");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elaTableWidget\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1026,18 +665,7 @@ DEFINE_BASE_IS_CONTAINER(ElaTabWidget, true )
 QString ElaTabWidgetPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaTabWidget");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatabwidget\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1051,18 +679,7 @@ DEFINE_BASE_IS_CONTAINER(ElaText, false )
 QString ElaTextPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaText");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatext\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>60</width>\n"
-           "    <height>20</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 100, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1076,18 +693,7 @@ DEFINE_BASE_IS_CONTAINER(ElaToggleButton, false )
 QString ElaToggleButtonPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaToggleButton");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatogglebutton\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>30</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 80, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1101,18 +707,7 @@ DEFINE_BASE_IS_CONTAINER(ElaToggleSwitch, false )
 QString ElaToggleSwitchPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaToggleSwitch");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatoggleswitch\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>30</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 80, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1120,24 +715,13 @@ QString ElaToggleSwitchPlugin::domXml() const
 
 DEFINE_BASE(ElaToolBar)
 DEFINE_BASE_ICON( ElaToolBar, ElaIcon::getInstance()->getElaIcon( ElaIconType::ListTree ) )
-DEFINE_BASE_WHATS_THIS(ElaToolBar, "ElaToolButton on ElaWidgetTools")
-DEFINE_BASE_IS_CONTAINER(ElaToolBar, false )
+DEFINE_BASE_WHATS_THIS(ElaToolBar, "ElaToolBar on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaToolBar, true )
 
 QString ElaToolBarPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaToolBar");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatoolbar\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>30</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 120, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1151,18 +735,7 @@ DEFINE_BASE_IS_CONTAINER(ElaToolButton, false )
 QString ElaToolButtonPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaToolButton");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatoolbutton\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>80</width>\n"
-           "    <height>30</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 80, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1176,18 +749,7 @@ DEFINE_BASE_IS_CONTAINER(ElaTreeView, false )
 QString ElaTreeViewPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaTreeView");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatreeview\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1201,18 +763,7 @@ DEFINE_BASE_IS_CONTAINER(ElaTreeWidget, false )
 QString ElaTreeWidgetPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaTreeWidget");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elatreewidget\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1226,18 +777,7 @@ DEFINE_BASE_IS_CONTAINER(ElaWidget, true )
 QString ElaWidgetPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaWidget");
-    return QStringLiteral("<ui language=\"c++\">\n"
-           " <widget class=\"" "%1" "\" name=\"elawidget\">\n"
-           "  <property name=\"geometry\">\n"
-           "   <rect>\n"
-           "    <x>0</x>\n"
-           "    <y>0</y>\n"
-           "    <width>300</width>\n"
-           "    <height>200</height>\n"
-           "   </rect>\n"
-           "  </property>\n"
-           " </widget>\n"
-           "</ui>\n").arg(className);
+    return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -20,7 +20,7 @@ private:
     ~ElaApplication();
 
 public:
-    void init();
+    void init( const QString& ConfigFilePath = "" );
     void syncMica(QWidget* widget, bool isSync = true);
     static bool containsCursorToItem(QWidget* item);
 };
