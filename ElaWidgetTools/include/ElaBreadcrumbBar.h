@@ -22,7 +22,7 @@ public:
     QStringList getBreadcrumbList() const;
 
 Q_SIGNALS:
-    Q_SIGNAL void breadcrumbClicked(QString breadcrumb, QStringList lastBreadcrumbList);
+    Q_SIGNAL void breadcrumbClicked( const QString& breadcrumb, const QStringList& lastBreadcrumbList, int clickedIdx );
 };
 
 #endif // ELABREADCRUMBBAR_H

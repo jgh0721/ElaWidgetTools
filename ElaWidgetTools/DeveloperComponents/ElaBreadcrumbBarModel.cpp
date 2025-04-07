@@ -11,7 +11,7 @@ ElaBreadcrumbBarModel::~ElaBreadcrumbBarModel()
 
 int ElaBreadcrumbBarModel::rowCount(const QModelIndex& parent) const
 {
-    return _breadcrumbList.count() * 2 - 1;
+    return _breadcrumbList.isEmpty() == true ? 0 : _breadcrumbList.count() * 2 - 1;
 }
 
 QVariant ElaBreadcrumbBarModel::data(const QModelIndex& index, int role) const
