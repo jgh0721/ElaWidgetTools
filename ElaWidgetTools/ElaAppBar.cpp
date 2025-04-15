@@ -108,6 +108,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_titleLabel->setIsWrapAnywhere(true);
     d->_titleLabel->setTextPixelSize(13);
     d->_titleLabel->setAlignment(Qt::AlignVCenter);
+    d->_titleLabel->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
     d->_titleLabelLayout = d->_createVLayout(d->_titleLabel);
     d->_titleLabelLayout->setAlignment(Qt::AlignVCenter);
 
