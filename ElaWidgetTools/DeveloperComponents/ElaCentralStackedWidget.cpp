@@ -8,6 +8,7 @@ ElaCentralStackedWidget::ElaCentralStackedWidget(QWidget* parent)
     : QStackedWidget(parent)
 {
     setObjectName("ElaCentralStackedWidget");
+    setStyleSheet("#ElaCentralStackedWidget{background-color:transparent;}");
     _themeMode = eTheme->getThemeMode();
     connect(eTheme, &ElaTheme::themeModeChanged, this, &ElaCentralStackedWidget::onThemeModeChanged);
 }

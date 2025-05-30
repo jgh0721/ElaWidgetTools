@@ -13,11 +13,11 @@ class ElaWidgetBasePrivate : public QObject
     Q_D_CREATE( ElaWidgetBase )
 public:
     explicit ElaWidgetBasePrivate( QObject* parent = nullptr );
-    ~ElaWidgetBasePrivate();
+    ~ElaWidgetBasePrivate() override;
 
 private:
     ElaThemeType::ThemeMode _themeMode;
-    bool _isEnableMica;
+    ElaApplicationType::WindowDisplayMode _windowDisplayMode;
 };
 
 class ElaWidgetPrivate : public QObject
@@ -26,11 +26,11 @@ class ElaWidgetPrivate : public QObject
     Q_D_CREATE(ElaWidget)
 public:
     explicit ElaWidgetPrivate(QObject* parent = nullptr);
-    ~ElaWidgetPrivate();
+    ~ElaWidgetPrivate() override;
 
 private:
     ElaThemeType::ThemeMode _themeMode;
-    bool _isEnableMica;
+    ElaApplicationType::WindowDisplayMode _windowDisplayMode;
     ElaAppBar* _appBar{nullptr};
 };
 

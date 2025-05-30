@@ -16,7 +16,7 @@ public:
 
 private:
     ElaThemeType::ThemeMode _themeMode;
-    bool _isEnableMica;
+    ElaApplicationType::WindowDisplayMode _windowDisplayMode;
 };
 
 #endif // ELAWIDGETPRIVATE_H

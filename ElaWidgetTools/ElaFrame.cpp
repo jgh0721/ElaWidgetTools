@@ -20,12 +20,12 @@ ElaFrame::ElaFrame( QWidget* Parent )
         update();
     } );
 
-    d->_isEnableMica = eApp->getIsEnableMica();
-    connect( eApp, &ElaApplication::pIsEnableMicaChanged, this, [=]() {
-        d->_isEnableMica = eApp->getIsEnableMica();
+    d->_windowDisplayMode = eApp->getWindowDisplayMode();
+    connect(eApp, &ElaApplication::pWindowDisplayModeChanged, this, [=]() {
+        d->_windowDisplayMode = eApp->getWindowDisplayMode();
         update();
-    } );
-    eApp->syncMica( this );
+    });
+    eApp->syncWindowDisplayMode(this);
 }
 
 ElaFrame::~ElaFrame()
@@ -35,7 +35,11 @@ ElaFrame::~ElaFrame()
 void ElaFrame::paintEvent( QPaintEvent* event )
 {
     Q_D( ElaFrame );
-    if( !d->_isEnableMica )
+#if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))
+    if (d->_windowDisplayMode != ElaApplicationType::WindowDisplayMode::ElaMica)
+#else
+    if (d->_windowDisplayMode == ElaApplicationType::WindowDisplayMode::Normal)
+#endif
     {
         QPainter painter( this );
         painter.save();

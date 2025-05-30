@@ -21,6 +21,7 @@ FILE(GLOB EAXMPLEPAGE ExamplePage/*.h ExamplePage/*.cpp)
 source_group(ModelView FILES ${MODELVIEW})
 source_group(ExamplePage FILES ${EAXMPLEPAGE})
 
+
 set(PROJECT_SOURCES
     ${ORIGIN}
     ${MODELVIEW}
@@ -69,11 +70,19 @@ if (WIN32)
         ExamplePage
         ModelView
     )
-    target_link_libraries(${PROJECT_NAME} PRIVATE
-        Qt${QT_VERSION_MAJOR}::Widgets
-        ElaWidgetTools
-        ElaPacketIO
-    )
+    if (BUILD_ELAPACKETIO)
+        target_link_libraries(${PROJECT_NAME} PRIVATE
+            Qt${QT_VERSION_MAJOR}::Widgets
+            ElaWidgetTools
+            ElaPacketIO
+        )
+    else ()
+        target_link_libraries(${PROJECT_NAME} PRIVATE
+            Qt${QT_VERSION_MAJOR}::Widgets
+            ElaWidgetTools
+        )
+    endif ()
+
 else ()
     target_include_directories(${PROJECT_NAME} PUBLIC
         ExamplePage
