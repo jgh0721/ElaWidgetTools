@@ -14,7 +14,8 @@ class ElaTextPrivate : public QObject
     Q_D_CREATE(ElaText)
     Q_PROPERTY_CREATE_D(ElaTextType::TextStyle, TextStyle)
     Q_PROPERTY_CREATE_D(ElaIconType::IconName, ElaIcon)
-    Q_PROPERTY_CREATE_D(QColor, TextColor)
+    Q_PROPERTY_CREATE_D(QColor, LightTextColor)
+    Q_PROPERTY_CREATE_D(QColor, DarkTextColor)
 public:
     explicit ElaTextPrivate(QObject* parent = nullptr);
     ~ElaTextPrivate() override;

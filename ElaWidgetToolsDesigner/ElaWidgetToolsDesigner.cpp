@@ -44,6 +44,7 @@
 #include "ElaPlainTextEdit.h"
 #include "ElaPopularCard.h"
 #include "ElaProgressBar.h"
+#include "ElaProgressRing.h"
 #include "ElaPromotionCard.h"
 #include "ElaPushButton.h"
 
@@ -117,6 +118,7 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaPlainTextEditPlugin(this)
     << new ElaPopularCardPlugin(this)
     << new ElaProgressBarPlugin(this)
+    << new ElaProgressRingPlugin(this)
     << new ElaPushButtonPlugin(this)
 
     << new ElaRadioButtonPlugin(this)
@@ -484,6 +486,20 @@ QString ElaProgressBarPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaProgressBar");
     return createWidgetXml( className, className.toLower(), QSize( 150, 16 ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaProgressRing)
+DEFINE_BASE_ICON( ElaProgressRing, QStringLiteral(":res/TreeView.png") )
+DEFINE_BASE_WHATS_THIS(ElaProgressRing, "ElaProgressRing on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaProgressRing, false )
+
+QString ElaProgressRingPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaProgressRing");
+    return createWidgetXml( className, className.toLower(), QSize( 70, 70 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

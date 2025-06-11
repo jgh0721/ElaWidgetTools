@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 
+class ElaText;
 class ElaContentDialogPrivate;
 class ELA_EXPORT ElaContentDialog : public QDialog
 {
@@ -17,6 +18,9 @@ public:
     Q_SLOT virtual void onMiddleButtonClicked();
     Q_SLOT virtual void onRightButtonClicked();
     void setCentralWidget(QWidget* centralWidget);
+
+    ElaText* getDefaultTitle();
+    ElaText* getDefaultSubTitle();
 
     void setLeftButtonText(QString text);
     void setMiddleButtonText(QString text);

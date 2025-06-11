@@ -65,7 +65,7 @@ ElaContentDialog::ElaContentDialog(QWidget* parent)
     d->_rightButton->setLightDefaultColor(ElaThemeColor(ElaThemeType::Light, PrimaryNormal));
     d->_rightButton->setLightHoverColor(ElaThemeColor(ElaThemeType::Light, PrimaryHover));
     d->_rightButton->setLightPressColor(ElaThemeColor(ElaThemeType::Light, PrimaryPress));
-    d->_rightButton->setLightTextColor(Qt::white);
+    d->_rightButton->setLightTextColor(Qt::black);
     d->_rightButton->setDarkDefaultColor(ElaThemeColor(ElaThemeType::Dark, PrimaryNormal));
     d->_rightButton->setDarkHoverColor(ElaThemeColor(ElaThemeType::Dark, PrimaryHover));
     d->_rightButton->setDarkPressColor(ElaThemeColor(ElaThemeType::Dark, PrimaryPress));
@@ -78,13 +78,13 @@ ElaContentDialog::ElaContentDialog(QWidget* parent)
     d->_centralWidget = new QWidget(this);
     QVBoxLayout* centralVLayout = new QVBoxLayout(d->_centralWidget);
     centralVLayout->setContentsMargins(15, 25, 15, 10);
-    ElaText* title = new ElaText("退出", this);
-    title->setTextStyle(ElaTextType::Title);
-    ElaText* subTitle = new ElaText("确定要退出程序吗", this);
-    subTitle->setTextStyle(ElaTextType::Body);
-    centralVLayout->addWidget(title);
+    d->_defTitle = new ElaText(tr("退出"), this);
+    d->_defTitle->setTextStyle(ElaTextType::Title);
+    d->_defSubTitle = new ElaText(tr("确定要退出程序吗"), this);
+    d->_defSubTitle->setTextStyle(ElaTextType::Body);
+    centralVLayout->addWidget(d->_defTitle);
     centralVLayout->addSpacing(2);
-    centralVLayout->addWidget(subTitle);
+    centralVLayout->addWidget(d->_defSubTitle);
     centralVLayout->addStretch();
 
     d->_mainLayout = new QVBoxLayout(this);
@@ -130,6 +130,18 @@ void ElaContentDialog::setCentralWidget(QWidget* centralWidget)
     delete d->_centralWidget;
     d->_mainLayout->addWidget(centralWidget);
     d->_mainLayout->addWidget(d->_buttonWidget);
+}
+
+ElaText* ElaContentDialog::getDefaultTitle()
+{
+    Q_D(ElaContentDialog);
+    return d->_defTitle;
+}
+
+ElaText* ElaContentDialog::getDefaultSubTitle()
+{
+    Q_D(ElaContentDialog);
+    return d->_defSubTitle;
 }
 
 void ElaContentDialog::setLeftButtonText(QString text)

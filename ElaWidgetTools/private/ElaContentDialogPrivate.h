@@ -9,6 +9,7 @@ class QVBoxLayout;
 class ElaPushButton;
 class ElaContentDialog;
 class ElaMaskWidget;
+class ElaText;
 class ElaContentDialogPrivate : public QObject
 {
     Q_OBJECT
@@ -24,6 +25,8 @@ private:
     QWidget* _centralWidget{nullptr};
     QWidget* _buttonWidget{nullptr};
     QVBoxLayout* _mainLayout{nullptr};
+    ElaText* _defTitle{nullptr};
+    ElaText* _defSubTitle{nullptr};
     QString _leftButtonText{"cancel"};
     QString _middleButtonText{"minimum"};
     QString _rightButtonText{"exit"};

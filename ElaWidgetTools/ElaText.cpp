@@ -12,7 +12,8 @@ ElaText::ElaText(QWidget* parent)
     d->q_ptr = this;
     d->_pTextStyle = ElaTextType::NoStyle;
     d->_pElaIcon = ElaIconType::None;
-    d->_pTextColor = eTheme->getThemeColor( eTheme->getThemeMode(), ElaThemeType::BasicText );
+    d->_pLightTextColor = eTheme->getThemeColor( ElaThemeType::Light, ElaThemeType::BasicText );
+    d->_pDarkTextColor = eTheme->getThemeColor( ElaThemeType::Dark, ElaThemeType::BasicText );
     setObjectName("ElaText");
     setStyleSheet("#ElaText{background-color:transparent;}");
     QFont textFont = font();
@@ -24,7 +25,8 @@ ElaText::ElaText(QWidget* parent)
     d->onThemeChanged(eTheme->getThemeMode());
 
     connect(eTheme, &ElaTheme::themeModeChanged, d, &ElaTextPrivate::onThemeChanged);
-    connect( this, &ElaText::pTextColorChanged, [d](){d->onThemeChanged(d->_themeMode);} );
+    connect( this, &ElaText::pLightTextColorChanged, [d](){d->onThemeChanged(d->_themeMode);} );
+    connect( this, &ElaText::pDarkTextColorChanged, [d](){d->onThemeChanged(d->_themeMode);} );
 }
 
 ElaText::ElaText(QString text, QWidget* parent)
@@ -157,16 +159,28 @@ ElaIconType::IconName ElaText::getElaIcon() const
     return d->_pElaIcon;
 }
 
-void ElaText::setTextColor( QColor TextColor )
+void ElaText::setLightTextColor( QColor TextColor )
 {
     Q_D(ElaText);
-    d->_pTextColor = TextColor;
+    d->_pLightTextColor = TextColor;
 }
 
-QColor ElaText::getTextColor() const
+QColor ElaText::getLightTextColor() const
 {
     Q_D(const ElaText);
-    return d->_pTextColor;
+    return d->_pLightTextColor;
+}
+
+void ElaText::setDarkTextColor( QColor TextColor )
+{
+    Q_D(ElaText);
+    d->_pDarkTextColor = TextColor;
+}
+
+QColor ElaText::getDarkTextColor() const
+{
+    Q_D(const ElaText);
+    return d->_pDarkTextColor;
 }
 
 void ElaText::paintEvent(QPaintEvent* event)
@@ -180,10 +194,7 @@ void ElaText::paintEvent(QPaintEvent* event)
         QFont iconFont = QFont("ElaAwesome");
         iconFont.setPixelSize(this->font().pixelSize());
         painter.setFont(iconFont);
-        if( d->_pTextColor.isValid() == true )
-            painter.setPen( d->_pTextColor );
-        else
-            painter.setPen(ElaThemeColor(d->_themeMode, BasicText));
+        painter.setPen(retrieveTextColor());
         painter.drawText(rect(), Qt::AlignCenter, QChar((unsigned short)d->_pElaIcon));
         painter.restore();
     }
@@ -194,10 +205,7 @@ void ElaText::paintEvent(QPaintEvent* event)
             QPainter painter(this);
             painter.save();
             painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-            if( d->_pTextColor.isValid() == true )
-                painter.setPen( d->_pTextColor );
-            else
-                painter.setPen(ElaThemeColor(d->_themeMode, BasicText));
+            painter.setPen(retrieveTextColor());
             painter.drawText(rect(), Qt::AlignLeft | Qt::AlignVCenter | Qt::TextWordWrap | Qt::TextWrapAnywhere, text());
             painter.restore();
         }
@@ -206,4 +214,23 @@ void ElaText::paintEvent(QPaintEvent* event)
             QLabel::paintEvent(event);
         }
     }
+}
+
+QColor ElaText::retrieveTextColor() const
+{
+    const Q_D(ElaText);
+
+    if( eTheme->getThemeMode() == ElaThemeType::Light )
+    {
+        if( d->_pLightTextColor.isValid() == true )
+            return d->_pLightTextColor;
+    }
+
+    if( eTheme->getThemeMode() == ElaThemeType::Dark )
+    {
+        if( d->_pDarkTextColor.isValid() == true )
+            return d->_pDarkTextColor;
+    }
+
+    return ElaThemeColor( d->_themeMode, BasicText );
 }

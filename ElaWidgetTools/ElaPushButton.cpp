@@ -105,13 +105,13 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
     if (d->_themeMode == ElaThemeType::Light)
     {
         painter.setPen(ElaThemeColor(ElaThemeType::Light, BasicBorder));
-        const auto DefaultColor = isDefault() == true ? d->_pLightAlternateColor : d->_pLightDefaultColor;
+        const auto DefaultColor = isDefault() == false ? d->_pLightAlternateColor : d->_pLightDefaultColor;
         painter.setBrush(isEnabled() ? d->_isPressed ? d->_pLightPressColor : (underMouse() ? d->_pLightHoverColor : DefaultColor) : ElaThemeColor(d->_themeMode, BasicDisable));
     }
     else
     {
         painter.setPen(Qt::NoPen);
-        const auto DefaultColor = isDefault() == true ? d->_pDarkAlternateColor : d->_pDarkDefaultColor;
+        const auto DefaultColor = isDefault() == false ? d->_pDarkAlternateColor : d->_pDarkDefaultColor;
         painter.setBrush(isEnabled() ? d->_isPressed ? d->_pDarkPressColor : (underMouse() ? d->_pDarkHoverColor : DefaultColor) : ElaThemeColor(d->_themeMode, BasicDisable));
     }
     painter.drawRoundedRect(foregroundRect, d->_pBorderRadius, d->_pBorderRadius);

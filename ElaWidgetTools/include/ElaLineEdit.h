@@ -16,7 +16,7 @@ class ELA_EXPORT ElaLineEdit : public QLineEdit
     Q_PROPERTY_CREATE_Q_H(QColor, PlaceHolderTextColor)
 public:
     explicit ElaLineEdit(QWidget* parent = nullptr);
-    ~ElaLineEdit();
+    ~ElaLineEdit() override;
 
 Q_SIGNALS:
     Q_SIGNAL void focusIn(QString text);
