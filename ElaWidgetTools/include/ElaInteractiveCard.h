@@ -22,6 +22,10 @@ class ELA_EXPORT ElaInteractiveCard : public QPushButton
     Q_PROPERTY_CREATE_Q_H(QSize, CardPixmapSize);
     Q_PROPERTY_CREATE_Q_H(int, CardPixmapBorderRadius)
     Q_PROPERTY_CREATE_Q_H(ElaCardPixType::PixMode, CardPixMode);
+    Q_PROPERTY_CREATE_Q_H(QColor, TitleDarkColor);
+    Q_PROPERTY_CREATE_Q_H(QColor, TitleLightColor);
+    Q_PROPERTY_CREATE_Q_H(QColor, SubTitleDarkColor);
+    Q_PROPERTY_CREATE_Q_H(QColor, SubTitleLightColor);
 
 public:
     explicit ElaInteractiveCard(QWidget* parent = nullptr);
@@ -30,6 +34,10 @@ public:
 
 protected:
     void paintEvent(QPaintEvent* event) override;
+
+private:
+    QColor titleColor() const;
+    QColor subTitleColor() const;
 };
 
 #endif // ELAINTERACTIVECARD_H

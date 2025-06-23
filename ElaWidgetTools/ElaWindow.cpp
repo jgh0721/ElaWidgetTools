@@ -26,8 +26,8 @@ Q_PROPERTY_CREATE_Q_CPP(ElaWindow, int, ThemeChangeTime)
 Q_PROPERTY_CREATE_Q_CPP(ElaWindow, ElaNavigationType::NavigationDisplayMode, NavigationBarDisplayMode)
 Q_PROPERTY_CREATE_Q_CPP(ElaWindow, ElaWindowType::StackSwitchMode, StackSwitchMode)
 Q_TAKEOVER_NATIVEEVENT_CPP(ElaWindow, d_func()->_appBar);
-ElaWindow::ElaWindow(QWidget* parent)
-    : QMainWindow{parent}, d_ptr(new ElaWindowPrivate())
+ElaWindow::ElaWindow(QWidget* parent, Qt::WindowFlags f)
+    : QMainWindow{parent, f}, d_ptr(new ElaWindowPrivate())
 {
     Q_D(ElaWindow);
     d->q_ptr = this;
@@ -124,16 +124,28 @@ bool ElaWindow::getIsStayTop() const
     return d_ptr->_appBar->getIsStayTop();
 }
 
-void ElaWindow::setIsFixedSize(bool isFixedSize)
+void ElaWindow::setIsFixedHorizontalSize(bool IsFixedHorizontalSize)
 {
     Q_D(ElaWindow);
-    d->_appBar->setIsFixedSize(isFixedSize);
-    Q_EMIT pIsFixedSizeChanged();
+    d->_appBar->setIsFixedHorizontalSize(IsFixedHorizontalSize);
+    Q_EMIT pIsFixedHorizontalSizeChanged();
 }
 
-bool ElaWindow::getIsFixedSize() const
+bool ElaWindow::getIsFixedHorizontalSize() const
 {
-    return d_ptr->_appBar->getIsFixedSize();
+    return d_ptr->_appBar->getIsFixedHorizontalSize();
+}
+
+void ElaWindow::setIsFixedVerticalSize(bool IsFixedVerticalSize)
+{
+    Q_D(ElaWindow);
+    d->_appBar->setIsFixedVerticalSize(IsFixedVerticalSize);
+    Q_EMIT pIsFixedVerticalSizeChanged();
+}
+
+bool ElaWindow::getIsFixedVerticalSize() const
+{
+    return d_ptr->_appBar->getIsFixedVerticalSize();
 }
 
 void ElaWindow::setIsDefaultClosed(bool isDefaultClosed)
@@ -230,6 +242,18 @@ void ElaWindow::moveToCenter()
     auto geometry = qApp->screenAt(this->geometry().center())->geometry();
 #endif
     setGeometry((geometry.left() + geometry.right() - width()) / 2, (geometry.top() + geometry.bottom() - height()) / 2, width(), height());
+}
+
+ElaAppBar* ElaWindow::appBar() const
+{
+    const Q_D(ElaWindow);
+    return d->_appBar;
+}
+
+ElaNavigationBar* ElaWindow::navigationBar() const
+{
+    const Q_D(ElaWindow);
+    return d->_navigationBar;
 }
 
 void ElaWindow::setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* widget)
@@ -395,6 +419,35 @@ void ElaWindow::closeWindow()
     Q_D(ElaWindow);
     d->_isWindowClosing = true;
     d->_appBar->closeWindow();
+}
+
+void ElaWindow::showEvent( QShowEvent* event )
+{
+    do
+    {
+        if( _isInitUI == false )
+        {
+            _isInitUI = doInitUI();
+            if( _isInitUI == true )
+                doRefresh();
+        }
+
+        showEventUI( event );
+
+    } while (false);
+
+    QMainWindow::showEvent( event );
+}
+
+void ElaWindow::changeEvent( QEvent* event )
+{
+    if( event->type() == QEvent::LanguageChange )
+    {
+        doChangeUILanguage();
+        Q_EMIT languageChanged();
+    }
+
+    QMainWindow::changeEvent( event );
 }
 
 bool ElaWindow::eventFilter(QObject* watched, QEvent* event)

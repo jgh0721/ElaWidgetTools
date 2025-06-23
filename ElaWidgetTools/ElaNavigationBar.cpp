@@ -214,6 +214,12 @@ void ElaNavigationBar::setUserInfoCardSubTitle(QString subTitle)
     d->_userCard->setSubTitle(subTitle);
 }
 
+ElaInteractiveCard* ElaNavigationBar::getUserInfoCard() const
+{
+    const Q_D(ElaNavigationBar);
+    return d->_userCard;
+}
+
 ElaNavigationType::NodeOperateReturnType ElaNavigationBar::addExpanderNode(QString expanderTitle, QString& expanderKey, ElaIconType::IconName awesome)
 {
     Q_D(ElaNavigationBar);
@@ -535,6 +541,12 @@ int ElaNavigationBar::getPageOpenInNewWindowCount(QString nodeKey) const
         return 0;
     }
     return d->_pageNewWindowCountMap[nodeKey];
+}
+
+ElaSuggestBox* ElaNavigationBar::getElaSuggestBox() const
+{
+    Q_D(const ElaNavigationBar);
+    return d->_navigationSuggestBox;
 }
 
 void ElaNavigationBar::paintEvent(QPaintEvent* event)

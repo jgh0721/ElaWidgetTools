@@ -7,6 +7,7 @@
 #include <QSize>
 
 #include "Def.h"
+#include "ElaTheme.h"
 #include "stdafx.h"
 class ElaInteractiveCard;
 class ElaInteractiveCardPrivate : public QObject
@@ -23,6 +24,10 @@ class ElaInteractiveCardPrivate : public QObject
     Q_PROPERTY_CREATE_D(QSize, CardPixmapSize);
     Q_PROPERTY_CREATE_D(int, CardPixmapBorderRadius)
     Q_PROPERTY_CREATE_D(ElaCardPixType::PixMode, CardPixMode);
+    Q_PROPERTY_CREATE_D(QColor, TitleDarkColor);
+    Q_PROPERTY_CREATE_D(QColor, TitleLightColor);
+    Q_PROPERTY_CREATE_D(QColor, SubTitleDarkColor);
+    Q_PROPERTY_CREATE_D(QColor, SubTitleLightColor);
 
 public:
     explicit ElaInteractiveCardPrivate(QObject* parent = nullptr);

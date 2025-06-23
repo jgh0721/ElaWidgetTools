@@ -15,6 +15,10 @@ Q_PROPERTY_CREATE_Q_CPP(ElaInteractiveCard, QPixmap, CardPixmap);
 Q_PROPERTY_CREATE_Q_CPP(ElaInteractiveCard, QSize, CardPixmapSize);
 Q_PROPERTY_CREATE_Q_CPP(ElaInteractiveCard, int, CardPixmapBorderRadius)
 Q_PROPERTY_CREATE_Q_CPP(ElaInteractiveCard, ElaCardPixType::PixMode, CardPixMode);
+Q_PROPERTY_CREATE_Q_CPP(ElaInteractiveCard, QColor, TitleDarkColor);
+Q_PROPERTY_CREATE_Q_CPP(ElaInteractiveCard, QColor, TitleLightColor);
+Q_PROPERTY_CREATE_Q_CPP(ElaInteractiveCard, QColor, SubTitleDarkColor);
+Q_PROPERTY_CREATE_Q_CPP(ElaInteractiveCard, QColor, SubTitleLightColor);
 ElaInteractiveCard::ElaInteractiveCard(QWidget* parent)
     : QPushButton(parent), d_ptr(new ElaInteractiveCardPrivate())
 {
@@ -77,17 +81,38 @@ void ElaInteractiveCard::paintEvent(QPaintEvent* event)
         painter.restore();
     }
     // 文字绘制
-    painter.setPen(ElaThemeColor(d->_themeMode, BasicText));
     QFont font = this->font();
     font.setWeight(QFont::Bold);
     font.setPixelSize(d->_pTitlePixelSize);
     painter.setFont(font);
     int textStartX = d->_pCardPixmapSize.width() + 26;
     int textWidth = width() - textStartX;
+    painter.setPen(titleColor());
     painter.drawText(QRect(textStartX, rect().y(), textWidth, height() / 2 - d->_pTitleSpacing), Qt::TextWordWrap | Qt::AlignBottom | Qt::AlignLeft, d->_pTitle);
     font.setWeight(QFont::Normal);
     font.setPixelSize(d->_pSubTitlePixelSize);
     painter.setFont(font);
+    painter.setPen(subTitleColor());
     painter.drawText(QRect(textStartX, height() / 2 + d->_pTitleSpacing, textWidth, height() / 2 - d->_pTitleSpacing), Qt::TextWordWrap | Qt::AlignTop | Qt::AlignLeft, d->_pSubTitle);
     painter.restore();
+}
+
+QColor ElaInteractiveCard::titleColor() const
+{
+    const Q_D(ElaInteractiveCard);
+    const QColor Color = d->_themeMode == ElaThemeType::Dark ? d->_pTitleDarkColor : d->_pTitleLightColor;
+    if( Color.isValid() )
+        return Color;
+
+    return ElaThemeColor( d->_themeMode, BasicText );
+}
+
+QColor ElaInteractiveCard::subTitleColor()  const
+{
+    const Q_D(ElaInteractiveCard);
+    const QColor Color = d->_themeMode == ElaThemeType::Dark ? d->_pSubTitleDarkColor : d->_pSubTitleLightColor;
+    if( Color.isValid() )
+        return Color;
+
+    return ElaThemeColor( d->_themeMode, BasicText );
 }

@@ -6,6 +6,7 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QPropertyAnimation>
+#include <QStyleOptionFrame>
 
 #include "ElaEventBus.h"
 #include "ElaLineEditStyle.h"
@@ -87,7 +88,12 @@ void ElaLineEdit::focusInEvent(QFocusEvent* event)
 {
     Q_D(ElaLineEdit);
     Q_EMIT focusIn(this->text());
-    if (event->reason() == Qt::MouseFocusReason)
+    if (event->reason() == Qt::MouseFocusReason
+        || event->reason() == Qt::TabFocusReason
+        || event->reason() == Qt::BacktabFocusReason
+        || event->reason() == Qt::ActiveWindowFocusReason
+        || event->reason() == Qt::OtherFocusReason
+        )
     {
         if (d->_pIsClearButtonEnable)
         {
@@ -110,7 +116,11 @@ void ElaLineEdit::focusOutEvent(QFocusEvent* event)
 {
     Q_D(ElaLineEdit);
     Q_EMIT focusOut(this->text());
-    if (event->reason() != Qt::PopupFocusReason)
+    if (event->reason() != Qt::PopupFocusReason
+        || event->reason() == Qt::TabFocusReason
+        || event->reason() == Qt::BacktabFocusReason
+        || event->reason() == Qt::OtherFocusReason
+    )
     {
         if (d->_pIsClearButtonEnable)
         {
@@ -134,6 +144,29 @@ void ElaLineEdit::paintEvent(QPaintEvent* event)
 {
     Q_D(ElaLineEdit);
     QLineEdit::paintEvent(event);
+
+    // 텍스트가 없고 포커스가 있으면 placeholder를 수동으로 그림
+    if (text().isEmpty() && hasFocus())
+    {
+        if( alignment() & Qt::AlignHCenter )
+        {
+            QStyleOptionFrame opt;
+            initStyleOption(&opt);
+
+            QPainter painter(this);
+            painter.setPen(palette().placeholderText().color());
+            QFontMetrics fm(font());
+            int textWidth = fm.horizontalAdvance(placeholderText());
+            int height = this->height();
+
+            // 가운데 정렬
+            int x = (width() - textWidth) / 2;
+            int y = (height + fm.ascent() - fm.descent()) / 2;
+
+            painter.drawText(x, y, placeholderText());
+        }
+    }
+
     QPainter painter(this);
     painter.save();
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);

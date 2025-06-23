@@ -1,4 +1,4 @@
-#include "ElaAppBar.h"
+﻿#include "ElaAppBar.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -41,13 +41,15 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     window()->setContentsMargins(0, this->height(), 0, 0);
     d->q_ptr = this;
     d->_pIsStayTop = false;
-    d->_pIsFixedSize = false;
+    d->_pIsFixedHorizontalSize = false;
+    d->_pIsFixedVerticalSize = false;
     d->_pIsDefaultMin = true;
     d->_pIsDefaultMax = true;
     d->_pIsDefaultClosed = true;
     d->_pIsOnlyAllowMinAndClose = false;
     d->_pCustomWidget = nullptr;
     d->_pCustomWidgetMaximumWidth = 550;
+    d->_pIconSize = QSize(18,18);
 
     window()->installEventFilter(this);
 #ifdef Q_OS_WIN
@@ -89,17 +91,18 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     //图标
     d->_iconLabel = new QLabel(this);
     d->_iconLabelLayout = d->_createVLayout(d->_iconLabel);
+    d->_iconLabelLayout->setAlignment(Qt::AlignCenter);
     if (parent->windowIcon().isNull())
     {
         d->_iconLabel->setVisible(false);
     }
     else
     {
-        d->_iconLabel->setPixmap(parent->windowIcon().pixmap(18, 18));
+        d->_iconLabel->setPixmap(parent->windowIcon().pixmap(d->_pIconSize));
         d->_iconLabelLayout->setContentsMargins(10, 0, 0, 0);
     }
     connect(parent, &QWidget::windowIconChanged, this, [=](const QIcon& icon) {
-        d->_iconLabel->setPixmap(icon.pixmap(18, 18));
+        d->_iconLabel->setPixmap(icon.pixmap(d->_pIconSize));
         d->_iconLabel->setVisible(icon.isNull() ? false : true);
         d->_iconLabelLayout->setContentsMargins(icon.isNull() ? 0 : 10, 0, 0, 0);
     });
@@ -167,12 +170,13 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_mainLayout->addLayout(d->_createVLayout(d->_minButton));
     d->_mainLayout->addLayout(d->_createVLayout(d->_maxButton));
     d->_mainLayout->addLayout(d->_createVLayout(d->_closeButton));
+    d->_mainLayout->setAlignment( Qt::AlignVCenter );
 
 #ifdef Q_OS_WIN
     for (int i = 0; i < qApp->screens().count(); i++)
     {
         connect(qApp->screens().at(i), &QScreen::logicalDotsPerInchChanged, this, [=] {
-            if (d->_pIsFixedSize)
+            if (d->_pIsFixedHorizontalSize || d->_pIsFixedVerticalSize)
             {
                 HWND hwnd = (HWND)(d->_currentWinID);
                 SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE | SWP_FRAMECHANGED);
@@ -268,14 +272,32 @@ int ElaAppBar::getCustomWidgetMaximumWidth() const
     return d->_pCustomWidgetMaximumWidth;
 }
 
-void ElaAppBar::setIsFixedSize(bool isFixedSize)
+void ElaAppBar::setIconSize(QSize size)
 {
     Q_D(ElaAppBar);
-    d->_pIsFixedSize = isFixedSize;
+    if( d->_pIconSize == size )
+        return;
+
+    d->_pIconSize = size;
+    if( d->_iconLabel->isVisible() == true )
+        d->_iconLabel->setPixmap( d->_iconLabel->pixmap().scaled( size, Qt::KeepAspectRatio, Qt::SmoothTransformation ) );
+    Q_EMIT pIconSizeChanged();
+}
+
+QSize ElaAppBar::getIconSize() const
+{
+    Q_D(const ElaAppBar);
+    return d->_pIconSize;
+}
+
+void ElaAppBar::setIsFixedHorizontalSize(bool isFixedSize)
+{
+    Q_D(ElaAppBar);
+    d->_pIsFixedHorizontalSize = isFixedSize;
 #ifdef Q_OS_WIN
     HWND hwnd = (HWND)d->_currentWinID;
     DWORD style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
-    if (d->_pIsFixedSize)
+    if (d->_pIsFixedHorizontalSize || d->_pIsFixedHorizontalSize)
     {
         //切换DPI处理
         style &= ~WS_THICKFRAME;
@@ -297,13 +319,51 @@ void ElaAppBar::setIsFixedSize(bool isFixedSize)
         window()->show();
     }
 #endif
-    Q_EMIT pIsFixedSizeChanged();
+    Q_EMIT pIsFixedHorizontalSizeChanged();
 }
 
-bool ElaAppBar::getIsFixedSize() const
+bool ElaAppBar::getIsFixedHorizontalSize() const
 {
     Q_D(const ElaAppBar);
-    return d->_pIsFixedSize;
+    return d->_pIsFixedHorizontalSize;
+}
+
+void ElaAppBar::setIsFixedVerticalSize(bool isFixedSize)
+{
+    Q_D(ElaAppBar);
+    d->_pIsFixedVerticalSize = isFixedSize;
+#ifdef Q_OS_WIN
+    HWND hwnd = (HWND)d->_currentWinID;
+    DWORD style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
+    if (d->_pIsFixedHorizontalSize || d->_pIsFixedHorizontalSize)
+    {
+        //切换DPI处理
+        style &= ~WS_THICKFRAME;
+        ::SetWindowLongPtr(hwnd, GWL_STYLE, style);
+    }
+    else
+    {
+        ::SetWindowLongPtr(hwnd, GWL_STYLE, style | WS_MAXIMIZEBOX | WS_THICKFRAME);
+    }
+#else
+    bool isVisible = window()->isVisible();
+    window()->setWindowFlags((window()->windowFlags()) | Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+    if (!isFixedSize)
+    {
+        window()->setWindowFlag(Qt::WindowMaximizeButtonHint);
+    }
+    if (isVisible)
+    {
+        window()->show();
+    }
+#endif
+    Q_EMIT pIsFixedVerticalSizeChanged();
+}
+
+bool ElaAppBar::getIsFixedVerticalSize() const
+{
+    Q_D(const ElaAppBar);
+    return d->_pIsFixedVerticalSize;
 }
 
 void ElaAppBar::setWindowButtonFlag(ElaAppBarType::ButtonType buttonFlag, bool isEnable)
@@ -366,7 +426,7 @@ void ElaAppBar::closeWindow()
     closeOpacityAnimation->setEndValue(0);
     closeOpacityAnimation->setEasingCurve(QEasingCurve::InOutSine);
     closeOpacityAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-    if (window()->isMaximized() || window()->isFullScreen() || d->_pIsFixedSize)
+    if (window()->isMaximized() || window()->isFullScreen() || d->_pIsFixedHorizontalSize || d->_pIsFixedVerticalSize)
     {
         return;
     }
@@ -511,13 +571,16 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
         {
             if (*result == HTNOWHERE)
             {
-                if (!d->_isHoverMaxButton)
+                if( (d->_buttonFlags & ElaAppBarType::MaximizeButtonHint) > 0 )
                 {
-                    d->_isHoverMaxButton = true;
-                    d->_maxButton->setIsSelected(true);
-                    d->_maxButton->update();
+                    if (!d->_isHoverMaxButton)
+                    {
+                        d->_isHoverMaxButton = true;
+                        d->_maxButton->setIsSelected(true);
+                        d->_maxButton->update();
+                    }
+                    *result = HTZOOM;
                 }
-                *result = HTZOOM;
             }
             return 1;
         }
@@ -541,7 +604,7 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
         bool top = nativeLocalPos.y < d->_margins;
         bool bottom = nativeLocalPos.y > clientHeight - d->_margins;
         *result = 0;
-        if (!d->_pIsOnlyAllowMinAndClose && !d->_pIsFixedSize && !window()->isFullScreen() && !window()->isMaximized())
+        if (!d->_pIsOnlyAllowMinAndClose && !window()->isFullScreen() && !window()->isMaximized())
         {
             if (left && top)
             {
@@ -549,7 +612,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             }
             else if (left && bottom)
             {
-                *result = HTBOTTOMLEFT;
+                if( !d->_pIsFixedHorizontalSize )
+                    *result = HTBOTTOMLEFT;
             }
             else if (right && top)
             {
@@ -557,15 +621,18 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             }
             else if (right && bottom)
             {
-                *result = HTBOTTOMRIGHT;
+                if( !d->_pIsFixedHorizontalSize )
+                    *result = HTBOTTOMRIGHT;
             }
             else if (left)
             {
-                *result = HTLEFT;
+                if( !d->_pIsFixedHorizontalSize )
+                    *result = HTLEFT;
             }
             else if (right)
             {
-                *result = HTRIGHT;
+                if( !d->_pIsFixedHorizontalSize )
+                    *result = HTRIGHT;
             }
             else if (top)
             {
@@ -573,7 +640,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             }
             else if (bottom)
             {
-                *result = HTBOTTOM;
+                if( !d->_pIsFixedVerticalSize)
+                    *result = HTBOTTOM;
             }
         }
         if (0 != *result)
@@ -639,16 +707,18 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
         ElaEventBus::getInstance()->post("WMWindowClicked", postData);
         if (d->_containsCursorToItem(d->_maxButton) && !d->_pIsOnlyAllowMinAndClose)
         {
-            d->onMaxButtonClicked();
+            if( d->_buttonFlags & ElaAppBarType::MaximizeButtonHint )
+                d->onMaxButtonClicked();
             return 1;
         }
         break;
     }
     case WM_NCLBUTTONDBLCLK:
     {
-        if (!d->_pIsOnlyAllowMinAndClose && !d->_pIsFixedSize)
+        if ((!d->_pIsOnlyAllowMinAndClose) && (!d->_pIsFixedHorizontalSize || !d->_pIsFixedVerticalSize))
         {
-            return 0;
+            if( d->_buttonFlags & ElaAppBarType::MaximizeButtonHint )
+                return 0;
         }
         return 1;
     }
@@ -700,7 +770,7 @@ bool ElaAppBar::eventFilter(QObject* obj, QEvent* event)
 #ifdef Q_OS_WIN
     case QEvent::Show:
     {
-        if (!d->_pIsFixedSize && !d->_pIsOnlyAllowMinAndClose)
+        if ( (!d->_pIsFixedHorizontalSize || !d->_pIsFixedVerticalSize) && !d->_pIsOnlyAllowMinAndClose)
         {
             HWND hwnd = (HWND)d->_currentWinID;
             DWORD style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -837,4 +907,15 @@ bool ElaAppBar::eventFilter(QObject* obj, QEvent* event)
     }
     }
     return QObject::eventFilter(obj, event);
+}
+
+void ElaAppBar::changeEvent( QEvent* event )
+{
+    if( event->type() == QEvent::LanguageChange )
+    {
+        doChangeUILanguage();
+        Q_EMIT languageChanged();
+    }
+
+    QWidget::changeEvent( event );
 }

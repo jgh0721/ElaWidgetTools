@@ -6,6 +6,8 @@
 #include "Def.h"
 #include "stdafx.h"
 
+class ElaInteractiveCard;
+class ElaSuggestBox;
 class ElaNavigationBarPrivate;
 class ELA_EXPORT ElaNavigationBar : public QWidget
 {
@@ -21,6 +23,7 @@ public:
     void setUserInfoCardPixmap(QPixmap pix);
     void setUserInfoCardTitle(QString title);
     void setUserInfoCardSubTitle(QString subTitle);
+    ElaInteractiveCard* getUserInfoCard() const;
 
     ElaNavigationType::NodeOperateReturnType addExpanderNode(QString expanderTitle, QString& expanderKey, ElaIconType::IconName awesome = ElaIconType::None);
     ElaNavigationType::NodeOperateReturnType addExpanderNode(QString expanderTitle, QString& expanderKey, QString targetExpanderKey, ElaIconType::IconName awesome = ElaIconType::None);
@@ -43,6 +46,7 @@ public:
     void setDisplayMode(ElaNavigationType::NavigationDisplayMode displayMode, bool isAnimation = true);
 
     int getPageOpenInNewWindowCount(QString nodeKey) const;
+    ElaSuggestBox* getElaSuggestBox() const;
 
 Q_SIGNALS:
     Q_SIGNAL void pageOpenInNewWindow(QString nodeKey);

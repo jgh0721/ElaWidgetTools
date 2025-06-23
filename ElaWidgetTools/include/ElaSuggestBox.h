@@ -18,13 +18,19 @@ public:
     explicit ElaSuggestBox(QWidget* parent = nullptr);
     ~ElaSuggestBox();
     void setPlaceholderText(const QString& placeholderText);
+    QString getPlaceholderText() const;
 
     QString addSuggestion(const QString& suggestText, const QVariantMap& suggestData = {});
     QString addSuggestion(ElaIconType::IconName icon, const QString& suggestText, const QVariantMap& suggestData = {});
     void removeSuggestion(const QString& suggestKey);
     void removeSuggestion(int index);
+    void clearSuggestions();
+
+    QString text() const;
+    void clearText();
 Q_SIGNALS:
-    Q_SIGNAL void suggestionClicked(QString suggestText, QVariantMap suggestData);
+    Q_SIGNAL void suggestionEditingFinished();
+    Q_SIGNAL void suggestionClicked(const QString& suggestText, const QVariantMap& suggestData);
 };
 
 #endif // ELASUGGESTBOX_H

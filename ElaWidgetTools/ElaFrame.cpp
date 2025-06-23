@@ -13,6 +13,9 @@ ElaFrame::ElaFrame( QWidget* Parent )
     d->q_ptr = this;
     setWindowTitle( "ElaFrame" );
     setObjectName( "ElaFrame" );
+#if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
+    setStyleSheet("#ElaFrame{background-color:transparent;}");
+#endif
 
     d->_themeMode = eTheme->getThemeMode();
     connect( eTheme, &ElaTheme::themeModeChanged, this, [=]( ElaThemeType::ThemeMode themeMode ) {

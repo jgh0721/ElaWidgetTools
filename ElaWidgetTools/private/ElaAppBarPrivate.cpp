@@ -116,7 +116,7 @@ void ElaAppBarPrivate::_showSystemMenu(QPoint point)
         ::EnableMenuItem(hMenu, SC_MOVE, MFS_ENABLED);
         ::EnableMenuItem(hMenu, SC_RESTORE, MFS_DISABLED);
     }
-    if (!_pIsFixedSize && !q->window()->isMaximized() && !q->window()->isFullScreen())
+    if ((!_pIsFixedHorizontalSize || !_pIsFixedVerticalSize) && !q->window()->isMaximized() && !q->window()->isFullScreen())
     {
         ::EnableMenuItem(hMenu, SC_SIZE, MFS_ENABLED);
         ::EnableMenuItem(hMenu, SC_MAXIMIZE, MFS_ENABLED);

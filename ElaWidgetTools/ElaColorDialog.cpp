@@ -32,7 +32,8 @@ ElaColorDialog::ElaColorDialog(QWidget* parent)
     // 自定义AppBar
     d->_appBar = new ElaAppBar(this);
     d->_appBar->setAppBarHeight(30);
-    d->_appBar->setIsFixedSize(true);
+    d->_appBar->setIsFixedHorizontalSize(true);
+    d->_appBar->setIsFixedVerticalSize(true);
     d->_appBar->setIsStayTop(true);
     d->_appBar->setWindowButtonFlags(ElaAppBarType::CloseButtonHint);
     d->_appBar->setIsDefaultClosed(false);

@@ -74,6 +74,7 @@ ElaSuggestBox::ElaSuggestBox(QWidget* parent)
     d->_searchViewBaseWidget->hide();
     connect(d->_searchEdit, &ElaLineEdit::textEdited, d, &ElaSuggestBoxPrivate::onSearchEditTextEdit);
     connect(d->_searchEdit, &ElaLineEdit::focusIn, d, &ElaSuggestBoxPrivate::onSearchEditTextEdit);
+    connect(d->_searchEdit, &ElaLineEdit::editingFinished, this, &ElaSuggestBox::suggestionEditingFinished );
     connect(d->_searchView, &ElaBaseListView::clicked, d, &ElaSuggestBoxPrivate::onSearchViewClicked);
 
     // 焦点事件
@@ -90,6 +91,12 @@ void ElaSuggestBox::setPlaceholderText(const QString& placeholderText)
 {
     Q_D(ElaSuggestBox);
     d->_searchEdit->setPlaceholderText(placeholderText);
+}
+
+QString ElaSuggestBox::getPlaceholderText() const
+{
+    const Q_D(ElaSuggestBox);
+    return d->_searchEdit->placeholderText();
 }
 
 QString ElaSuggestBox::addSuggestion(const QString& suggestText, const QVariantMap& suggestData)
@@ -136,4 +143,24 @@ void ElaSuggestBox::removeSuggestion(int index)
     ElaSuggestion* suggest = d->_suggestionVector[index];
     d->_suggestionVector.removeOne(suggest);
     suggest->deleteLater();
+}
+
+void ElaSuggestBox::clearSuggestions()
+{
+    Q_D(ElaSuggestBox);
+    for( auto suggest : d->_suggestionVector )
+        suggest->deleteLater();
+    d->_suggestionVector.clear();
+}
+
+QString ElaSuggestBox::text() const
+{
+    const Q_D(ElaSuggestBox);
+    return d->_searchEdit->text();
+}
+
+void ElaSuggestBox::clearText()
+{
+    Q_D(ElaSuggestBox);
+    d->_searchEdit->clear();
 }

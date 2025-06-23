@@ -1,9 +1,11 @@
 #ifndef ELAAPPBARPRIVATE_H
 #define ELAAPPBARPRIVATE_H
 #include <QObject>
+#include <QSize>
 
 #include "Def.h"
 #include "stdafx.h"
+
 class QLabel;
 class QScreen;
 class QHBoxLayout;
@@ -17,7 +19,8 @@ class ElaAppBarPrivate : public QObject
     Q_OBJECT
     Q_D_CREATE(ElaAppBar)
     Q_PROPERTY_CREATE_D(bool, IsStayTop)
-    Q_PROPERTY_CREATE_D(bool, IsFixedSize)
+    Q_PROPERTY_CREATE_D(bool, IsFixedHorizontalSize)
+    Q_PROPERTY_CREATE_D(bool, IsFixedVerticalSize)
     Q_PROPERTY_CREATE_D(bool, IsDefaultMin )
     Q_PROPERTY_CREATE_D(bool, IsDefaultMax )
     Q_PROPERTY_CREATE_D(bool, IsDefaultClosed)
@@ -25,6 +28,7 @@ class ElaAppBarPrivate : public QObject
     Q_PROPERTY_CREATE_D(int, AppBarHeight)
     Q_PROPERTY_CREATE_D(QWidget*, CustomWidget)
     Q_PROPERTY_CREATE_D(int, CustomWidgetMaximumWidth)
+    Q_PROPERTY_CREATE_D(QSize, IconSize)
 public:
     explicit ElaAppBarPrivate(QObject* parent = nullptr);
     ~ElaAppBarPrivate() override;

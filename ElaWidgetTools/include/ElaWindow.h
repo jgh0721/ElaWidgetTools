@@ -6,13 +6,15 @@
 #include "Def.h"
 #include "ElaAppBar.h"
 #include "stdafx.h"
+class ElaNavigationBar;
 class ElaWindowPrivate;
 class ELA_EXPORT ElaWindow : public QMainWindow
 {
     Q_OBJECT
     Q_Q_CREATE(ElaWindow)
     Q_PROPERTY_CREATE_Q_H(bool, IsStayTop)
-    Q_PROPERTY_CREATE_Q_H(bool, IsFixedSize)
+    Q_PROPERTY_CREATE_Q_H(bool, IsFixedHorizontalSize)
+    Q_PROPERTY_CREATE_Q_H(bool, IsFixedVerticalSize)
     Q_PROPERTY_CREATE_Q_H(bool, IsDefaultClosed)
     Q_PROPERTY_CREATE_Q_H(int, AppBarHeight)
     Q_PROPERTY_CREATE_Q_H(int, CustomWidgetMaximumWidth)
@@ -25,11 +27,14 @@ class ELA_EXPORT ElaWindow : public QMainWindow
     Q_PROPERTY_CREATE_Q_H(ElaWindowType::StackSwitchMode, StackSwitchMode)
     Q_TAKEOVER_NATIVEEVENT_H
 public:
-    explicit ElaWindow(QWidget* parent = nullptr);
+    explicit ElaWindow(QWidget* parent = nullptr, Qt::WindowFlags f = Qt::WindowFlags());
     ~ElaWindow() override;
 
     void moveToCenter();
 
+    ElaAppBar* appBar() const;
+    ElaNavigationBar* navigationBar() const;
+    
     void setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* customWidget);
     QWidget* getCustomWidget() const;
     void setUserInfoCardVisible(bool isVisible);
@@ -66,8 +71,17 @@ Q_SIGNALS:
     Q_SIGNAL void navigationNodeClicked(ElaNavigationType::NavigationNodeType nodeType, QString nodeKey);
     Q_SIGNAL void customWidgetChanged();
     Q_SIGNAL void pageOpenInNewWindow(QString nodeKey);
+    Q_SIGNAL void languageChanged();
 
 protected:
+    void showEvent(QShowEvent* event) override;
+    bool _isInitUI = false;
+    virtual bool doInitUI() { return true; }
+    virtual bool doRefresh() { return true; }
+    virtual void showEventUI( QShowEvent* event) {};
+    void changeEvent(QEvent* event) override;
+    virtual void doChangeUILanguage() {};
+
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
     virtual QMenu* createPopupMenu() override;
 };

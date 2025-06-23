@@ -56,13 +56,15 @@ class ELA_EXPORT ElaAppBar : public QWidget
     Q_OBJECT
     Q_Q_CREATE(ElaAppBar)
     Q_PROPERTY_CREATE_Q_H(bool, IsStayTop)
-    Q_PROPERTY_CREATE_Q_H(bool, IsFixedSize)
+    Q_PROPERTY_CREATE_Q_H(bool, IsFixedHorizontalSize)
+    Q_PROPERTY_CREATE_Q_H(bool, IsFixedVerticalSize)
     Q_PROPERTY_CREATE_Q_H(bool, IsDefaultMin)
     Q_PROPERTY_CREATE_Q_H(bool, IsDefaultMax)
     Q_PROPERTY_CREATE_Q_H(bool, IsDefaultClosed)
     Q_PROPERTY_CREATE_Q_H(bool, IsOnlyAllowMinAndClose)
     Q_PROPERTY_CREATE_Q_H(int, AppBarHeight)
     Q_PROPERTY_CREATE_Q_H(int, CustomWidgetMaximumWidth)
+    Q_PROPERTY_CREATE_Q_H(QSize, IconSize)
 public:
     explicit ElaAppBar(QWidget* parent = nullptr);
     ~ElaAppBar();
@@ -95,9 +97,11 @@ Q_SIGNALS:
     Q_SIGNAL void maxButtonClicked();
     Q_SIGNAL void closeButtonClicked();
     Q_SIGNAL void customWidgetChanged();
-
+    Q_SIGNAL void languageChanged();
 protected:
-    virtual bool eventFilter(QObject* obj, QEvent* event) override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
+    void changeEvent(QEvent* event) override;
+    virtual void doChangeUILanguage() {};
 };
 
 #endif // ELAAPPBAR_H
