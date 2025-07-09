@@ -25,7 +25,6 @@ ElaToolTip::ElaToolTip(QWidget* parent)
     {
         parent->installEventFilter(d);
     }
-
     setAttribute(Qt::WA_TransparentForMouseEvents);
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::Tool | Qt::FramelessWindowHint);
