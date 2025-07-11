@@ -74,6 +74,7 @@ ElaSuggestBox::ElaSuggestBox(QWidget* parent)
     d->_searchViewBaseWidget->hide();
     connect(d->_searchEdit, &ElaLineEdit::textEdited, d, &ElaSuggestBoxPrivate::onSearchEditTextEdit);
     connect(d->_searchEdit, &ElaLineEdit::focusIn, d, &ElaSuggestBoxPrivate::onSearchEditTextEdit);
+    connect(d->_searchEdit, &ElaLineEdit::returnPressed, this, &ElaSuggestBox::suggestionReturnPressed );
     connect(d->_searchEdit, &ElaLineEdit::editingFinished, this, &ElaSuggestBox::suggestionEditingFinished );
     connect(d->_searchView, &ElaBaseListView::clicked, d, &ElaSuggestBoxPrivate::onSearchViewClicked);
 

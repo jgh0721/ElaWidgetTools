@@ -29,6 +29,7 @@ public:
     QString text() const;
     void clearText();
 Q_SIGNALS:
+    Q_SIGNAL void suggestionReturnPressed();
     Q_SIGNAL void suggestionEditingFinished();
     Q_SIGNAL void suggestionClicked(const QString& suggestText, const QVariantMap& suggestData);
 };
