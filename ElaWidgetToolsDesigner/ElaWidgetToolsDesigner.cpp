@@ -17,6 +17,7 @@
 #include "ElaCalendarPicker.h"
 #include "ElaCheckBox.h"
 #include "ElaComboBox.h"
+#include "ElaCentralStackedWidget.h"
 
 #include "ElaDockWidget.h"
 #include "ElaDoubleSpinBox.h"
@@ -96,6 +97,7 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaCalendarPickerPlugin(this)
     << new ElaCheckBoxPlugin(this)
     << new ElaComboBoxPlugin(this)
+    << new ElaCentralStackedWidgetPlugin(this)
 
     << new ElaDockWidgetPlugin(this)
     << new ElaDoubleSpinBoxPlugin(this)
@@ -261,6 +263,20 @@ DEFINE_BASE_IS_CONTAINER(ElaComboBox, false )
 QString ElaComboBoxPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaComboBox");
+    return createWidgetXml( className, className.toLower(), QSize( 100, 22 ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaCentralStackedWidget)
+DEFINE_BASE_ICON( ElaCentralStackedWidget, ElaIcon::getInstance()->getElaIcon( ElaIconType::BoxesStacked ) )
+DEFINE_BASE_WHATS_THIS(ElaCentralStackedWidget, "ElaCentralStackedWidget on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaCentralStackedWidget, true )
+
+QString ElaCentralStackedWidgetPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaCentralStackedWidget");
     return createWidgetXml( className, className.toLower(), QSize( 100, 22 ) );
 }
 
