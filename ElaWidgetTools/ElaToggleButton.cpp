@@ -148,6 +148,6 @@ void ElaToggleButton::paintEvent(QPaintEvent* event)
 
     //文字绘制
     painter.setPen(isEnabled() ? d->_isToggled ? ElaThemeColor(d->_themeMode, BasicTextInvert) : ElaThemeColor(d->_themeMode, BasicText) : ElaThemeColor(d->_themeMode, BasicTextDisable));
-    painter.drawText(foregroundRect, Qt::AlignCenter, d->_pText);
+    painter.drawText(foregroundRect, Qt::AlignCenter | Qt::TextHideMnemonic, d->_pText);
     painter.restore();
 }

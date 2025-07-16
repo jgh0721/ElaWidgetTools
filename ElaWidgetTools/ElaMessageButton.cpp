@@ -107,6 +107,6 @@ void ElaMessageButton::paintEvent(QPaintEvent* event)
 
     //文字绘制
     painter.setPen(isEnabled() ? d->_isLeftButtonPress ? ElaThemeColor(d->_themeMode, BasicTextPress) : ElaThemeColor(d->_themeMode, BasicText) : ElaThemeColor(d->_themeMode, BasicTextDisable));
-    painter.drawText(rect(), Qt::AlignCenter, text());
+    painter.drawText(rect(), Qt::AlignCenter | Qt::TextHideMnemonic, text());
     painter.restore();
 }

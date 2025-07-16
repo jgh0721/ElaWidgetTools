@@ -285,12 +285,12 @@ void ElaToolButtonStyle::_drawText(QPainter* painter, QRect contentRect, const Q
         case Qt::ToolButtonTextOnly:
         {
             contentRect.setLeft(contentRect.left() + _contentMargin);
-            painter->drawText(contentRect, Qt::AlignLeft | Qt::AlignVCenter, bopt->text);
+            painter->drawText(contentRect, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextHideMnemonic, bopt->text);
             break;
         }
         case Qt::ToolButtonTextBesideIcon:
         {
-            painter->drawText(QRect(contentRect.x() + _contentMargin * 2 + bopt->iconSize.width(), contentRect.y(), contentRect.width() - bopt->iconSize.width(), contentRect.height()), Qt::AlignLeft | Qt::AlignVCenter, bopt->text);
+            painter->drawText(QRect(contentRect.x() + _contentMargin * 2 + bopt->iconSize.width(), contentRect.y(), contentRect.width() - bopt->iconSize.width(), contentRect.height()), Qt::AlignLeft | Qt::AlignVCenter | Qt::TextHideMnemonic, bopt->text);
             break;
         }
         case Qt::ToolButtonTextUnderIcon:
@@ -298,11 +298,11 @@ void ElaToolButtonStyle::_drawText(QPainter* painter, QRect contentRect, const Q
             if (bopt->features.testFlag(QStyleOptionToolButton::HasMenu) && !bopt->features.testFlag(QStyleOptionToolButton::MenuButtonPopup))
             {
                 contentRect.setLeft(contentRect.left() + _contentMargin);
-                painter->drawText(contentRect, Qt::AlignBottom | Qt::AlignLeft, bopt->text);
+                painter->drawText(contentRect, Qt::AlignBottom | Qt::AlignLeft | Qt::TextHideMnemonic, bopt->text);
             }
             else
             {
-                painter->drawText(contentRect, Qt::AlignBottom | Qt::AlignHCenter, bopt->text);
+                painter->drawText(contentRect, Qt::AlignBottom | Qt::AlignHCenter | Qt::TextHideMnemonic, bopt->text);
             }
             break;
         }

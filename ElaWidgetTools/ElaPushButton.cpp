@@ -123,6 +123,6 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
     }
     //文字绘制
     painter.setPen(isEnabled() ? d->_themeMode == ElaThemeType::Light ? d->_lightTextColor : d->_darkTextColor : ElaThemeColor(d->_themeMode, BasicTextDisable));
-    painter.drawText(foregroundRect, Qt::AlignCenter, text());
+    painter.drawText(foregroundRect, Qt::AlignCenter | Qt::TextHideMnemonic, text());
     painter.restore();
 }
