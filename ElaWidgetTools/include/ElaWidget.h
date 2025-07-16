@@ -58,7 +58,7 @@ public:
 private:
     void                                            closeDialog( int r );
 public slots:
-    bool                                            Refresh() { doRefresh(); };
+    bool                                            Refresh() { return doRefresh(); };
     int                                             ResultCode() const;
     void                                            SetResultCode(QDialog::DialogCode resultCode);
     void                                            CloseUI();
