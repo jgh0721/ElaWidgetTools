@@ -14,6 +14,7 @@ ElaContentDialogPrivate::~ElaContentDialogPrivate()
 void ElaContentDialogPrivate::_doCloseAnimation(bool isAccept)
 {
     Q_Q(ElaContentDialog);
-    _maskWidget->doMaskAnimation(0);
+    if( _maskWidget != nullptr )
+        _maskWidget->doMaskAnimation(0);
     isAccept ? q->accept() : q->reject();
 }

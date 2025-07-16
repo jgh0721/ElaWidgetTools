@@ -22,10 +22,13 @@ ElaContentDialog::ElaContentDialog(QWidget* parent)
     Q_D(ElaContentDialog);
     d->q_ptr = this;
 
-    d->_maskWidget = new ElaMaskWidget(parent);
-    d->_maskWidget->move(0, 0);
-    d->_maskWidget->setFixedSize(parent->size());
-    d->_maskWidget->setVisible(false);
+    if( parent != nullptr )
+    {
+        d->_maskWidget = new ElaMaskWidget(parent);
+        d->_maskWidget->move(0, 0);
+        d->_maskWidget->setFixedSize(parent->size());
+        d->_maskWidget->setVisible(false);
+    }
 
     resize(400, height());
     setWindowModality(Qt::ApplicationModal);
@@ -37,30 +40,37 @@ ElaContentDialog::ElaContentDialog(QWidget* parent)
 #else
     window()->setWindowFlags((window()->windowFlags()) | Qt::FramelessWindowHint);
 #endif
-    d->_leftButton = new ElaPushButton("cancel", this);
+    d->_leftButton = new ElaPushButton(tr("cancel"), this);
     connect(d->_leftButton, &ElaPushButton::clicked, this, [=]() {
-        Q_EMIT leftButtonClicked();
+        bool isClose = true;
+        Q_EMIT leftButtonClicked(&isClose);
         onLeftButtonClicked();
-        d->_doCloseAnimation(false);
+        if(isClose == true)
+            d->_doCloseAnimation(false);
     });
     d->_leftButton->setMinimumSize(0, 0);
     d->_leftButton->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
     d->_leftButton->setFixedHeight(38);
     d->_leftButton->setBorderRadius(6);
-    d->_middleButton = new ElaPushButton("minimum", this);
+    d->_middleButton = new ElaPushButton(tr("minimum"), this);
     connect(d->_middleButton, &ElaPushButton::clicked, this, [=]() {
-        Q_EMIT middleButtonClicked();
+        bool isClose = false;
+        Q_EMIT middleButtonClicked(&isClose);
         onMiddleButtonClicked();
-    });
+        if( isClose == true)
+            d->_doCloseAnimation(false);
+        });
     d->_middleButton->setMinimumSize(0, 0);
     d->_middleButton->setMaximumSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
     d->_middleButton->setFixedHeight(38);
     d->_middleButton->setBorderRadius(6);
-    d->_rightButton = new ElaPushButton("exit", this);
+    d->_rightButton = new ElaPushButton(tr("exit"), this);
     connect(d->_rightButton, &ElaPushButton::clicked, this, [=]() {
-        Q_EMIT rightButtonClicked();
+        bool isClose = true;
+        Q_EMIT rightButtonClicked(&isClose);
         onRightButtonClicked();
-        d->_doCloseAnimation(true);
+        if(isClose == true)
+            d->_doCloseAnimation(true);
     });
     d->_rightButton->setLightDefaultColor(ElaThemeColor(ElaThemeType::Light, PrimaryNormal));
     d->_rightButton->setLightHoverColor(ElaThemeColor(ElaThemeType::Light, PrimaryHover));
@@ -80,8 +90,10 @@ ElaContentDialog::ElaContentDialog(QWidget* parent)
     centralVLayout->setContentsMargins(15, 25, 15, 10);
     d->_defTitle = new ElaText(tr("退出"), this);
     d->_defTitle->setTextStyle(ElaTextType::Title);
+    d->_defTitle->setIsWrapAnywhere(false);
     d->_defSubTitle = new ElaText(tr("确定要退出程序吗"), this);
     d->_defSubTitle->setTextStyle(ElaTextType::Body);
+    d->_defSubTitle->setIsWrapAnywhere(false);
     centralVLayout->addWidget(d->_defTitle);
     centralVLayout->addSpacing(2);
     centralVLayout->addWidget(d->_defSubTitle);
@@ -102,6 +114,8 @@ ElaContentDialog::ElaContentDialog(QWidget* parent)
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         d->_themeMode = themeMode;
     });
+
+    adjustSize();
 }
 
 ElaContentDialog::~ElaContentDialog()
@@ -145,6 +159,24 @@ ElaText* ElaContentDialog::getDefaultSubTitle()
     return d->_defSubTitle;
 }
 
+ElaPushButton* ElaContentDialog::getLeftButton()
+{
+    Q_D(ElaContentDialog);
+    return d->_leftButton;
+}
+
+ElaPushButton* ElaContentDialog::getMiddleButton()
+{
+    Q_D(ElaContentDialog);
+    return d->_middleButton;
+}
+
+ElaPushButton* ElaContentDialog::getRightButton()
+{
+    Q_D(ElaContentDialog);
+    return d->_rightButton;
+}
+
 void ElaContentDialog::setLeftButtonText(QString text)
 {
     Q_D(ElaContentDialog);
@@ -172,10 +204,13 @@ void ElaContentDialog::close()
 void ElaContentDialog::showEvent(QShowEvent* event)
 {
     Q_D(ElaContentDialog);
-    d->_maskWidget->setVisible(true);
-    d->_maskWidget->raise();
-    d->_maskWidget->setFixedSize(parentWidget()->size());
-    d->_maskWidget->doMaskAnimation(90);
+    if( parentWidget() != nullptr)
+    {
+        d->_maskWidget->setVisible(true);
+        d->_maskWidget->raise();
+        d->_maskWidget->setFixedSize(parentWidget()->size());
+        d->_maskWidget->doMaskAnimation(90);
+    }
 #ifdef Q_OS_WIN
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))
     HWND hwnd = (HWND)d->_currentWinID;
