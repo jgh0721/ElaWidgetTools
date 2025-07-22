@@ -21,7 +21,7 @@ ElaWidgetBase::ElaWidgetBase( QWidget* parent, Qt::WindowFlags f )
     setWindowTitle( "ElaWidget" );
     setObjectName( "ElaWidget" );
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
-    setStyleSheet("#ElaWidget{background-color:transparent;}");
+    setStyleSheet("ElaWidget{background-color:transparent;}");
 #endif
 
     // 主题
@@ -100,9 +100,6 @@ ElaWidget::ElaWidget(QWidget* parent, Qt::WindowFlags f)
 
 ElaWidget::~ElaWidget()
 {
-    if( eventLoop_ && eventLoop_->isRunning() )
-        eventLoop_->quit();
-
     eApp->syncWindowDisplayMode(this, false);
 }
 
@@ -280,120 +277,6 @@ void ElaWidget::ResetAutoCloseTimer()
     }
 }
 
-void ElaWidget::accept()
-{
-    done( QDialog::Accepted );
-}
-
-void ElaWidget::done( int r )
-{
-    Q_ASSERT( eventLoop_ != nullptr );
-
-    QPointer<ElaWidget> guard(this);
-
-    closeDialog( r );
-
-    setResult( r );
-
-    if (!guard)
-        return;
-
-    if (eventLoop_ && eventLoop_->isRunning()) {
-        eventLoop_->quit();
-    }
-
-    int dialogCode = result();
-    if (dialogCode == QDialog::Accepted)
-        emit accepted();
-    else if (dialogCode == QDialog::Rejected)
-        emit rejected();
-
-    if (guard)
-        Q_EMIT finished(r);
-}
-
-int ElaWidget::exec()
-{
-    if( eventLoop_ != nullptr )
-    {
-        qWarning("QDialog::exec: Recursive call detected");
-        return -1;
-    }
-
-    const bool deleteOnClose = testAttribute(Qt::WA_DeleteOnClose);
-    setAttribute(Qt::WA_DeleteOnClose, false);
-
-    // d->resetModalitySetByOpen();
-
-    const bool wasShowModal = testAttribute(Qt::WA_ShowModal);
-    setAttribute(Qt::WA_ShowModal, true);
-    SetResultCode( static_cast<QDialog::DialogCode>(0));
-
-    show();
-
-    QPointer<ElaWidget> guard = this;
-    QEventLoop eventLoop;
-    eventLoop_ = &eventLoop;
-    (void) eventLoop.exec(QEventLoop::DialogExec);
-    if (guard.isNull())
-        return QDialog::Rejected;
-    eventLoop_ = nullptr;
-
-    setAttribute(Qt::WA_ShowModal, wasShowModal);
-
-    int res = ResultCode();
-    if (deleteOnClose)
-        delete this;
-    return res;
-}
-
-void ElaWidget::reject()
-{
-    done( QDialog::Rejected );
-}
-
-int ElaWidget::result()
-{
-    return resultCode_;
-}
-
-void ElaWidget::setResult( int result )
-{
-    resultCode_ = result;
-}
-
-void ElaWidget::closeDialog( int r )
-{
-    setResult(r);
-
-    // if (!data.is_closing) {
-    //     // Until Qt 6.3 we didn't close dialogs, so they didn't receive a QCloseEvent.
-    //     // It is likely that subclasses implement closeEvent and handle them as rejection
-    //     // (like QMessageBox and QProgressDialog do), so eat those events.
-    //     struct CloseEventEater : QObject
-    //     {
-    //         using QObject::QObject;
-    //     protected:
-    //         bool eventFilter(QObject *o, QEvent *e) override
-    //         {
-    //             if (e->type() == QEvent::Close)
-    //                 return true;
-    //             return QObject::eventFilter(o, e);
-    //         }
-    //     } closeEventEater;
-    //     installEventFilter(&closeEventEater);
-    //     QWidgetPrivate::close();
-    // } else {
-        // If the close was initiated outside of QDialog we will end up
-        // here via QDialog::closeEvent calling reject(), in which case
-        // we need to hide the dialog to ensure QDialog::closeEvent does
-        // not ignore the close event. FIXME: Why is QDialog doing this?
-        hide();
-    // }
-
-    // resetModalitySetByOpen();
-}
-
 int ElaWidget::ResultCode() const
 {
     return resultCode_;
@@ -406,10 +289,7 @@ void ElaWidget::SetResultCode( QDialog::DialogCode resultCode )
 
 void ElaWidget::CloseUI()
 {
-    if( eventLoop_ != nullptr )
-        reject();
-    else
-        close();
+    close();
 }
 
 void ElaWidget::ShowUI()
@@ -417,13 +297,6 @@ void ElaWidget::ShowUI()
     raise();
     activateWindow();
     show();
-}
-
-int ElaWidget::ExecUI()
-{
-    raise();
-    activateWindow();
-    return exec();
 }
 
 void ElaWidget::HideUI()
@@ -494,27 +367,4 @@ void ElaWidget::paintEvent(QPaintEvent* event)
         painter.restore();
     }
     QWidget::paintEvent(event);
-}
-
-void ElaWidget::closeEvent( QCloseEvent* event )
-{
-    if( eventLoop_ != nullptr )
-    {
-        reject();
-        event->accept();
-    }
-    else
-    {
-        QWidget::closeEvent( event );
-    }
-}
-
-void ElaWidget::hideEvent( QHideEvent* event )
-{
-    QWidget::hideEvent( event );
-
-    // 이벤트 루프 종료
-    if (eventLoop_ && eventLoop_->isRunning()) {
-        eventLoop_->quit();
-    }
 }

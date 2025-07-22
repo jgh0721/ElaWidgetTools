@@ -165,3 +165,9 @@ void ElaSuggestBox::clearText()
     Q_D(ElaSuggestBox);
     d->_searchEdit->clear();
 }
+
+ElaLineEdit* ElaSuggestBox::lineEdit() const
+{
+    Q_D(const ElaSuggestBox);
+    return d->_searchEdit;
+}

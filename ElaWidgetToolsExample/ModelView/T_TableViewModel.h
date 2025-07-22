@@ -14,11 +14,12 @@ public:
 
     QVariant data(const QModelIndex& index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
-
+    Qt::ItemFlags flags(const QModelIndex& index) const override;
 private:
     QStringList _header;
     QList<QStringList> _dataList;
     QList<QIcon> _iconList;
+    QList<Qt::CheckState> _checkStateList;
 };
 
 #endif // T_TABLEVIEWMODEL_H

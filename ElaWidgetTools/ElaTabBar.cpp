@@ -13,7 +13,7 @@ ElaTabBar::ElaTabBar(QWidget* parent)
     Q_D(ElaTabBar);
     d->q_ptr = this;
     setObjectName("ElaTabBar");
-    setStyleSheet("#ElaTabBar{background-color:transparent;}");
+    setStyleSheet("ElaTabBar{background-color:transparent;}");
     setTabsClosable(true);
     setMovable(true);
     setAcceptDrops(true);

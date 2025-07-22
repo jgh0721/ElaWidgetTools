@@ -49,21 +49,12 @@ public:
     int                                             GetAutoCloseTimer();
     void                                            ResetAutoCloseTimer();
 
-    Q_INVOKABLE virtual void                        accept();
-    Q_INVOKABLE virtual void                        done( int result );
-    Q_INVOKABLE virtual int                         exec();
-    Q_INVOKABLE virtual void                        reject();
-    int                                             result();
-    void                                            setResult( int result );
-private:
-    void                                            closeDialog( int r );
 public slots:
     bool                                            Refresh() { return doRefresh(); };
     int                                             ResultCode() const;
     void                                            SetResultCode(QDialog::DialogCode resultCode);
     void                                            CloseUI();
     void                                            ShowUI();
-    int                                             ExecUI();
     void                                            HideUI();
 
 Q_SIGNALS:
@@ -73,10 +64,6 @@ Q_SIGNALS:
     Q_SIGNAL void closeButtonClicked();
     Q_SIGNAL void languageChanged();
 
-    // exec 로 실행된 후, accept, done, reject 등이 호출되었을 때 발생한다.
-    Q_SIGNAL void accepted();
-    Q_SIGNAL void finished(int result);
-    Q_SIGNAL void rejected();
 protected:
     void showEvent(QShowEvent* event) override;
     bool _isInitUI = false;
@@ -84,7 +71,6 @@ protected:
     virtual bool doRefresh() { return true; }
     virtual void showEventUI( QShowEvent* event) {};
     int resultCode_ = QDialog::Rejected;
-    QPointer<QEventLoop> eventLoop_;
     void changeEvent(QEvent* event) override;
     virtual void doChangeUILanguage() {};
     Q_INVOKABLE void                                slotAutoCloseTimer();
@@ -98,8 +84,6 @@ protected:
     int                                             _nAutoCloseIntervalMs = 0;
 
     void paintEvent(QPaintEvent* event) override;
-    void closeEvent(QCloseEvent* event) override;
-    void hideEvent(QHideEvent* event) override;
 };
 
 #endif // ELAWIDGET_H

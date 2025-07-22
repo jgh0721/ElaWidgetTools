@@ -14,9 +14,9 @@ ElaTableWidget::ElaTableWidget( QWidget* parent )
     Q_D( ElaTableWidget );
     d->q_ptr = this;
     setMouseTracking( true );
-    setObjectName( "ElaTableView" );
+    setObjectName( "ElaTableWidget" );
     setStyleSheet(
-        "#ElaTableView{background-color:transparent;}"
+        "ElaTableWidget{background-color:transparent;}"
         "QHeaderView{background-color:transparent;border:0px;}" );
     setShowGrid( false );
     setVerticalScrollBar( new ElaScrollBar( this ) );

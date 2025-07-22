@@ -37,7 +37,7 @@ ElaPushButton::ElaPushButton(QWidget* parent)
     font.setPixelSize(15);
     setFont(font);
     setObjectName("ElaPushButton");
-    setStyleSheet("#ElaPushButton{background-color:transparent;}");
+    setStyleSheet("ElaPushButton{background-color:transparent;}");
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         d->_themeMode = themeMode;
     });

@@ -64,6 +64,16 @@ T_TableViewModel::T_TableViewModel(QObject* parent)
     _dataList.append(data7);
     _dataList.append(data8);
 
+    _checkStateList.append(Qt::Unchecked);
+    _checkStateList.append(Qt::Unchecked);
+    _checkStateList.append(Qt::Unchecked);
+    _checkStateList.append(Qt::Unchecked);
+    _checkStateList.append(Qt::Unchecked);
+    _checkStateList.append(Qt::Unchecked);
+    _checkStateList.append(Qt::Unchecked);
+    _checkStateList.append(Qt::Unchecked);
+    _checkStateList.append(Qt::Unchecked);
+
     _iconList.append(QIcon(QPixmap(":/Resource/Image/Model/NaightNavigationStar.jpg").scaled(38, 38, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     _iconList.append(QIcon(QPixmap(":/Resource/Image/Model/MaVieEnRose.jpg").scaled(38, 38, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     _iconList.append(QIcon(QPixmap(":/Resource/Image/Model/CollapsingWorld.jpg").scaled(38, 38, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
@@ -99,6 +109,10 @@ QVariant T_TableViewModel::data(const QModelIndex& index, int role) const
     {
         return _iconList[index.row() % 9];
     }
+    else if ( role == Qt::CheckStateRole && index.column() == 0)
+    {
+        return _checkStateList[index.row() % 9];
+    }
     else if (role == Qt::DecorationPropertyRole)
     {
         return Qt::AlignCenter;
@@ -117,4 +131,9 @@ QVariant T_TableViewModel::headerData(int section, Qt::Orientation orientation, 
         return _header[section];
     }
     return QAbstractTableModel::headerData(section, orientation, role);
+}
+
+Qt::ItemFlags T_TableViewModel::flags( const QModelIndex& index ) const
+{
+    return QAbstractTableModel::flags( index ) | Qt::ItemIsUserCheckable;
 }

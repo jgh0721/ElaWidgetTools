@@ -2,6 +2,7 @@
 #define ELATOGGLEBUTTON_H
 
 #include <QPushButton>
+#include <QColor>
 
 #include "stdafx.h"
 class ElaToggleButtonPrivate;
@@ -11,6 +12,20 @@ class ELA_EXPORT ElaToggleButton : public QWidget
     Q_Q_CREATE(ElaToggleButton)
     Q_PROPERTY_CREATE_Q_H(int, BorderRadius)
     Q_PROPERTY_CREATE_Q_H(QString, Text)
+    Q_PROPERTY_CREATE_Q_H(QColor, TextColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, TextSelectedColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, TextDisabledColor)
+
+    Q_PROPERTY_CREATE_Q_H(QColor, BackgroundColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, BackgroundPressedColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, BackgroundHighlightedColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, BackgroundDisabledColor)
+
+    Q_PROPERTY_CREATE_Q_H(QColor, SelectedBackgroundColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, SelectedBackgroundPressedColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, SelectedBackgroundHighlightedColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, SelectedBackgroundDisabledColor)
+
 public:
     explicit ElaToggleButton(QWidget* parent = nullptr);
     explicit ElaToggleButton(QString text, QWidget* parent = nullptr);
@@ -26,6 +41,11 @@ protected:
     virtual void mousePressEvent(QMouseEvent* event) override;
     virtual void mouseReleaseEvent(QMouseEvent* event) override;
     virtual void paintEvent(QPaintEvent* event) override;
+
+private:
+    QColor retrieveTextColor();
+    QColor retrieveBackgroundColor();
+
 };
 
 #endif // ELATOGGLEBUTTON_H

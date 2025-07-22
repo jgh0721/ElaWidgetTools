@@ -67,6 +67,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_routeBackButton->setElaIcon(ElaIconType::ArrowLeft);
     d->_routeBackButton->setFixedSize(40, 30);
     d->_routeBackButton->setEnabled(false);
+
     // 路由跳转
     connect(d->_routeBackButton, &ElaIconButton::clicked, this, &ElaAppBar::routeBackButtonClicked);
 
@@ -154,6 +155,8 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_closeButton->setDarkHoverColor(QColor(0xE8, 0x11, 0x23));
     d->_closeButton->setLightHoverIconColor(Qt::white);
     d->_closeButton->setDarkHoverIconColor(Qt::white);
+    d->_closeButton->setDefault( false );
+    d->_closeButton->setAutoDefault( false );
     connect(d->_closeButton, &ElaIconButton::clicked, d, &ElaAppBarPrivate::onCloseButtonClicked);
 
     d->_mainLayout = new QHBoxLayout(this);

@@ -186,26 +186,51 @@ void ElaTableViewStyle::drawControl(ControlElement element, const QStyleOption* 
             QRect itemRect = option->rect;
             painter->save();
             painter->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform | QPainter::TextAntialiasing);
-            // QRect checkRect = proxy()->subElementRect(SE_ItemViewItemCheckIndicator, vopt, widget);
+            QRect checkRect = proxy()->subElementRect(SE_ItemViewItemCheckIndicator, vopt, widget);
             QRect iconRect = proxy()->subElementRect(SE_ItemViewItemDecoration, vopt, widget);
             QRect textRect = proxy()->subElementRect(SE_ItemViewItemText, vopt, widget);
-            if (vopt->index.column() == 0)
+            // if (vopt->index.column() == 0)
+            // {
+            //     checkRect.adjust(_horizontalPadding, 1, _horizontalPadding, 0);
+            //     iconRect.adjust(_horizontalPadding, 0, _horizontalPadding, 0);
+            //     textRect.adjust(_horizontalPadding, 0, 0, 0);
+            // }
+            if (checkRect.isValid())
             {
-                iconRect.adjust(_horizontalPadding, 0, _horizontalPadding, 0);
-                textRect.adjust(_horizontalPadding, 0, 0, 0);
+                painter->save();
+                //图标绘制
+                if (vopt->checkState == Qt::Checked)
+                {
+                    painter->setPen(Qt::NoPen);
+                    painter->setBrush(ElaThemeColor(_themeMode, PrimaryNormal));
+                    painter->drawRoundedRect(checkRect, 2, 2);
+                    QFont iconFont = QFont("ElaAwesome");
+                    iconFont.setPixelSize(checkRect.width() * 0.85);
+                    painter->setFont(iconFont);
+                    painter->setPen(ElaThemeColor(ElaThemeType::Dark, BasicText));
+                    painter->drawText(checkRect, Qt::AlignCenter, QChar((unsigned short)ElaIconType::Check));
+                }
+                else if (vopt->checkState == Qt::PartiallyChecked)
+                {
+                    painter->setPen(Qt::NoPen);
+                    painter->setBrush(ElaThemeColor(_themeMode, PrimaryNormal));
+                    painter->drawRoundedRect(checkRect, 2, 2);
+                    painter->setPen(ElaThemeColor(ElaThemeType::Dark, BasicText));
+                    QLine checkLine(checkRect.x() + 3, checkRect.center().y(), checkRect.right() - 3, checkRect.center().y());
+                    painter->drawLine(checkLine);
+                }
+                else
+                {
+                    painter->setPen(QPen(ElaThemeColor(_themeMode, BasicBorderDeep), 1.2));
+                    painter->setBrush(Qt::transparent);
+                    painter->drawRoundedRect(checkRect, 2, 2);
+                }
+                painter->restore();
             }
             // 图标绘制
             if (!vopt->icon.isNull())
             {
                 QIcon::Mode mode = QIcon::Normal;
-                // if (!(vopt->state.testFlag(QStyle::State_Enabled)))
-                // {
-                //     mode = QIcon::Disabled;
-                // }
-                // else if (vopt->state.testFlag(QStyle::State_Selected))
-                // {
-                //     mode = QIcon::Selected;
-                // }
                 QIcon::State state = vopt->state & QStyle::State_Open ? QIcon::On : QIcon::Off;
                 vopt->icon.paint(painter, iconRect, vopt->decorationAlignment, mode, state);
             }
@@ -253,4 +278,55 @@ int ElaTableViewStyle::pixelMetric(PixelMetric metric, const QStyleOption* optio
     }
     }
     return QProxyStyle::pixelMetric(metric, option, widget);
+}
+
+QRect ElaTableViewStyle::subElementRect( SubElement element, const QStyleOption* option, const QWidget* widget ) const
+{
+    switch (element)
+    {
+        case QStyle::SE_ItemViewItemCheckIndicator:
+        {
+            if (const QStyleOptionViewItem* vopt = qstyleoption_cast<const QStyleOptionViewItem*>(option))
+            {
+                if (vopt->viewItemPosition != QStyleOptionViewItem::Middle && vopt->viewItemPosition != QStyleOptionViewItem::End)
+                {
+                    QRect indicatorRect = QProxyStyle::subElementRect(element, option, widget);
+                    indicatorRect.adjust(_horizontalPadding, 0, _horizontalPadding, 0);
+                    return indicatorRect;
+                }
+            }
+            break;
+        }
+        case QStyle::SE_ItemViewItemDecoration:
+        {
+            if (const QStyleOptionViewItem* vopt = qstyleoption_cast<const QStyleOptionViewItem*>(option))
+            {
+                if (vopt->viewItemPosition != QStyleOptionViewItem::Middle && vopt->viewItemPosition != QStyleOptionViewItem::End)
+                {
+                    QRect iconRect = QProxyStyle::subElementRect(element, option, widget);
+                    iconRect.adjust(_horizontalPadding + 5, 0, _horizontalPadding + 5, 0);
+                    return iconRect;
+                }
+            }
+            break;
+        }
+        case QStyle::SE_ItemViewItemText:
+        {
+            if (const QStyleOptionViewItem* vopt = qstyleoption_cast<const QStyleOptionViewItem*>(option))
+            {
+                if (vopt->viewItemPosition != QStyleOptionViewItem::Middle && vopt->viewItemPosition != QStyleOptionViewItem::End)
+                {
+                    QRect textRect = QProxyStyle::subElementRect(element, option, widget);
+                    textRect.adjust(_horizontalPadding + 10, 0, 0, 0);
+                    return textRect;
+                }
+            }
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+    return QProxyStyle::subElementRect( element, option, widget );
 }

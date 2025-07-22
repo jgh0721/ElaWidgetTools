@@ -9,7 +9,7 @@ ElaTreeWidget::ElaTreeWidget( QWidget* parent )
 {
     Q_D( ElaTreeWidget );
     d->q_ptr = this;
-    setObjectName( "ElaTreeView" );
+    setObjectName( "ElaTreeWidget" );
     setStyleSheet(
         "ElaTreeWidget{background-color:transparent;}"
         "QHeaderView{background-color:transparent;border:0px;}" );

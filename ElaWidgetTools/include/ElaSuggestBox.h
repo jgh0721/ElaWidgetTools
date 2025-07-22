@@ -7,6 +7,7 @@
 #include "Def.h"
 #include "stdafx.h"
 
+class ElaLineEdit;
 class ElaSuggestBoxPrivate;
 class ELA_EXPORT ElaSuggestBox : public QWidget
 {
@@ -28,6 +29,8 @@ public:
 
     QString text() const;
     void clearText();
+    ElaLineEdit* lineEdit() const;
+
 Q_SIGNALS:
     Q_SIGNAL void suggestionReturnPressed();
     Q_SIGNAL void suggestionEditingFinished();

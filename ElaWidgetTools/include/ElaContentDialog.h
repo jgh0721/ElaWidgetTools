@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 
+class ElaPushButton;
 class ElaText;
 class ElaContentDialogPrivate;
 class ELA_EXPORT ElaContentDialog : public QDialog
@@ -12,7 +13,7 @@ class ELA_EXPORT ElaContentDialog : public QDialog
     Q_OBJECT
     Q_Q_CREATE(ElaContentDialog)
 public:
-    explicit ElaContentDialog(QWidget* parent);
+    explicit ElaContentDialog(QWidget* parent = nullptr);
     ~ElaContentDialog() override;
     Q_SLOT virtual void onLeftButtonClicked();
     Q_SLOT virtual void onMiddleButtonClicked();
@@ -22,15 +23,19 @@ public:
     ElaText* getDefaultTitle();
     ElaText* getDefaultSubTitle();
 
+    ElaPushButton* getLeftButton();
+    ElaPushButton* getMiddleButton();
+    ElaPushButton* getRightButton();
+
     void setLeftButtonText(QString text);
     void setMiddleButtonText(QString text);
     void setRightButtonText(QString text);
 
     void close();
 Q_SIGNALS:
-    Q_SIGNAL void leftButtonClicked();
-    Q_SIGNAL void middleButtonClicked();
-    Q_SIGNAL void rightButtonClicked();
+    Q_SIGNAL void leftButtonClicked( bool* isClose = nullptr );
+    Q_SIGNAL void middleButtonClicked( bool* isClose = nullptr );
+    Q_SIGNAL void rightButtonClicked( bool* isClose = nullptr );
 
 protected:
     virtual void showEvent(QShowEvent* event) override;

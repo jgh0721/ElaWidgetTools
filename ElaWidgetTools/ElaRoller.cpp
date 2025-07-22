@@ -20,7 +20,7 @@ ElaRoller::ElaRoller(QWidget* parent)
     setFixedSize(90, 175);
     setMouseTracking(true);
     setObjectName("ElaRoller");
-    setStyleSheet("#ElaRoller{background-color:transparent;}");
+    setStyleSheet("ElaRoller{background-color:transparent;}");
     QFont font = this->font();
     font.setPixelSize(16);
     setFont(font);

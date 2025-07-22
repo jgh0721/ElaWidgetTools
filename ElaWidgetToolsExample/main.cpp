@@ -2,6 +2,7 @@
 #include <QScreen>
 
 #include "ElaApplication.h"
+#include "ElaDialog.h"
 #include "mainwindow.h"
 #ifdef Q_OS_WIN
 #include <Windows.h>
@@ -20,6 +21,10 @@ int main(int argc, char* argv[])
 #endif
     QApplication a(argc, argv);
     eApp->init();
+
+    auto Di = new ElaDialog;
+    Di->exec();
+
     MainWindow w;
     w.show();
 #ifdef Q_OS_WIN
