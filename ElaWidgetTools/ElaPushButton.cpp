@@ -16,6 +16,10 @@ Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightPressColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkPressColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightTextColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkTextColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightDisabledTextColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkDisabledTextColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightDisabledColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkDisabledColor)
 ElaPushButton::ElaPushButton(QWidget* parent)
     : QPushButton(parent), d_ptr(new ElaPushButtonPrivate())
 {
@@ -33,6 +37,10 @@ ElaPushButton::ElaPushButton(QWidget* parent)
     d->_pDarkPressColor = ElaThemeColor(ElaThemeType::Dark, BasicPress);
     d->_pLightTextColor = ElaThemeColor(ElaThemeType::Light, BasicText);
     d->_pDarkTextColor = ElaThemeColor(ElaThemeType::Dark, BasicText);
+    d->_pLightDisabledTextColor = ElaThemeColor(ElaThemeType::Light, BasicTextDisable);
+    d->_pDarkDisabledTextColor = ElaThemeColor(ElaThemeType::Dark, BasicTextDisable);
+    d->_pLightDisabledColor = ElaThemeColor(ElaThemeType::Light, BasicDisable);
+    d->_pDarkDisabledColor = ElaThemeColor(ElaThemeType::Dark, BasicDisable);
     setMouseTracking(true);
     setFixedHeight(38);
     QFont font = this->font();
@@ -83,14 +91,12 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
     if (d->_themeMode == ElaThemeType::Light)
     {
         painter.setPen(ElaThemeColor(ElaThemeType::Light, BasicBorder));
-        const auto DefaultColor = isDefault() == false ? d->_pLightAlternateColor : d->_pLightDefaultColor;
-        painter.setBrush(isEnabled() ? d->_isPressed ? d->_pLightPressColor : (underMouse() ? d->_pLightHoverColor : DefaultColor) : ElaThemeColor(d->_themeMode, BasicDisable));
+        painter.setBrush(retrieveBackgroundColor());
     }
     else
     {
         painter.setPen(Qt::NoPen);
-        const auto DefaultColor = isDefault() == false ? d->_pDarkAlternateColor : d->_pDarkDefaultColor;
-        painter.setBrush(isEnabled() ? d->_isPressed ? d->_pDarkPressColor : (underMouse() ? d->_pDarkHoverColor : DefaultColor) : ElaThemeColor(d->_themeMode, BasicDisable));
+        painter.setBrush(retrieveBackgroundColor());
     }
     painter.drawRoundedRect(foregroundRect, d->_pBorderRadius, d->_pBorderRadius);
     // 底边线绘制
@@ -100,7 +106,65 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
         painter.drawLine(foregroundRect.x() + d->_pBorderRadius, height() - d->_shadowBorderWidth, foregroundRect.width(), height() - d->_shadowBorderWidth);
     }
     //文字绘制
-    painter.setPen(isEnabled() ? d->_themeMode == ElaThemeType::Light ? d->_pLightTextColor : d->_pDarkTextColor : ElaThemeColor(d->_themeMode, BasicTextDisable));
+    painter.setPen(retrieveTextColor());
     painter.drawText(foregroundRect, Qt::AlignCenter | Qt::TextHideMnemonic, text());
     painter.restore();
+}
+
+QColor ElaPushButton::retrieveTextColor() const
+{
+    Q_D(const ElaPushButton);
+
+    if( d->_themeMode == ElaThemeType::Light )
+    {
+        if( isEnabled() == true )
+            return d->_pLightTextColor;
+
+        return d->_pLightDefaultColor;
+    }
+
+    if( isEnabled() == true )
+        return d->_pDarkTextColor;
+
+    return d->_pDarkDefaultColor;
+}
+
+QColor ElaPushButton::retrieveBackgroundColor() const
+{
+    Q_D(const ElaPushButton);
+
+    if( d->_themeMode == ElaThemeType::Light )
+    {
+        if( isEnabled() == true )
+        {
+            if( d->_isPressed == true )
+                return d->_pLightPressColor;
+
+            if( underMouse() == true )
+                return d->_pLightHoverColor;
+
+            if( isDefault() == true )
+                return d->_pLightDefaultColor;
+
+            return d->_pLightAlternateColor;
+        }
+
+        return d->_pLightDisabledColor;
+    }
+
+    if( isEnabled() == true )
+    {
+        if( d->_isPressed == true )
+            return d->_pDarkPressColor;
+
+        if( underMouse() == true )
+            return d->_pDarkHoverColor;
+
+        if( isDefault() == true )
+            return d->_pDarkDefaultColor;
+
+        return d->_pDarkAlternateColor;
+    }
+
+    return d->_pDarkDisabledColor;
 }
