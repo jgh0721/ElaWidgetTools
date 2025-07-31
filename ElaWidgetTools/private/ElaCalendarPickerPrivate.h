@@ -12,6 +12,7 @@ class ElaCalendarPickerPrivate : public QObject
     Q_OBJECT
     Q_D_CREATE(ElaCalendarPicker)
     Q_PROPERTY_CREATE_D(int, BorderRadius)
+    Q_PROPERTY_CREATE_D(QString, DateFormat)
 public:
     explicit ElaCalendarPickerPrivate(QObject* parent = nullptr);
     ~ElaCalendarPickerPrivate();

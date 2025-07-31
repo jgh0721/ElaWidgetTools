@@ -155,7 +155,7 @@ void ElaPlainTextEdit::contextMenuEvent(QContextMenuEvent* event)
     {
         menu->addSeparator();
     }
-    action = menu->addAction("全选");
+    action = menu->addAction(tr("全选"));
     action->setShortcut(QKeySequence::SelectAll);
     action->setEnabled(!toPlainText().isEmpty() && !(textCursor().selectedText() == toPlainText()));
     connect(action, &QAction::triggered, this, &ElaPlainTextEdit::selectAll);

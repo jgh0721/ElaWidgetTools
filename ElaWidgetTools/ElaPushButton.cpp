@@ -14,6 +14,8 @@ Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightHoverColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkHoverColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightPressColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkPressColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightTextColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkTextColor)
 ElaPushButton::ElaPushButton(QWidget* parent)
     : QPushButton(parent), d_ptr(new ElaPushButtonPrivate())
 {
@@ -29,8 +31,8 @@ ElaPushButton::ElaPushButton(QWidget* parent)
     d->_pDarkHoverColor = ElaThemeColor(ElaThemeType::Dark, BasicHover);
     d->_pLightPressColor = ElaThemeColor(ElaThemeType::Light, BasicPress);
     d->_pDarkPressColor = ElaThemeColor(ElaThemeType::Dark, BasicPress);
-    d->_lightTextColor = ElaThemeColor(ElaThemeType::Light, BasicText);
-    d->_darkTextColor = ElaThemeColor(ElaThemeType::Dark, BasicText);
+    d->_pLightTextColor = ElaThemeColor(ElaThemeType::Light, BasicText);
+    d->_pDarkTextColor = ElaThemeColor(ElaThemeType::Dark, BasicText);
     setMouseTracking(true);
     setFixedHeight(38);
     QFont font = this->font();
@@ -51,30 +53,6 @@ ElaPushButton::ElaPushButton(QString text, QWidget* parent)
 
 ElaPushButton::~ElaPushButton()
 {
-}
-
-void ElaPushButton::setLightTextColor(QColor color)
-{
-    Q_D(ElaPushButton);
-    d->_lightTextColor = color;
-}
-
-QColor ElaPushButton::getLightTextColor() const
-{
-    Q_D(const ElaPushButton);
-    return d->_lightTextColor;
-}
-
-void ElaPushButton::setDarkTextColor(QColor color)
-{
-    Q_D(ElaPushButton);
-    d->_darkTextColor = color;
-}
-
-QColor ElaPushButton::getDarkTextColor() const
-{
-    Q_D(const ElaPushButton);
-    return d->_darkTextColor;
 }
 
 void ElaPushButton::mousePressEvent(QMouseEvent* event)
@@ -122,7 +100,7 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
         painter.drawLine(foregroundRect.x() + d->_pBorderRadius, height() - d->_shadowBorderWidth, foregroundRect.width(), height() - d->_shadowBorderWidth);
     }
     //文字绘制
-    painter.setPen(isEnabled() ? d->_themeMode == ElaThemeType::Light ? d->_lightTextColor : d->_darkTextColor : ElaThemeColor(d->_themeMode, BasicTextDisable));
+    painter.setPen(isEnabled() ? d->_themeMode == ElaThemeType::Light ? d->_pLightTextColor : d->_pDarkTextColor : ElaThemeColor(d->_themeMode, BasicTextDisable));
     painter.drawText(foregroundRect, Qt::AlignCenter | Qt::TextHideMnemonic, text());
     painter.restore();
 }

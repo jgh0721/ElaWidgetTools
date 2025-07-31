@@ -100,6 +100,34 @@ QString ElaSuggestBox::getPlaceholderText() const
     return d->_searchEdit->placeholderText();
 }
 
+void ElaSuggestBox::setTextColor(QColor textColor)
+{
+    Q_D(ElaSuggestBox);
+    d->_searchEdit->setTextColor(textColor);
+    d->_pTextColor = std::move(textColor);
+    Q_EMIT pTextColorChanged();
+}
+
+QColor ElaSuggestBox::getTextColor() const
+{
+    Q_D(const ElaSuggestBox);
+    return d->_pTextColor;
+}
+
+void ElaSuggestBox::setPlaceHolderTextColor(QColor placeholderTextColor)
+{
+    Q_D(ElaSuggestBox);
+    d->_searchEdit->setPlaceHolderTextColor(placeholderTextColor);
+    d->_pPlaceHolderTextColor = std::move(placeholderTextColor);
+    Q_EMIT pPlaceHolderTextColorChanged();
+}
+
+QColor ElaSuggestBox::getPlaceHolderTextColor() const
+{
+    Q_D(const ElaSuggestBox);
+    return d->_pPlaceHolderTextColor;
+}
+
 QString ElaSuggestBox::addSuggestion(const QString& suggestText, const QVariantMap& suggestData)
 {
     Q_D(ElaSuggestBox);

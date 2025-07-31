@@ -3,6 +3,7 @@
 
 #include <QVariantMap>
 #include <QWidget>
+#include <QColor>
 
 #include "Def.h"
 #include "stdafx.h"
@@ -15,6 +16,8 @@ class ELA_EXPORT ElaSuggestBox : public QWidget
     Q_Q_CREATE(ElaSuggestBox)
     Q_PROPERTY_CREATE_Q_H(int, BorderRadius)
     Q_PROPERTY_CREATE_Q_H(Qt::CaseSensitivity, CaseSensitivity)
+    Q_PROPERTY_CREATE_Q_H(QColor, TextColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, PlaceHolderTextColor)
 public:
     explicit ElaSuggestBox(QWidget* parent = nullptr);
     ~ElaSuggestBox();

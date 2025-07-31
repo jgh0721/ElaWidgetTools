@@ -12,6 +12,9 @@ ElaCheckBoxStyle::ElaCheckBoxStyle(QStyle* style)
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         _themeMode = themeMode;
     });
+
+    _pLightTextColor = ElaThemeColor(ElaThemeType::Light, BasicText);
+    _pDarkTextColor = ElaThemeColor(ElaThemeType::Dark, BasicText);
 }
 
 ElaCheckBoxStyle::~ElaCheckBoxStyle()
@@ -91,7 +94,7 @@ void ElaCheckBoxStyle::drawControl(ControlElement element, const QStyleOption* o
                 painter->drawLine(checkLine);
             }
             //文字绘制
-            painter->setPen(isEnabled ? ElaThemeColor(_themeMode, BasicText) : ElaThemeColor(_themeMode, BasicTextDisable));
+            painter->setPen(isEnabled ? retrieveTextColor() : ElaThemeColor(_themeMode, BasicTextDisable));
             QRect textRect(checkRect.right() + 10, checkBoxRect.y(), checkBoxRect.width(), checkBoxRect.height() - 5);
             painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter | Qt::TextHideMnemonic, bopt->text);
             painter->restore();
@@ -130,4 +133,11 @@ int ElaCheckBoxStyle::pixelMetric(PixelMetric metric, const QStyleOption* option
     }
     }
     return QProxyStyle::pixelMetric(metric, option, widget);
+}
+
+QColor ElaCheckBoxStyle::retrieveTextColor() const
+{
+    if( _themeMode == ElaThemeType::Dark )
+        return _pDarkTextColor;
+    return _pLightTextColor;
 }

@@ -616,40 +616,43 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             {
                 if( left && top )
                 {
-                    *result = HTTOPLEFT;
+                    if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
+                        *result = HTTOPLEFT;
                 }
                 else if( left && bottom )
                 {
-                    if( !d->_pIsFixedHorizontalSize )
-                    *result = HTBOTTOMLEFT;
+                    if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
+                        *result = HTBOTTOMLEFT;
                 }
                 else if( right && top )
                 {
-                    *result = HTTOPRIGHT;
+                    if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
+                        *result = HTTOPRIGHT;
                 }
                 else if( right && bottom )
                 {
-                    if( !d->_pIsFixedHorizontalSize )
-                    *result = HTBOTTOMRIGHT;
+                    if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
+                        *result = HTBOTTOMRIGHT;
                 }
                 else if( left )
                 {
                     if( !d->_pIsFixedHorizontalSize )
-                    *result = HTLEFT;
+                        *result = HTLEFT;
                 }
                 else if( right )
                 {
                     if( !d->_pIsFixedHorizontalSize )
-                    *result = HTRIGHT;
+                        *result = HTRIGHT;
                 }
                 else if( top )
                 {
-                    *result = HTTOP;
+                    if( !d->_pIsFixedVerticalSize)
+                        *result = HTTOP;
                 }
                 else if( bottom )
                 {
                     if( !d->_pIsFixedVerticalSize )
-                    *result = HTBOTTOM;
+                        *result = HTBOTTOM;
                 }
             }
             if( 0 != *result )

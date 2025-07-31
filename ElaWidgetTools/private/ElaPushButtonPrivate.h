@@ -20,13 +20,13 @@ class ElaPushButtonPrivate : public QObject
     Q_PROPERTY_CREATE_D(QColor, DarkHoverColor)
     Q_PROPERTY_CREATE_D(QColor, LightPressColor)
     Q_PROPERTY_CREATE_D(QColor, DarkPressColor)
+    Q_PROPERTY_CREATE_D(QColor, LightTextColor)
+    Q_PROPERTY_CREATE_D(QColor, DarkTextColor)
 public:
     explicit ElaPushButtonPrivate(QObject* parent = nullptr);
     ~ElaPushButtonPrivate();
 
 private:
-    QColor _lightTextColor;
-    QColor _darkTextColor;
     bool _isPressed{false};
     int _shadowBorderWidth{3};
     ElaThemeType::ThemeMode _themeMode;

@@ -18,16 +18,12 @@ class ELA_EXPORT ElaPushButton : public QPushButton
     Q_PROPERTY_CREATE_Q_H(QColor, DarkHoverColor)
     Q_PROPERTY_CREATE_Q_H(QColor, LightPressColor)
     Q_PROPERTY_CREATE_Q_H(QColor, DarkPressColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, LightTextColor)
+    Q_PROPERTY_CREATE_Q_H(QColor, DarkTextColor)
 public:
     explicit ElaPushButton(QWidget* parent = nullptr);
     explicit ElaPushButton(QString text, QWidget* parent = nullptr);
     ~ElaPushButton();
-
-    void setLightTextColor(QColor color);
-    QColor getLightTextColor() const;
-
-    void setDarkTextColor(QColor color);
-    QColor getDarkTextColor() const;
 
 protected:
     virtual void mousePressEvent(QMouseEvent* event) override;

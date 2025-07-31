@@ -121,7 +121,8 @@ ElaContentDialog::ElaContentDialog(QWidget* parent)
 ElaContentDialog::~ElaContentDialog()
 {
     Q_D(ElaContentDialog);
-    d->_maskWidget->deleteLater();
+    if( d->_maskWidget )
+        d->_maskWidget->deleteLater();
 }
 
 void ElaContentDialog::onLeftButtonClicked()
@@ -204,7 +205,7 @@ void ElaContentDialog::close()
 void ElaContentDialog::showEvent(QShowEvent* event)
 {
     Q_D(ElaContentDialog);
-    if( parentWidget() != nullptr)
+    if( parentWidget() != nullptr && d->_maskWidget != nullptr)
     {
         d->_maskWidget->setVisible(true);
         d->_maskWidget->raise();

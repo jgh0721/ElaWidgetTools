@@ -8,6 +8,8 @@ class ElaCheckBoxStyle : public QProxyStyle
 {
     Q_OBJECT
     Q_PRIVATE_CREATE(int, CheckIndicatorWidth)
+    Q_PRIVATE_CREATE(QColor, LightTextColor)
+    Q_PRIVATE_CREATE(QColor, DarkTextColor)
 public:
     explicit ElaCheckBoxStyle(QStyle* style = nullptr);
     ~ElaCheckBoxStyle();
@@ -15,6 +17,7 @@ public:
     int pixelMetric(PixelMetric metric, const QStyleOption* option = nullptr, const QWidget* widget = nullptr) const override;
 
 private:
+    QColor retrieveTextColor() const;
     ElaThemeType::ThemeMode _themeMode;
 };
 

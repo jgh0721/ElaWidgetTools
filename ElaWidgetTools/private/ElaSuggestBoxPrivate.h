@@ -35,6 +35,8 @@ class ElaSuggestBoxPrivate : public QObject
     Q_D_CREATE(ElaSuggestBox)
     Q_PROPERTY_CREATE_D(int, BorderRadius)
     Q_PROPERTY_CREATE_D(Qt::CaseSensitivity, CaseSensitivity)
+    Q_PROPERTY_CREATE_D(QColor, TextColor)
+    Q_PROPERTY_CREATE_D(QColor, PlaceHolderTextColor)
 public:
     explicit ElaSuggestBoxPrivate(QObject* parent = nullptr);
     ~ElaSuggestBoxPrivate();

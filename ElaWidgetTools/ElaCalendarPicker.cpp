@@ -10,6 +10,7 @@
 #include "ElaCalendarPickerPrivate.h"
 #include "ElaTheme.h"
 Q_PROPERTY_CREATE_Q_CPP(ElaCalendarPicker, int, BorderRadius)
+Q_PROPERTY_CREATE_Q_CPP(ElaCalendarPicker, QString, DateFormat)
 ElaCalendarPicker::ElaCalendarPicker(QWidget* parent)
     : QPushButton{parent}, d_ptr(new ElaCalendarPickerPrivate())
 {
@@ -30,7 +31,7 @@ ElaCalendarPicker::ElaCalendarPicker(QWidget* parent)
 
     connect(d->_calendar, &ElaCalendar::pSelectedDateChanged, d, &ElaCalendarPickerPrivate::onCalendarSelectedDateChanged);
     setSelectedDate(QDate::currentDate());
-
+    d->_pDateFormat = "yyyy/MM/dd";
     d->_themeMode = eTheme->getThemeMode();
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) { d->_themeMode = themeMode; });
 }
@@ -52,6 +53,32 @@ QDate ElaCalendarPicker::getSelectedDate() const
     return d->_calendar->getSelectedDate();
 }
 
+void ElaCalendarPicker::setMinimumDate(QDate MinimumDate)
+{
+    Q_D(ElaCalendarPicker);
+    d->_calendar->setMaximumDate(MinimumDate);
+    Q_EMIT pMinimumDateChanged();
+}
+
+QDate ElaCalendarPicker::getMinimumDate() const
+{
+    Q_D(const ElaCalendarPicker);
+    return d->_calendar->getMinimumDate();
+}
+
+void ElaCalendarPicker::setMaximumDate(QDate MaximumDate)
+{
+    Q_D(ElaCalendarPicker);
+    d->_calendar->setMaximumDate(MaximumDate);
+    Q_EMIT pMaximumDateChanged();
+}
+
+QDate ElaCalendarPicker::getMaximumDate() const
+{
+    Q_D(const ElaCalendarPicker);
+    return d->_calendar->getMaximumDate();
+}
+
 void ElaCalendarPicker::paintEvent(QPaintEvent* event)
 {
     Q_D(ElaCalendarPicker);
@@ -67,11 +94,10 @@ void ElaCalendarPicker::paintEvent(QPaintEvent* event)
 
     // 日期绘制
     QDate selectedDate = getSelectedDate();
-    QString date = QString("%1/%2/%3").arg(selectedDate.year()).arg(selectedDate.month()).arg(selectedDate.day());
     painter.setPen(ElaThemeColor(d->_themeMode, BasicText));
     QRect textRect = baseRect;
     textRect.adjust(10, 0, 0, 0);
-    painter.drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, date);
+    painter.drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft, selectedDate.toString( getDateFormat() ));
 
     // 图标绘制
     QFont iconFont = QFont("ElaAwesome");

@@ -22,3 +22,33 @@ ElaCheckBox::ElaCheckBox(const QString& text, QWidget* parent)
 ElaCheckBox::~ElaCheckBox()
 {
 }
+
+void ElaCheckBox::setLightTextColor(QColor color)
+{
+    const auto Style = qobject_cast<ElaCheckBoxStyle*>(style());
+    Q_ASSERT(Style != nullptr);
+    Style->setLightTextColor(color);
+    Q_EMIT pLightTextColorChanged();
+}
+
+QColor ElaCheckBox::getLightTextColor() const
+{
+    const auto Style = qobject_cast<ElaCheckBoxStyle*>(style());
+    Q_ASSERT(Style != nullptr);
+    return Style->getLightTextColor();
+}
+
+void ElaCheckBox::setDarkTextColor(QColor color)
+{
+    const auto Style = qobject_cast<ElaCheckBoxStyle*>(style());
+    Q_ASSERT(Style != nullptr);
+    Style->setDarkTextColor(color);
+    Q_EMIT pDarkTextColorChanged();
+}
+
+QColor ElaCheckBox::getDarkTextColor() const
+{
+    const auto Style = qobject_cast<ElaCheckBoxStyle*>(style());
+    Q_ASSERT(Style != nullptr);
+    return Style->getDarkTextColor();
+}
