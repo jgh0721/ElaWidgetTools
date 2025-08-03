@@ -24,6 +24,7 @@ class ELA_EXPORT ElaPushButton : public QPushButton
     Q_PROPERTY_CREATE_Q_H(QColor, DarkDisabledTextColor)
     Q_PROPERTY_CREATE_Q_H(QColor, LightDisabledColor)
     Q_PROPERTY_CREATE_Q_H(QColor, DarkDisabledColor)
+    Q_PROPERTY_CREATE_Q_H(bool, NoEffectButton)
 public:
     explicit ElaPushButton(QWidget* parent = nullptr);
     explicit ElaPushButton(QString text, QWidget* parent = nullptr);

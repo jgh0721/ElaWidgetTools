@@ -26,6 +26,7 @@ class ElaPushButtonPrivate : public QObject
     Q_PROPERTY_CREATE_D(QColor, DarkDisabledTextColor)
     Q_PROPERTY_CREATE_D(QColor, LightDisabledColor)
     Q_PROPERTY_CREATE_D(QColor, DarkDisabledColor)
+    Q_PROPERTY_CREATE_D(bool, NoEffectButton)
 public:
     explicit ElaPushButtonPrivate(QObject* parent = nullptr);
     ~ElaPushButtonPrivate() override;

@@ -20,6 +20,7 @@ Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightDisabledTextColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkDisabledTextColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightDisabledColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkDisabledColor)
+Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, bool, NoEffectButton)
 ElaPushButton::ElaPushButton(QWidget* parent)
     : QPushButton(parent), d_ptr(new ElaPushButtonPrivate())
 {
@@ -41,6 +42,7 @@ ElaPushButton::ElaPushButton(QWidget* parent)
     d->_pDarkDisabledTextColor = ElaThemeColor(ElaThemeType::Dark, BasicTextDisable);
     d->_pLightDisabledColor = ElaThemeColor(ElaThemeType::Light, BasicDisable);
     d->_pDarkDisabledColor = ElaThemeColor(ElaThemeType::Dark, BasicDisable);
+    d->_pNoEffectButton = false;
     setMouseTracking(true);
     setFixedHeight(38);
     QFont font = this->font();
@@ -83,7 +85,8 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
     QPainter painter(this);
     painter.setRenderHints(QPainter::SmoothPixmapTransform | QPainter::Antialiasing | QPainter::TextAntialiasing);
     // 高性能阴影
-    eTheme->drawEffectShadow(&painter, rect(), d->_shadowBorderWidth, d->_pBorderRadius);
+    if( d->_pNoEffectButton == false )
+        eTheme->drawEffectShadow(&painter, rect(), d->_shadowBorderWidth, d->_pBorderRadius);
 
     // 背景绘制
     painter.save();
@@ -98,12 +101,15 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
         painter.setPen(Qt::NoPen);
         painter.setBrush(retrieveBackgroundColor());
     }
-    painter.drawRoundedRect(foregroundRect, d->_pBorderRadius, d->_pBorderRadius);
-    // 底边线绘制
-    if (!d->_isPressed)
+    if( d->_pNoEffectButton == false )
     {
-        painter.setPen(ElaThemeColor(d->_themeMode, BasicBaseLine));
-        painter.drawLine(foregroundRect.x() + d->_pBorderRadius, height() - d->_shadowBorderWidth, foregroundRect.width(), height() - d->_shadowBorderWidth);
+        painter.drawRoundedRect(foregroundRect, d->_pBorderRadius, d->_pBorderRadius);
+        // 底边线绘制
+        if (!d->_isPressed)
+        {
+            painter.setPen(ElaThemeColor(d->_themeMode, BasicBaseLine));
+            painter.drawLine(foregroundRect.x() + d->_pBorderRadius, height() - d->_shadowBorderWidth, foregroundRect.width(), height() - d->_shadowBorderWidth);
+        }
     }
     //文字绘制
     painter.setPen(retrieveTextColor());
