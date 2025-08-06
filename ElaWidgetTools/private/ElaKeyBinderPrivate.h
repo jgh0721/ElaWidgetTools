@@ -11,11 +11,12 @@ class ElaKeyBinderPrivate : public QObject
     Q_OBJECT
     Q_D_CREATE(ElaKeyBinder)
     Q_PROPERTY_CREATE_D(int, BorderRadius)
+    Q_PROPERTY_CREATE_D(QString, BinderCaption)
 public:
     explicit ElaKeyBinderPrivate(QObject* parent = nullptr);
     ~ElaKeyBinderPrivate() override;
     Q_SLOT void onThemeChanged(ElaThemeType::ThemeMode themeMode);
-
+    void setCaption( const QString& caption );
 private:
     ElaThemeType::ThemeMode _themeMode;
     ElaContentDialog* _binderDialog{nullptr};

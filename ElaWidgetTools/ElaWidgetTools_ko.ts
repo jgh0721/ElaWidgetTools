@@ -40,14 +40,42 @@
     </message>
 </context>
 <context>
+    <name>ElaContentDialog</name>
+    <message>
+        <location filename="ElaContentDialog.cpp" line="43"/>
+        <source>cancel</source>
+        <translation>취소</translation>
+    </message>
+    <message>
+        <location filename="ElaContentDialog.cpp" line="55"/>
+        <source>minimum</source>
+        <translation>최소화</translation>
+    </message>
+    <message>
+        <location filename="ElaContentDialog.cpp" line="67"/>
+        <source>exit</source>
+        <translation>종료</translation>
+    </message>
+    <message>
+        <location filename="ElaContentDialog.cpp" line="91"/>
+        <source>退出</source>
+        <translation>종료</translation>
+    </message>
+    <message>
+        <location filename="ElaContentDialog.cpp" line="94"/>
+        <source>确定要退出程序吗</source>
+        <translation>프로그램을 종료하시겠습니까?</translation>
+    </message>
+</context>
+<context>
     <name>ElaDoubleSpinBox</name>
     <message>
-        <location filename="ElaDoubleSpinBox.cpp" line="53"/>
+        <location filename="ElaDoubleSpinBox.cpp" line="126"/>
         <source>增加</source>
         <translation>한 단계 위로</translation>
     </message>
     <message>
-        <location filename="ElaDoubleSpinBox.cpp" line="55"/>
+        <location filename="ElaDoubleSpinBox.cpp" line="128"/>
         <source>减少</source>
         <translation>한 단계 아래로</translation>
     </message>
@@ -55,75 +83,158 @@
 <context>
     <name>ElaDoubleSpinBoxPrivate</name>
     <message>
-        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="28"/>
+        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="46"/>
         <source>撤销</source>
         <translation>실행 취소(&amp;U)</translation>
     </message>
     <message>
-        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="32"/>
+        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="50"/>
         <source>恢复</source>
         <translation>다시 실행(&amp;R)</translation>
     </message>
     <message>
-        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="40"/>
+        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="58"/>
         <source>剪切</source>
         <translation>잘라내기(&amp;T)</translation>
     </message>
     <message>
-        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="45"/>
+        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="63"/>
         <source>复制</source>
         <translation>복사(&amp;C)</translation>
     </message>
     <message>
-        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="51"/>
+        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="69"/>
         <source>粘贴</source>
         <translation>붙여넣기(&amp;P)</translation>
     </message>
     <message>
-        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="58"/>
+        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="76"/>
         <source>删除</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="73"/>
+        <location filename="private/ElaDoubleSpinBoxPrivate.cpp" line="91"/>
         <source>全选</source>
         <translation>모두 선택(&amp;S)</translation>
     </message>
 </context>
 <context>
+    <name>ElaKeyBinder</name>
+    <message>
+        <location filename="ElaKeyBinder.cpp" line="19"/>
+        <location filename="ElaKeyBinder.cpp" line="20"/>
+        <source>  按键: </source>
+        <translation> 설정: </translation>
+    </message>
+    <message>
+        <location filename="ElaKeyBinder.cpp" line="19"/>
+        <source>未绑定</source>
+        <translation>미설정</translation>
+    </message>
+    <message>
+        <location filename="ElaKeyBinder.cpp" line="31"/>
+        <source>取消</source>
+        <translation>취소</translation>
+    </message>
+    <message>
+        <location filename="ElaKeyBinder.cpp" line="32"/>
+        <source>重置</source>
+        <translation>초기화</translation>
+    </message>
+    <message>
+        <location filename="ElaKeyBinder.cpp" line="33"/>
+        <source>确认</source>
+        <translation>확인</translation>
+    </message>
+</context>
+<context>
+    <name>ElaKeyBinderContainer</name>
+    <message>
+        <location filename="DeveloperComponents/ElaKeyBinderContainer.cpp" line="24"/>
+        <source>按下任意按键以进行绑定</source>
+        <translation>연결할 키를 눌러주세요</translation>
+    </message>
+</context>
+<context>
+    <name>ElaKeyBinderPrivate</name>
+    <message>
+        <location filename="private/ElaKeyBinderPrivate.cpp" line="10"/>
+        <source>按下任意按键以进行绑定</source>
+        <translation>연결할 키를 눌러주세요</translation>
+    </message>
+</context>
+<context>
     <name>ElaLineEdit</name>
     <message>
-        <location filename="ElaLineEdit.cpp" line="154"/>
+        <location filename="ElaLineEdit.cpp" line="187"/>
         <source>撤销</source>
         <translation>실행 취소(&amp;U)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="158"/>
+        <location filename="ElaLineEdit.cpp" line="191"/>
         <source>恢复</source>
         <translation>다시 실행(&amp;R)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="166"/>
+        <location filename="ElaLineEdit.cpp" line="199"/>
         <source>剪切</source>
         <translation>잘라내기(&amp;T)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="171"/>
+        <location filename="ElaLineEdit.cpp" line="204"/>
         <source>复制</source>
         <translation>복사(&amp;C)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="177"/>
+        <location filename="ElaLineEdit.cpp" line="210"/>
         <source>粘贴</source>
         <translation>붙여넣기(&amp;P)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="184"/>
+        <location filename="ElaLineEdit.cpp" line="217"/>
         <source>删除</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="199"/>
+        <location filename="ElaLineEdit.cpp" line="232"/>
+        <source>全选</source>
+        <translation>모두 선택(&amp;S)</translation>
+    </message>
+</context>
+<context>
+    <name>ElaPlainTextEdit</name>
+    <message>
+        <location filename="ElaPlainTextEdit.cpp" line="115"/>
+        <source>撤销</source>
+        <translation>실행 취소(&amp;U)</translation>
+    </message>
+    <message>
+        <location filename="ElaPlainTextEdit.cpp" line="119"/>
+        <source>恢复</source>
+        <translation>다시 실행(&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="ElaPlainTextEdit.cpp" line="127"/>
+        <source>剪切</source>
+        <translation>잘라내기(&amp;T)</translation>
+    </message>
+    <message>
+        <location filename="ElaPlainTextEdit.cpp" line="132"/>
+        <source>复制</source>
+        <translation>복사(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="ElaPlainTextEdit.cpp" line="138"/>
+        <source>粘贴</source>
+        <translation>붙여넣기(&amp;P)</translation>
+    </message>
+    <message>
+        <location filename="ElaPlainTextEdit.cpp" line="145"/>
+        <source>删除</source>
+        <translation>삭제</translation>
+    </message>
+    <message>
+        <location filename="ElaPlainTextEdit.cpp" line="158"/>
         <source>全选</source>
         <translation>모두 선택(&amp;S)</translation>
     </message>
@@ -199,12 +310,12 @@
 <context>
     <name>ElaSpinBox</name>
     <message>
-        <location filename="ElaSpinBox.cpp" line="55"/>
+        <location filename="ElaSpinBox.cpp" line="126"/>
         <source>增加</source>
         <translation>한 단계 위로</translation>
     </message>
     <message>
-        <location filename="ElaSpinBox.cpp" line="57"/>
+        <location filename="ElaSpinBox.cpp" line="128"/>
         <source>减少</source>
         <translation>한 단계 아래로</translation>
     </message>
@@ -212,37 +323,37 @@
 <context>
     <name>ElaSpinBoxPrivate</name>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="28"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="46"/>
         <source>撤销</source>
         <translation>실행 취소(&amp;U)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="32"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="50"/>
         <source>恢复</source>
         <translation>다시 실행(&amp;R)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="40"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="58"/>
         <source>剪切</source>
         <translation>잘라내기(&amp;T)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="45"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="63"/>
         <source>复制</source>
         <translation>복사(&amp;C)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="51"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="69"/>
         <source>粘贴</source>
         <translation>붙여넣기(&amp;P)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="58"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="76"/>
         <source>删除</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="73"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="91"/>
         <source>全选</source>
         <translation>모두 선택(&amp;S)</translation>
     </message>

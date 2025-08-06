@@ -6,13 +6,18 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <utility>
-Q_PROPERTY_CREATE_Q_CPP(ElaKeyBinder, int, BorderRadius)
+
+#include "ElaPushButton.h"
+Q_PROPERTY_CREATE_Q_CPP( ElaKeyBinder, int, BorderRadius )
+
 ElaKeyBinder::ElaKeyBinder(QWidget* parent)
     : QLabel(parent), d_ptr(new ElaKeyBinderPrivate())
 {
     Q_D(ElaKeyBinder);
     d->q_ptr = this;
     d->_pBorderRadius = 5;
+    _pNotSetText = tr("  按键: ") + tr("未绑定") + "      ";
+    _pSetText = tr("  按键: ");
     setFixedHeight(35);
     setMouseTracking(true);
     setStyleSheet("#ElaKeyBinder{background-color:transparent;}");
@@ -21,31 +26,78 @@ ElaKeyBinder::ElaKeyBinder(QWidget* parent)
     textFont.setPixelSize(15);
     setFont(textFont);
     d->_binderContainer = new ElaKeyBinderContainer(this);
-    setText(u8"  按键: " + QString(u8"未绑定") + "      ");
     d->_binderDialog = new ElaContentDialog(window());
     d->_binderDialog->setCentralWidget(d->_binderContainer);
-    d->_binderDialog->setLeftButtonText(u8"取消");
-    d->_binderDialog->setMiddleButtonText(u8"重置");
-    d->_binderDialog->setRightButtonText(u8"确认");
+    d->_binderDialog->setLeftButtonText(tr("取消"));
+    d->_binderDialog->setMiddleButtonText(tr("重置"));
+    d->_binderDialog->setRightButtonText(tr("确认"));
     connect(d->_binderDialog, &ElaContentDialog::middleButtonClicked, this, [=]() {
         d->_binderContainer->logOrResetHistoryData(false);
     });
     connect(d->_binderDialog, &ElaContentDialog::rightButtonClicked, this, [=]() {
         d->_binderContainer->saveBinderChanged();
+        setKeySequenceText( d->_binderContainer->getBinderKeyText() );
     });
     d->onThemeChanged(eTheme->getThemeMode());
     connect(eTheme, &ElaTheme::themeModeChanged, d, &ElaKeyBinderPrivate::onThemeChanged);
+
+    setKeySequenceText( "" );
 }
 
 ElaKeyBinder::~ElaKeyBinder()
 {
 }
 
+void ElaKeyBinder::setSetText( QString SetText )
+{
+    Q_D(const ElaKeyBinder);
+    _pSetText = SetText;
+    if( d->_binderContainer )
+        setKeySequenceText( d->_binderContainer->getBinderKeyText() );
+}
+
+QString ElaKeyBinder::getSetText() const
+{
+    return _pSetText;
+}
+
+void ElaKeyBinder::setNotSetText( QString NotSetText )
+{
+    Q_D(const ElaKeyBinder);
+    _pNotSetText = NotSetText;
+    if( d->_binderContainer )
+        setKeySequenceText( d->_binderContainer->getBinderKeyText() );
+}
+
+QString ElaKeyBinder::getNotSetText() const
+{
+    return _pNotSetText;
+}
+
+void ElaKeyBinder::setBinderCaption( QString BinderCaption )
+{
+    Q_D( ElaKeyBinder );
+    d->setCaption( BinderCaption );
+    pBinderCaptionChanged();
+}
+
+QString ElaKeyBinder::getBinderCaption() const
+{
+    Q_D( const ElaKeyBinder );
+    return d->_pBinderCaption;
+}
+
+ElaContentDialog* ElaKeyBinder::contentDialog() const
+{
+    Q_D( const ElaKeyBinder );
+    return d->_binderDialog;
+}
+
 void ElaKeyBinder::setBinderKeyText(QString binderKeyText)
 {
     Q_D(ElaKeyBinder);
     d->_binderContainer->setBinderKeyText(binderKeyText);
-    setText(u8"  按键: " + binderKeyText + "      ");
+    setKeySequenceText( binderKeyText );
 }
 
 QString ElaKeyBinder::getBinderKeyText() const
@@ -117,4 +169,12 @@ void ElaKeyBinder::paintEvent(QPaintEvent* event)
     painter.drawText(iconRect, Qt::AlignVCenter | Qt::AlignRight, QChar((unsigned short)ElaIconType::Pencil));
     painter.restore();
     QLabel::paintEvent(event);
+}
+
+void ElaKeyBinder::setKeySequenceText( const QString& Text )
+{
+    if( Text.isEmpty() == true )
+        setText( _pNotSetText );
+    else
+        setText( _pSetText + Text +  "      ");
 }

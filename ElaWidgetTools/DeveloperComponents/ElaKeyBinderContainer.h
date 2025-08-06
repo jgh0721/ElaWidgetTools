@@ -14,7 +14,7 @@ public:
     ~ElaKeyBinderContainer();
     void logOrResetHistoryData(bool isLog);
     void saveBinderChanged();
-
+    void setCaption( const QString& caption );
 protected:
     virtual void mousePressEvent(QMouseEvent* event) override;
     virtual void keyPressEvent(QKeyEvent* event) override;
@@ -26,6 +26,7 @@ private:
     quint32 _historyNativeVirtualBinderKey{0};
     ElaThemeType::ThemeMode _themeMode;
     ElaKeyBinder* _keyBinder{nullptr};
+    QString _caption;
 };
 
 #endif//ELAWIDGETTOOLS_SRC_DEVELOPERCOMPONENTS_ELAKEYBINDERCONTAINER_H_

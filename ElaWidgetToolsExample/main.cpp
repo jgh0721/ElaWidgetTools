@@ -22,9 +22,6 @@ int main(int argc, char* argv[])
     QApplication a(argc, argv);
     eApp->init();
 
-    auto Di = new ElaDialog;
-    Di->exec();
-
     MainWindow w;
     w.show();
 #ifdef Q_OS_WIN

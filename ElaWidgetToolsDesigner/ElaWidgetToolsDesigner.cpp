@@ -108,6 +108,8 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaImageCardPlugin(this)
     << new ElaInteractiveCardPlugin(this)
 
+    << new ElaKeyBinderPlugin(this)
+
     << new ElaLCDNumberPlugin(this)
     << new ElaLineEditPlugin(this)
     << new ElaListViewPlugin(this)
@@ -362,6 +364,20 @@ QString ElaInteractiveCardPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaInteractiveCard");
     return createWidgetXml( className, className.toLower(), QSize( 350, 260 ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaKeyBinder)
+DEFINE_BASE_ICON( ElaKeyBinder, ":res/TreeView.png")
+DEFINE_BASE_WHATS_THIS(ElaKeyBinder, "ElaKeyBinder on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaKeyBinder, false )
+
+QString ElaKeyBinderPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaKeyBinder");
+    return createWidgetXml( className, className.toLower(), QSize( 100, 30 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////
