@@ -461,12 +461,6 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
     {
         return -1;
     }
-    // 한글 IME 가 작동하지 않아 주석처리함
-    // if( d->_currentWinID == 0 )
-    // {
-    //     ::SetWindowPos( hwnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED );
-    //     ::RedrawWindow( hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
-    // }
     d->_currentWinID    = (qint64)hwnd;
     const UINT   uMsg   = msg->message;
     const WPARAM wParam = msg->wParam;
@@ -530,21 +524,18 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             {
                 return 0;
             }
-            RECT* clientRect = &((NCCALCSIZE_PARAMS *)(lParam))->rgrc[0];
-            if( !::IsZoomed( hwnd ) )
+            RECT* clientRect = &((NCCALCSIZE_PARAMS*)(lParam))->rgrc[0];
+            const LONG originTop = clientRect->top;
+            const LRESULT hitTestResult = ::DefWindowProcW(hwnd, WM_NCCALCSIZE, wParam, lParam);
+            if ((hitTestResult != HTERROR) && (hitTestResult != HTNOWHERE))
             {
-                clientRect->top -= 1;
-                clientRect->bottom -= 1;
+                *result = static_cast<long>(hitTestResult);
+                return 1;
             }
-            else
+            clientRect->top = originTop;
+            if (::IsZoomed(hwnd))
             {
-                const LRESULT hitTestResult = ::DefWindowProcW( hwnd, WM_NCCALCSIZE, wParam, lParam );
-                if( (hitTestResult != HTERROR) && (hitTestResult != HTNOWHERE) )
-                {
-                    *result = static_cast<long>(hitTestResult);
-                    return 1;
-                }
-            #if QT_VERSION >= QT_VERSION_CHECK( 5, 14, 0 )
+#if QT_VERSION >= QT_VERSION_CHECK( 5, 14, 0 )
                 auto geometry = window()->screen()->geometry();
             #else
                 QScreen* screen = qApp->screenAt(window()->geometry().center());
