@@ -13,7 +13,7 @@ ElaPivotView::ElaPivotView(QWidget* parent)
     _pMarkWidth = 40;
     _pMarkAnimationWidth = 0;
     setObjectName("ElaPivotView");
-    setStyleSheet("#ElaPivotView{background-color:transparent;}");
+    setStyleSheet("ElaPivotView{background-color:transparent;}");
     setMouseTracking(true);
     setVerticalScrollBar(new ElaScrollBar(this));
     setHorizontalScrollBar(new ElaScrollBar(this));

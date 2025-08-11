@@ -34,7 +34,7 @@ ElaLineEdit::ElaLineEdit(QWidget* parent)
     textFont.setLetterSpacing(QFont::AbsoluteSpacing, d->_textSpacing);
     setFont(textFont);
     setStyle(new ElaLineEditStyle(style()));
-    setStyleSheet("#ElaLineEdit{background-color:transparent;padding-left: 10px;}");
+    setStyleSheet("ElaLineEdit{background-color:transparent;padding-left: 10px;}");
     d->onThemeChanged(eTheme->getThemeMode());
     connect(eTheme, &ElaTheme::themeModeChanged, d, &ElaLineEditPrivate::onThemeChanged);
     setVisible(true);
@@ -42,6 +42,7 @@ ElaLineEdit::ElaLineEdit(QWidget* parent)
 
 ElaLineEdit::~ElaLineEdit()
 {
+    delete this->style();
 }
 
 void ElaLineEdit::setIsClearButtonEnable(bool isClearButtonEnable)

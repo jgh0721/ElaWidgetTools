@@ -20,7 +20,7 @@ ElaKeyBinder::ElaKeyBinder(QWidget* parent)
     _pSetText = tr("  按键: ");
     setFixedHeight(35);
     setMouseTracking(true);
-    setStyleSheet("#ElaKeyBinder{background-color:transparent;}");
+    setStyleSheet("ElaKeyBinder{background-color:transparent;}");
     QFont textFont = font();
     textFont.setLetterSpacing(QFont::AbsoluteSpacing, 0.5);
     textFont.setPixelSize(15);

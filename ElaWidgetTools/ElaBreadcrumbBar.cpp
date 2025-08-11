@@ -18,7 +18,7 @@ ElaBreadcrumbBar::ElaBreadcrumbBar(QWidget* parent)
     d->_pIsAutoRemove = true;
     setFixedHeight(37);
     setObjectName("ElaBreadcrumbBar");
-    setStyleSheet("#ElaBreadcrumbBar{background-color:transparent;}");
+    setStyleSheet("ElaBreadcrumbBar{background-color:transparent;}");
     setMouseTracking(true);
 
     d->_listView = new ElaBaseListView(this);

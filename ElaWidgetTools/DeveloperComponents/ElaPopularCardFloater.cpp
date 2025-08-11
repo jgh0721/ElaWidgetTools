@@ -18,7 +18,7 @@ ElaPopularCardFloater::ElaPopularCardFloater(ElaPopularCard* card, ElaPopularCar
     _pHoverOpacity = 0;
     _pHoverYOffset = 0;
     setObjectName("ElaPopularCardFloater");
-    setStyleSheet("#ElaPopularCardFloater{background-color:transparent}");
+    setStyleSheet("ElaPopularCardFloater{background-color:transparent}");
     setMouseTracking(true);
 
     _overButton = new ElaPushButton("获取", this);

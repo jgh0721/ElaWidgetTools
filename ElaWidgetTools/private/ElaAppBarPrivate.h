@@ -14,6 +14,7 @@ class ElaText;
 class ElaAppBar;
 class ElaIconButton;
 class ElaToolButton;
+class QMenu;
 class ElaAppBarPrivate : public QObject
 {
     Q_OBJECT
@@ -26,8 +27,9 @@ class ElaAppBarPrivate : public QObject
     Q_PROPERTY_CREATE_D(bool, IsDefaultClosed)
     Q_PROPERTY_CREATE_D(bool, IsOnlyAllowMinAndClose)
     Q_PROPERTY_CREATE_D(int, AppBarHeight)
-    Q_PROPERTY_CREATE_D(QWidget*, CustomWidget)
+    Q_PRIVATE_CREATE_D(QWidget*, CustomWidget)
     Q_PROPERTY_CREATE_D(int, CustomWidgetMaximumWidth)
+    Q_PRIVATE_CREATE_D(QMenu*, CustomMenu)
     Q_PROPERTY_CREATE_D(QSize, IconSize)
 public:
     explicit ElaAppBarPrivate(QObject* parent = nullptr);
@@ -59,7 +61,7 @@ private:
     int _margins{8};
     bool _isHoverMaxButton{false};
     void _changeMaxButtonAwesome(bool isMaximized);
-    void _showSystemMenu(QPoint point);
+    void _showAppBarMenu(QPoint point);
     void _updateCursor(int edges);
     bool _containsCursorToItem(QWidget* item);
     void _onThemeModeChange(ElaThemeType::ThemeMode themeMode);

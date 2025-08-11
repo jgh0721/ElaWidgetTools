@@ -13,7 +13,7 @@ ElaDrawerHeader::ElaDrawerHeader(QWidget* parent)
     setFixedHeight(75);
     setMouseTracking(true);
     setObjectName("ElaDrawerHeader");
-    setStyleSheet("#ElaDrawerHeader{background-color:transparent;}");
+    setStyleSheet("ElaDrawerHeader{background-color:transparent;}");
 
     _mainLayout = new QVBoxLayout(this);
     _mainLayout->setContentsMargins(0, 0, 0, 0);

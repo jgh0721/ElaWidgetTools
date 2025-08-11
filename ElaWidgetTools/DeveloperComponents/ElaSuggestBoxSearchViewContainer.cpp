@@ -8,7 +8,7 @@ ElaSuggestBoxSearchViewContainer::ElaSuggestBoxSearchViewContainer(QWidget* pare
 {
     setContentsMargins(8, 8, 8, 8);
     setObjectName("ElaSuggestBoxSearchViewBaseWidget");
-    setStyleSheet("#ElaSuggestBoxSearchViewBaseWidget{background-color:transparent}");
+    setStyleSheet("ElaSuggestBoxSearchViewContainer{background-color:transparent}");
     _themeMode = eTheme->getThemeMode();
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) { _themeMode = themeMode; });
 }

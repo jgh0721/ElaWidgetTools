@@ -9,7 +9,7 @@ ElaDrawerContainer::ElaDrawerContainer(QWidget* parent)
 {
     _pBorderRadius = 6;
     setObjectName("ElaDrawerContainer");
-    setStyleSheet("#ElaDrawerContainer{background-color:transparent;}");
+    setStyleSheet("ElaDrawerContainer{background-color:transparent;}");
 
     _mainLayout = new QVBoxLayout(this);
     _mainLayout->setContentsMargins(0, 0, 0, 0);

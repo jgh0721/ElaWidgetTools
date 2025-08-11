@@ -22,7 +22,7 @@ ElaDialog::ElaDialog( QWidget* parent, Qt::WindowFlags flags )
     d->q_ptr = this;
 
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
-    setStyleSheet("#ElaDialog{background-color:transparent;}");
+    setStyleSheet("ElaDialog{background-color:transparent;}");
 #endif
 
     d->_appBar = new ElaAppBar(this);

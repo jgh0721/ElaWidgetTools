@@ -27,7 +27,7 @@ ElaPopularCard::ElaPopularCard(QWidget* parent)
     d->_pHoverYOffset = 0;
     d->_pHoverOpacity = 0;
     setObjectName("ElaPopularCard");
-    setStyleSheet("#ElaPopularCard{background-color:transparent}");
+    setStyleSheet("ElaPopularCard{background-color:transparent}");
     setMouseTracking(true);
 
     d->_pCardFloatArea = parentWidget();

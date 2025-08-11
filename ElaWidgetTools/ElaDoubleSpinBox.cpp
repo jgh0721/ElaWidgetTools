@@ -19,13 +19,15 @@ ElaDoubleSpinBox::ElaDoubleSpinBox(QWidget* parent)
     d->_style = new ElaSpinBoxStyle(style());
     setStyle(d->_style);
     lineEdit()->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    lineEdit()->setStyleSheet("ElaDoubleSpinBox{background-color:transparent;padding-left:10px;padding-bottom:3px;}");
+    lineEdit()->setStyleSheet("background-color:transparent;padding-left:10px;padding-bottom:3px;");
     d->onThemeChanged(eTheme->getThemeMode());
     connect(eTheme, &ElaTheme::themeModeChanged, d, &ElaDoubleSpinBoxPrivate::onThemeChanged);
 }
 
 ElaDoubleSpinBox::~ElaDoubleSpinBox()
 {
+    Q_D(ElaDoubleSpinBox);
+    delete d->_style;
 }
 
 void ElaDoubleSpinBox::setButtonMode(ElaSpinBoxType::ButtonMode buttonMode)

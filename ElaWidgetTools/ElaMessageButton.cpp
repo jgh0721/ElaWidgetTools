@@ -28,7 +28,7 @@ ElaMessageButton::ElaMessageButton(QWidget* parent)
     setFont(font);
     setText("Message");
     setObjectName("ElaMessageButton");
-    setStyleSheet("#ElaMessageButton{background-color:transparent;}");
+    setStyleSheet("ElaMessageButton{background-color:transparent;}");
     d->_pDisplayMsec = 2000;
     d->_pMessageMode = ElaMessageBarType::Success;
     d->_pPositionPolicy = ElaMessageBarType::TopRight;

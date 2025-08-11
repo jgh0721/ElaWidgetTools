@@ -18,7 +18,7 @@ ElaNavigationView::ElaNavigationView(QWidget* parent)
     : QTreeView(parent)
 {
     setObjectName("ElaNavigationView");
-    setStyleSheet("#ElaNavigationView{background-color:transparent;}");
+    setStyleSheet("ElaNavigationView{background-color:transparent;}");
     setAnimated(true);
     setHeaderHidden(true);
     setRootIsDecorated(false);

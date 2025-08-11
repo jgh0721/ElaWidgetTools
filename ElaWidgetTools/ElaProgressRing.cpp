@@ -30,7 +30,7 @@ ElaProgressRing::ElaProgressRing(QWidget* parent)
     d->_pIsTransparent = false;
     setFixedSize(70, 70);
     setObjectName("ElaProgressRing");
-    setStyleSheet("#ElaProgressRing{background-color:transparent;}");
+    setStyleSheet("ElaProgressRing{background-color:transparent;}");
 
     d->_busyStartDegAnimation = new QPropertyAnimation(d, "pBusyStartDeg");
     connect(d->_busyStartDegAnimation, &QPropertyAnimation::valueChanged, this, [=]() {

@@ -41,7 +41,7 @@ ElaMultiSelectComboBox::ElaMultiSelectComboBox(QWidget* parent)
     comboBoxView->setSelectionMode(QAbstractItemView::NoSelection);
     comboBoxView->setSelectionBehavior(QAbstractItemView::SelectRows);
     comboBoxView->setObjectName("ElaComboBoxView");
-    comboBoxView->setStyleSheet("#ElaComboBoxView{background-color:transparent;}");
+    comboBoxView->setStyleSheet("background-color:transparent;");
     comboBoxView->setStyle(d->_comboBoxStyle);
     QWidget* container = this->findChild<QFrame*>();
     if (container)
@@ -68,11 +68,15 @@ ElaMultiSelectComboBox::ElaMultiSelectComboBox(QWidget* parent)
     d->_itemSelection.fill(false);
     d->_itemSelection[0] = true;
     QComboBox::setMaxVisibleItems(5);
-    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) { d->_themeMode = themeMode; });
+    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
+        d->_themeMode = themeMode;
+    });
 }
 
 ElaMultiSelectComboBox::~ElaMultiSelectComboBox()
 {
+    Q_D(ElaMultiSelectComboBox);
+    delete d->_comboBoxStyle;
 }
 
 void ElaMultiSelectComboBox::setCurrentSelection(QString selection)
@@ -129,7 +133,7 @@ void ElaMultiSelectComboBox::setCurrentSelection(QList<int> selectionIndex)
     Q_D(ElaMultiSelectComboBox);
     d->_itemSelection.fill(false);
     d->_comboView->selectionModel()->clearSelection();
-    for (auto index : selectionIndex)
+    for (auto index: selectionIndex)
     {
         if (index >= this->count() || index < 0)
         {
@@ -305,7 +309,9 @@ void ElaMultiSelectComboBox::hidePopup()
                     container->setFixedHeight(containerHeight);
                 });
                 QPoint viewPos = view()->pos();
-                connect(viewPosAnimation, &QPropertyAnimation::finished, this, [=]() { view()->move(viewPos); });
+                connect(viewPosAnimation, &QPropertyAnimation::finished, this, [=]() {
+                    view()->move(viewPos);
+                });
                 viewPosAnimation->setStartValue(viewPos);
                 viewPosAnimation->setEndValue(QPoint(viewPos.x(), viewPos.y() - view()->height()));
                 viewPosAnimation->setEasingCurve(QEasingCurve::InCubic);

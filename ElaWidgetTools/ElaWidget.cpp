@@ -21,7 +21,7 @@ ElaWidgetBase::ElaWidgetBase( QWidget* parent, Qt::WindowFlags f )
     setWindowTitle( "ElaWidget" );
     setObjectName( "ElaWidget" );
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
-    setStyleSheet("ElaWidget{background-color:transparent;}");
+    setStyleSheet("ElaWidgetBase{background-color:transparent;}");
 #endif
 
     // 主题
@@ -72,7 +72,7 @@ ElaWidget::ElaWidget(QWidget* parent, Qt::WindowFlags f)
     setWindowTitle("ElaWidget");
     setObjectName("ElaWidget");
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
-    setStyleSheet("#ElaWidget{background-color:transparent;}");
+    setStyleSheet("ElaWidget{background-color:transparent;}");
 #endif
     // 自定义AppBar
     d->_appBar = new ElaAppBar(this);

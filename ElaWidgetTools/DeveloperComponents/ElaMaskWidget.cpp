@@ -6,7 +6,7 @@ ElaMaskWidget::ElaMaskWidget(QWidget* parent)
     : QWidget{parent}
 {
     setObjectName("ElaMaskWidget");
-    setStyleSheet("#ElaMaskWidget{background-color:transparent;}");
+    setStyleSheet("ElaMaskWidget{background-color:transparent;}");
     _pMaskAlpha = 0;
 }
 

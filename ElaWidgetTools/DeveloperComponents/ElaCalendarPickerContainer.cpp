@@ -10,7 +10,7 @@ ElaCalendarPickerContainer::ElaCalendarPickerContainer(QWidget* parent)
     setAttribute(Qt::WA_TranslucentBackground);
     setContentsMargins(0, 0, 0, 0);
     setObjectName("ElaCalendarPickerContainer");
-    setStyleSheet("#ElaCalendarPickerContainer{background-color:transparent}");
+    setStyleSheet("ElaCalendarPickerContainer{background-color:transparent}");
     _themeMode = eTheme->getThemeMode();
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) { _themeMode = themeMode; });
 }

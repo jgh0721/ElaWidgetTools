@@ -12,7 +12,7 @@ ElaKeyBinderContainer::ElaKeyBinderContainer(QWidget* parent)
     : QWidget(parent)
 {
     _keyBinder = dynamic_cast<ElaKeyBinder*>(parent);
-    setStyleSheet("#ElaKeyBinderContainer{background-color:transparent;}");
+    setStyleSheet("ElaKeyBinderContainer{background-color:transparent;}");
     setFocusPolicy(Qt::StrongFocus);
     setMouseTracking(true);
     setFixedHeight(140);

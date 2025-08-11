@@ -10,7 +10,7 @@ ElaProgressBar::ElaProgressBar(QWidget* parent)
 {
     Q_D(ElaProgressBar);
     setObjectName("ElaProgressBar");
-    setStyleSheet("#ElaProgressBar{background-color:transparent;}");
+    setStyleSheet("ElaProgressBar{background-color:transparent;}");
     d->q_ptr = this;
     d->_style = new ElaProgressBarStyle(style());
     setStyle(d->_style);
@@ -25,6 +25,8 @@ ElaProgressBar::ElaProgressBar(QWidget* parent)
 
 ElaProgressBar::~ElaProgressBar()
 {
+    Q_D(ElaProgressBar);
+    delete d->_style;
 }
 
 void ElaProgressBar::setMinimum(int minimum)

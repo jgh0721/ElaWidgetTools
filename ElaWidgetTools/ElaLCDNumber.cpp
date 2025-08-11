@@ -15,7 +15,7 @@ ElaLCDNumber::ElaLCDNumber(QWidget* parent)
     setDigitCount(d->_pAutoClockFormat.length());
     setSegmentStyle(QLCDNumber::Flat);
     setObjectName("ElaLCDNumber");
-    setStyleSheet("#ElaLCDNumber{background-color:transparent;}");
+    setStyleSheet("ElaLCDNumber{background-color:transparent;}");
     d->_lcdNumberStyle = new ElaLCDNumberStyle();
     setStyle(d->_lcdNumberStyle);
     d->_clockTimer = new QTimer(this);
@@ -35,6 +35,8 @@ ElaLCDNumber::ElaLCDNumber(uint numDigits, QWidget* parent)
 
 ElaLCDNumber::~ElaLCDNumber()
 {
+    Q_D(ElaLCDNumber);
+    delete d->_lcdNumberStyle;
 }
 
 void ElaLCDNumber::setIsUseAutoClock(bool isUseAutoClock)

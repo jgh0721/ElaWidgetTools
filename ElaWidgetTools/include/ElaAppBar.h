@@ -67,10 +67,13 @@ class ELA_EXPORT ElaAppBar : public QWidget
     Q_PROPERTY_CREATE_Q_H(QSize, IconSize)
 public:
     explicit ElaAppBar(QWidget* parent = nullptr);
-    ~ElaAppBar();
+    ~ElaAppBar() override;
 
     void setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* customWidget);
     QWidget* getCustomWidget() const;
+
+    void setCustomMenu(QMenu* customMenu);
+    QMenu* getCustomMenu() const;
 
     void setWindowButtonFlag(ElaAppBarType::ButtonType buttonFlag, bool isEnable = true);
     void setWindowButtonFlags(ElaAppBarType::ButtonFlags buttonFlags);
@@ -97,6 +100,7 @@ Q_SIGNALS:
     Q_SIGNAL void maxButtonClicked();
     Q_SIGNAL void closeButtonClicked();
     Q_SIGNAL void customWidgetChanged();
+    Q_SIGNAL void customMenuChanged();
     Q_SIGNAL void languageChanged();
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;

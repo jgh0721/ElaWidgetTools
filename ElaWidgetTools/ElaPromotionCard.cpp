@@ -49,7 +49,7 @@ ElaPromotionCard::ElaPromotionCard(QWidget* parent)
     d->_pSubTitlePixelSize = 16;
     setMouseTracking(true);
     setObjectName("ElaPromotionCard");
-    setStyleSheet("#ElaPromotionCard{background-color:transparent;}");
+    setStyleSheet("ElaPromotionCard{background-color:transparent;}");
     d->_hoverGradient = new QRadialGradient();
     d->_hoverGradient->setRadius(170);
     d->_hoverGradient->setColorAt(0, QColor(0xFF, 0xFF, 0xFF, 40));

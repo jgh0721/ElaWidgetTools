@@ -7,7 +7,7 @@ ElaDrawerArea::ElaDrawerArea(QWidget* parent)
     Q_D(ElaDrawerArea);
     d->q_ptr = this;
     setObjectName("ElaDrawerArea");
-    setStyleSheet("#ElaDrawerArea{background-color:transparent;}");
+    setStyleSheet("ElaDrawerArea{background-color:transparent;}");
 
     d->_drawerHeader = new ElaDrawerHeader(this);
     d->_drawerContainer = new ElaDrawerContainer(this);

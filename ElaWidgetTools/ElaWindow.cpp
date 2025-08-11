@@ -97,7 +97,7 @@ ElaWindow::ElaWindow(QWidget* parent, Qt::WindowFlags f)
     d->_centerStackedWidget->addWidget(navigationCentralWidget);
     setCentralWidget(d->_centerStackedWidget);
     setObjectName("ElaWindow");
-    setStyleSheet("#ElaWindow{background-color:transparent;}");
+    setStyleSheet("ElaWindow{background-color:transparent;}");
     setStyle(new ElaWindowStyle(style()));
 
     //延时渲染
@@ -115,6 +115,7 @@ ElaWindow::ElaWindow(QWidget* parent, Qt::WindowFlags f)
 ElaWindow::~ElaWindow()
 {
     eApp->syncWindowDisplayMode(this, false);
+    delete this->style();
 }
 
 void ElaWindow::setIsStayTop(bool isStayTop)
@@ -178,10 +179,30 @@ int ElaWindow::getAppBarHeight() const
     return d->_appBar->getAppBarHeight();
 }
 
+void ElaWindow::setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* widget)
+{
+    Q_D(ElaWindow);
+    d->_appBar->setCustomWidget(customArea, widget);
+    Q_EMIT customWidgetChanged();
+}
+
 QWidget* ElaWindow::getCustomWidget() const
 {
     Q_D(const ElaWindow);
     return d->_appBar->getCustomWidget();
+}
+
+void ElaWindow::setCustomMenu(QMenu* customMenu)
+{
+    Q_D(ElaWindow);
+    d->_appBar->setCustomMenu(customMenu);
+    Q_EMIT customMenuChanged();
+}
+
+QMenu* ElaWindow::getCustomMenu() const
+{
+    Q_D(const ElaWindow);
+    return d->_appBar->getCustomMenu();
 }
 
 void ElaWindow::setCustomWidgetMaximumWidth(int width)
@@ -280,13 +301,6 @@ ElaNavigationBar* ElaWindow::navigationBar() const
 {
     const Q_D(ElaWindow);
     return d->_navigationBar;
-}
-
-void ElaWindow::setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* widget)
-{
-    Q_D(ElaWindow);
-    d->_appBar->setCustomWidget(customArea, widget);
-    Q_EMIT customWidgetChanged();
 }
 
 void ElaWindow::setIsNavigationBarEnable(bool isVisible)

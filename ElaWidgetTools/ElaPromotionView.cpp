@@ -19,7 +19,7 @@ ElaPromotionView::ElaPromotionView(QWidget* parent)
     d->_pAutoScrollInterval = 5000;
     setFixedHeight(300);
     setObjectName("ElaPromotionView");
-    setStyleSheet("#ElaPromotionView{background-color:transparent;}");
+    setStyleSheet("ElaPromotionView{background-color:transparent;}");
 
     d->_autoScrollTimer = new QTimer(this);
     connect(d->_autoScrollTimer, &QTimer::timeout, this, [=]() {

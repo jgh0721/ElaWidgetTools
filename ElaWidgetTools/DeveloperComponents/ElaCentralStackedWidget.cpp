@@ -24,7 +24,7 @@ ElaCentralStackedWidget::ElaCentralStackedWidget(QWidget* parent)
     setGraphicsEffect(_blurEffect);
 
     setObjectName("ElaCentralStackedWidget");
-    setStyleSheet("#ElaCentralStackedWidget{background-color:transparent;}");
+    setStyleSheet("ElaCentralStackedWidget{background-color:transparent;}");
     _themeMode = eTheme->getThemeMode();
     connect(eTheme, &ElaTheme::themeModeChanged, this, &ElaCentralStackedWidget::onThemeModeChanged);
 }

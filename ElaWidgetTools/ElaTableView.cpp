@@ -14,7 +14,7 @@ ElaTableView::ElaTableView(QWidget* parent)
     setMouseTracking(true);
     setObjectName("ElaTableView");
     setStyleSheet(
-        "QTableView{background-color:transparent;}"
+        "ElaTableView{background-color:transparent;}"
         "QHeaderView{background-color:transparent;border:0px;}");
     setShowGrid(false);
     setVerticalScrollBar(new ElaScrollBar(this));
@@ -29,6 +29,8 @@ ElaTableView::ElaTableView(QWidget* parent)
 
 ElaTableView::~ElaTableView()
 {
+    Q_D(ElaTableView);
+    delete d->_tableViewStyle;
 }
 
 void ElaTableView::setHeaderMargin(int headerMargin)
