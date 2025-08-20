@@ -50,8 +50,9 @@ ElaText::~ElaText()
 void ElaText::setIsWrapAnywhere(bool isWrapAnywhere)
 {
     Q_D(ElaText);
-    setWordWrap(isWrapAnywhere);
     d->_isWrapAnywhere = isWrapAnywhere;
+    setWordWrap(isWrapAnywhere);
+    Q_EMIT pIsWrapAnywhereChanged();
 }
 
 bool ElaText::getIsWrapAnywhere() const
@@ -163,6 +164,8 @@ void ElaText::setLightTextColor( QColor TextColor )
 {
     Q_D(ElaText);
     d->_pLightTextColor = TextColor;
+    update();
+    Q_EMIT pLightTextColorChanged();
 }
 
 QColor ElaText::getLightTextColor() const
@@ -175,6 +178,8 @@ void ElaText::setDarkTextColor( QColor TextColor )
 {
     Q_D(ElaText);
     d->_pDarkTextColor = TextColor;
+    update();
+    Q_EMIT pDarkTextColorChanged();
 }
 
 QColor ElaText::getDarkTextColor() const
@@ -206,7 +211,7 @@ void ElaText::paintEvent(QPaintEvent* event)
             painter.save();
             painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
             painter.setPen(retrieveTextColor());
-            painter.drawText(rect(), Qt::AlignLeft | Qt::AlignVCenter | Qt::TextWordWrap | Qt::TextWrapAnywhere, text());
+            painter.drawText(rect(), alignment() | Qt::TextWordWrap | Qt::TextWrapAnywhere, text());
             painter.restore();
         }
         else
