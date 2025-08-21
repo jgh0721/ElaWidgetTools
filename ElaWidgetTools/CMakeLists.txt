@@ -14,7 +14,6 @@ add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 add_definitions(-DELAWIDGETTOOLS_LIBRARY)
 
 FILE(GLOB ORIGIN *.h *.cpp)
-FILE(GLOB INCLUDE include/*.h)
 FILE(GLOB PRIVATE private/*.h private/*.cpp)
 FILE(GLOB DEVELOPER DeveloperComponents/*.h DeveloperComponents/*.cpp)
 
@@ -24,10 +23,9 @@ source_group(DeveloperComponents FILES ${DEVELOPER})
 
 set(PROJECT_SOURCES
     ${ORIGIN}
-    ${INCLUDE}
     ${PRIVATE}
     ${DEVELOPER}
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/ElaWidgetTools.qrc
+    ${CMAKE_CURRENT_SOURCE_DIR}/ElaWidgetTools.qrc
 )
 
 if (ELAWIDGETTOOLS_BUILD_STATIC_LIB)
@@ -78,9 +76,9 @@ qt_add_resources(${PROJECT_NAME}
                  ${QT_RESOURCE_FILES}
                  )
 
-FILE(GLOB EXPORT_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/*.h)
+FILE(GLOB EXPORT_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 target_include_directories(${PROJECT_NAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DeveloperComponents>
     $<INSTALL_INTERFACE:${PROJECT_NAME}/include>

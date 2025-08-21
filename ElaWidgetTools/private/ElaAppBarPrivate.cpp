@@ -4,6 +4,11 @@
 #ifdef Q_OS_WIN
 #include <Windows.h>
 #endif
+#include "ElaAppBar.h"
+#include "ElaIconButton.h"
+#include "ElaNavigationBar.h"
+#include "ElaText.h"
+
 #include <QGuiApplication>
 #include <QLabel>
 #include <QMenu>
@@ -12,10 +17,6 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
-#include "ElaAppBar.h"
-#include "ElaIconButton.h"
-#include "ElaNavigationBar.h"
-#include "ElaText.h"
 ElaAppBarPrivate::ElaAppBarPrivate(QObject* parent)
     : QObject{parent}
 {

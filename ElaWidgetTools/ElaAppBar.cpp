@@ -19,7 +19,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include "Def.h"
+#include "ElaDef.h"
 #include "ElaEventBus.h"
 #include "ElaIconButton.h"
 #include "ElaTheme.h"
@@ -235,16 +235,19 @@ void ElaAppBar::setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* w
     case ElaAppBarType::LeftArea:
     {
         d->_mainLayout->insertWidget(4, widget);
+        //d->_mainLayout->setStretchFactor( widget, 2 );
         break;
     }
     case ElaAppBarType::MiddleArea:
     {
         d->_mainLayout->insertWidget(5, widget);
+        //d->_mainLayout->setStretchFactor( widget, 2 );
         break;
     }
     case ElaAppBarType::RightArea:
     {
         d->_mainLayout->insertWidget(6, widget);
+        //d->_mainLayout->setStretchFactor( widget, 2 );
         break;
     }
     }
@@ -485,7 +488,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             *result = ::DefWindowProcW( hwnd, uMsg, wParam, wParam ? lParam | ISC_SHOWUIALL : lParam );
             return 1;
         }
-        case WM_WINDOWPOSCHANGING: {
+        case WM_WINDOWPOSCHANGING:
+        {
             WINDOWPOS* wp = reinterpret_cast<WINDOWPOS *>(lParam);
             if( wp != nullptr && (wp->flags & SWP_NOSIZE) == 0 )
             {
@@ -495,7 +499,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             }
             return 0;
         }
-        case WM_NCACTIVATE: {
+        case WM_NCACTIVATE:
+        {
             if( ElaWinShadowHelper::getInstance()->isCompositionEnabled() )
             {
                 return 0;
@@ -503,7 +508,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             *result = TRUE;
             return 1;
         }
-        case WM_SIZE: {
+        case WM_SIZE:
+        {
             if( wParam == SIZE_RESTORED )
             {
                 d->_changeMaxButtonAwesome( false );
@@ -514,7 +520,25 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             }
             return 0;
         }
-        case WM_NCCALCSIZE: {
+#if QT_VERSION <= QT_VERSION_CHECK(6, 0, 0)
+        case WM_SHOWWINDOW:
+        {
+            if (wParam == FALSE)
+            {
+                return 0;
+            }
+            RECT windowRect{};
+            ::GetWindowRect(hwnd, &windowRect);
+            int windowWidth = windowRect.right - windowRect.left;
+            int windowHeight = windowRect.bottom - windowRect.top;
+            static UINT swpFlags = SWP_NOMOVE | SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE;
+            ::SetWindowPos(hwnd, nullptr, 0, 0, windowWidth + 1, windowHeight, swpFlags);
+            ::SetWindowPos(hwnd, nullptr, 0, 0, windowWidth, windowHeight, swpFlags);
+            return -1;
+        }
+#endif
+        case WM_NCCALCSIZE:
+        {
             #if (QT_VERSION >= QT_VERSION_CHECK( 6, 5, 3 ) && QT_VERSION <= QT_VERSION_CHECK( 6, 6, 1 ))
             if (wParam == FALSE)
             {
@@ -565,7 +589,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             return 1;
             #endif
         }
-        case WM_MOVE: {
+        case WM_MOVE:
+        {
             QScreen* currentScreen = qApp->screenAt( window()->geometry().center() );
             if( currentScreen && currentScreen != d->_lastScreen )
             {
@@ -578,7 +603,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             }
             break;
         }
-        case WM_NCHITTEST: {
+        case WM_NCHITTEST:
+        {
             if( d->_containsCursorToItem( d->_maxButton ) )
             {
                 if( *result == HTNOWHERE )
@@ -611,11 +637,11 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             ::GetClientRect( hwnd, &clientRect );
             auto clientWidth  = clientRect.right - clientRect.left;
             auto clientHeight = clientRect.bottom - clientRect.top;
-            bool left         = nativeLocalPos.x < d->_margins;
-            bool right        = nativeLocalPos.x > clientWidth - d->_margins;
-            bool top          = nativeLocalPos.y < d->_margins;
-            bool bottom       = nativeLocalPos.y > clientHeight - d->_margins;
-            *result           = 0;
+            bool left = nativeLocalPos.x < 0;
+            bool right = nativeLocalPos.x > clientWidth;
+            bool top = nativeLocalPos.y < d->_margins;
+            bool bottom = nativeLocalPos.y > clientHeight;
+            *result = HTNOWHERE;
             if( !d->_pIsOnlyAllowMinAndClose && !window()->isFullScreen() && !window()->isMaximized() )
             {
                 if( left && top )
@@ -663,7 +689,7 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             {
                 return 1;
             }
-            if( d->_containsCursorToItem( this ) )
+            if( d->_containsCursorToItem( this ) && !window()->isFullScreen() )
             {
                 *result = HTCAPTION;
                 return 1;

@@ -35,7 +35,7 @@ ElaComboBox::ElaComboBox(QWidget* parent)
     comboBoxView->setAutoScroll(false);
     comboBoxView->setSelectionMode(QAbstractItemView::NoSelection);
     comboBoxView->setObjectName("ElaComboBoxView");
-    comboBoxView->setStyleSheet("background-color:transparent;");
+    comboBoxView->setStyleSheet("#ElaComboBoxView{background-color:transparent;}");
     comboBoxView->setStyle(d->_comboBoxStyle);
     QWidget* container = this->findChild<QFrame*>();
     if (container)
@@ -52,7 +52,9 @@ ElaComboBox::ElaComboBox(QWidget* parent)
         layout->addWidget(view());
         layout->setContentsMargins(6, 0, 6, 6);
 #ifndef Q_OS_WIN
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
         container->setStyleSheet("background-color:transparent;");
+#endif
 #endif
     }
     QComboBox::setMaxVisibleItems(5);

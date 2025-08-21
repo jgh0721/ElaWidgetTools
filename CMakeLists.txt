@@ -21,13 +21,15 @@ ENDIF()
 
 SET(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/Install CACHE PATH "Installation path" FORCE)
 
+option(BUILD_ELAPACKETIO "Build ElaPacketIO" OFF)
 list(APPEND CMAKE_PREFIX_PATH ${QT_SDK_DIR})
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets LinguistTools)
 
 add_subdirectory(ElaWidgetTools)
-if (WIN32)
+if (WIN32 AND BUILD_ELAPACKETIO)
+    add_definitions(-DBUILD_WITH_ELAPACKETIO)
     add_subdirectory(ElaPacketIO)
 endif ()
 add_subdirectory(ElaWidgetToolsExample)

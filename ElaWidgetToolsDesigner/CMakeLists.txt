@@ -41,10 +41,10 @@ qt_add_resources(${PROJECT_NAME} "ElaWidgetToolsDesigner"
                  )
 
 qt_add_resources( ${PROJECT_NAME} "ElaWidgetToolsDesigner"
-                  RESOURCES PREFIX "/include"
-                  BASE "${CMAKE_CURRENT_SOURCE_DIR}/../ElaWidgetTools/include/Font"
+                  RESOURCES PREFIX "/"
+                  BASE "${CMAKE_CURRENT_SOURCE_DIR}/../ElaWidgetTools/Font"
                   FILES
-                  ${CMAKE_CURRENT_SOURCE_DIR}/../ElaWidgetTools/include/Font/ElaAwesome.ttf
+                  ${CMAKE_CURRENT_SOURCE_DIR}/../ElaWidgetTools/Font/ElaAwesome.ttf
                   )
 
 message(STATUS ${RESORUCE_MAIN})

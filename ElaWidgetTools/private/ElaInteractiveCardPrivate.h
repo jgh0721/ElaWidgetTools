@@ -6,9 +6,7 @@
 #include <QPixmap>
 #include <QSize>
 
-#include "Def.h"
-#include "ElaTheme.h"
-#include "stdafx.h"
+#include "ElaDef.h"
 class ElaInteractiveCard;
 class ElaInteractiveCardPrivate : public QObject
 {

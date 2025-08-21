@@ -183,7 +183,7 @@ void ElaMenu::paintEvent(QPaintEvent* event)
 {
     Q_D(ElaMenu);
     QPainter painter(this);
-    painter.setRenderHints(QPainter::Antialiasing);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
     if (!d->_animationPix.isNull())
     {
         painter.drawPixmap(QRect(0, d->_pAnimationImagePosY, width(), height()), d->_animationPix);

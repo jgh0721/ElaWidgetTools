@@ -4,8 +4,7 @@
 #include <QObject>
 #include <QColor>
 
-#include "Def.h"
-#include "stdafx.h"
+#include "ElaDef.h"
 class ElaEvent;
 class ElaLineEdit;
 class ElaLineEditPrivate : public QObject

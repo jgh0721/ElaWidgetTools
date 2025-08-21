@@ -4,9 +4,7 @@
 #include <QObject>
 #include <QColor>
 
-#include "Def.h"
-#include "stdafx.h"
-
+#include "ElaDef.h"
 class ElaText;
 class ElaTextPrivate : public QObject
 {

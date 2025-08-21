@@ -62,12 +62,16 @@ MainWindow::MainWindow(QWidget* parent)
     });
 
     //移动到中心
-    moveToCenter();
+    //moveToCenter();
 
     //  如果你的windows版本低于Win11 调用原生Mica、Mica-Alt、Acrylic 会导致窗口绘制失效  Dwm_Blur仍可使用
     //    eTheme->setThemeMode(ElaThemeType::Dark);
     //    QTimer::singleShot(1, this, [=]() {
     //        eApp->setWindowDisplayMode(ElaApplicationType::Mica);
+    //    });
+
+    //    QTimer::singleShot(1, this, [=]() {
+    //        showFullScreen();
     //    });
 }
 
@@ -99,6 +103,30 @@ void MainWindow::initWindow()
     centralStack->setFont(font);
     centralStack->setAlignment(Qt::AlignCenter);
     addCentralWidget(centralStack);
+
+    // 自定义AppBar菜单
+    ElaMenu* appBarMenu = new ElaMenu(this);
+    appBarMenu->setMenuItemHeight(27);
+    connect(appBarMenu->addAction("跳转到一级主要堆栈"), &QAction::triggered, this, [=]() {
+        setCurrentStackIndex(0);
+    });
+    connect(appBarMenu->addAction("跳转到二级主要堆栈"), &QAction::triggered, this, [=]() {
+        setCurrentStackIndex(1);
+    });
+    connect(appBarMenu->addAction("更改页面切换特效(Scale)"), &QAction::triggered, this, [=]() {
+        setStackSwitchMode(ElaWindowType::StackSwitchMode::Scale);
+    });
+    connect(appBarMenu->addElaIconAction(ElaIconType::GearComplex, "自定义主窗口设置"), &QAction::triggered, this, [=]() {
+        navigation(_settingKey);
+    });
+    appBarMenu->addSeparator();
+    connect(appBarMenu->addElaIconAction(ElaIconType::MoonStars, "更改项目主题"), &QAction::triggered, this, [=]() {
+        eTheme->setThemeMode(eTheme->getThemeMode() == ElaThemeType::Light ? ElaThemeType::Dark : ElaThemeType::Light);
+    });
+    connect(appBarMenu->addAction("使用原生菜单"), &QAction::triggered, this, [=]() {
+        setCustomMenu(nullptr);
+    });
+    setCustomMenu(appBarMenu);
 }
 
 void MainWindow::initEdgeLayout()

@@ -35,6 +35,16 @@ ElaFrame::~ElaFrame()
 {
 }
 
+void ElaFrame::setBackgroundColor( QColor BackgroundColor )
+{
+    m_BackgroundColor = BackgroundColor;
+}
+
+QColor ElaFrame::getBackgroundColor() const
+{
+    return m_BackgroundColor;
+}
+
 void ElaFrame::paintEvent( QPaintEvent* event )
 {
     Q_D( ElaFrame );
@@ -48,7 +58,7 @@ void ElaFrame::paintEvent( QPaintEvent* event )
         painter.save();
         painter.setRenderHints( QPainter::Antialiasing | QPainter::TextAntialiasing );
         painter.setPen( Qt::NoPen );
-        painter.setBrush( ElaThemeColor( d->_themeMode, WindowBase ) );
+        painter.setBrush( m_BackgroundColor.isValid() ? m_BackgroundColor : ElaThemeColor( d->_themeMode, WindowBase ) );
         painter.drawRect( rect() );
         painter.restore();
     }

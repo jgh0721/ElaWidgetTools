@@ -231,6 +231,14 @@ void ElaTableViewStyle::drawControl(ControlElement element, const QStyleOption* 
             if (!vopt->icon.isNull())
             {
                 QIcon::Mode mode = QIcon::Normal;
+                // if (!(vopt->state.testFlag(QStyle::State_Enabled)))
+                // {
+                //     mode = QIcon::Disabled;
+                // }
+                // else if (vopt->state.testFlag(QStyle::State_Selected))
+                // {
+                //     mode = QIcon::Selected;
+                // }
                 QIcon::State state = vopt->state & QStyle::State_Open ? QIcon::On : QIcon::Off;
                 vopt->icon.paint(painter, iconRect, vopt->decorationAlignment, mode, state);
             }

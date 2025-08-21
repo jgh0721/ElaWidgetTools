@@ -21,7 +21,6 @@ int main(int argc, char* argv[])
 #endif
     QApplication a(argc, argv);
     eApp->init();
-
     MainWindow w;
     w.show();
 #ifdef Q_OS_WIN

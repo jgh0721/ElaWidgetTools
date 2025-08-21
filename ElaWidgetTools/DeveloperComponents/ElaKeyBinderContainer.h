@@ -1,7 +1,7 @@
 #ifndef ELAWIDGETTOOLS_SRC_DEVELOPERCOMPONENTS_ELAKEYBINDERCONTAINER_H_
 #define ELAWIDGETTOOLS_SRC_DEVELOPERCOMPONENTS_ELAKEYBINDERCONTAINER_H_
 
-#include "Def.h"
+#include "ElaDef.h"
 #include <QWidget>
 class ElaKeyBinder;
 class ElaKeyBinderContainer : public QWidget

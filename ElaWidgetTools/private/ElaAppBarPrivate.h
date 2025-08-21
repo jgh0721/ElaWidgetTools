@@ -3,9 +3,7 @@
 #include <QObject>
 #include <QSize>
 
-#include "Def.h"
-#include "stdafx.h"
-
+#include "ElaDef.h"
 class QLabel;
 class QScreen;
 class QHBoxLayout;
