@@ -37,6 +37,10 @@ void ElaApplication::setWindowDisplayMode(ElaApplicationType::WindowDisplayMode 
     {
         return;
     }
+    if (lastDisplayMode == ElaApplicationType::ElaMica)
+    {
+        d->_resetAllMicaWidget();
+    }
     switch (windowDisplayType)
     {
     case ElaApplicationType::Normal:

@@ -74,6 +74,12 @@ public:
     ElaAppBarType::ButtonFlags getWindowButtonFlags() const;
 
     void closeWindow();
+
+public slots:
+    bool Refresh() { return doRefresh(); }
+    void ShowUI();
+    void HideUI();
+
 Q_SIGNALS:
     Q_SIGNAL void userInfoCardClicked();
     Q_SIGNAL void closeButtonClicked();

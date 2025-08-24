@@ -104,6 +104,9 @@ Q_SIGNALS:
     Q_SIGNAL void languageChanged();
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
+#ifdef Q_OS_WIN
+    virtual void paintEvent(QPaintEvent* event) override;
+#endif
     void changeEvent(QEvent* event) override;
     virtual void doChangeUILanguage() {};
 };

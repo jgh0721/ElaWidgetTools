@@ -1,11 +1,10 @@
-#ifndef ELADIALOG_H
-#define ELADIALOG_H
+#ifndef ELAFRAMEWORK_ELADIALOG_H
+#define ELAFRAMEWORK_ELADIALOG_H
 
+#include "ElaAppBar.h"
+#include "ElaDef.h"
 #include <QDialog>
 #include <QScopedPointer>
-
-#include "ElaProperty.h"
-#include "ElaAppBar.h"
 
 class QTimer;
 class ElaDialogPrivate;
@@ -92,4 +91,4 @@ private:
 
 };
 
-#endif // ELADIALOG_H
+#endif //ELAFRAMEWORK_ELADIALOG_H

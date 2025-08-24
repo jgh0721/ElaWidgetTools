@@ -40,29 +40,62 @@
     </message>
 </context>
 <context>
+    <name>ElaColorDialogPrivate</name>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="49"/>
+        <source>红色</source>
+        <translation>적색</translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="50"/>
+        <source>绿色</source>
+        <translation>녹색</translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="51"/>
+        <source>蓝色</source>
+        <translation>청색</translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="56"/>
+        <source>色调</source>
+        <translation>음정</translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="57"/>
+        <source>饱和度</source>
+        <translation>포화</translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="58"/>
+        <source>值</source>
+        <translation>값</translation>
+    </message>
+</context>
+<context>
     <name>ElaContentDialog</name>
     <message>
-        <location filename="ElaContentDialog.cpp" line="43"/>
+        <location filename="ElaContentDialog.cpp" line="50"/>
         <source>cancel</source>
         <translation>취소</translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="55"/>
+        <location filename="ElaContentDialog.cpp" line="62"/>
         <source>minimum</source>
         <translation>최소화</translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="67"/>
+        <location filename="ElaContentDialog.cpp" line="74"/>
         <source>exit</source>
         <translation>종료</translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="91"/>
+        <location filename="ElaContentDialog.cpp" line="98"/>
         <source>退出</source>
         <translation>종료</translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="94"/>
+        <location filename="ElaContentDialog.cpp" line="101"/>
         <source>确定要退出程序吗</source>
         <translation>프로그램을 종료하시겠습니까?</translation>
     </message>
@@ -70,12 +103,12 @@
 <context>
     <name>ElaDoubleSpinBox</name>
     <message>
-        <location filename="ElaDoubleSpinBox.cpp" line="126"/>
+        <location filename="ElaDoubleSpinBox.cpp" line="128"/>
         <source>增加</source>
         <translation>한 단계 위로</translation>
     </message>
     <message>
-        <location filename="ElaDoubleSpinBox.cpp" line="128"/>
+        <location filename="ElaDoubleSpinBox.cpp" line="130"/>
         <source>减少</source>
         <translation>한 단계 아래로</translation>
     </message>
@@ -166,37 +199,37 @@
 <context>
     <name>ElaLineEdit</name>
     <message>
-        <location filename="ElaLineEdit.cpp" line="187"/>
+        <location filename="ElaLineEdit.cpp" line="188"/>
         <source>撤销</source>
         <translation>실행 취소(&amp;U)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="191"/>
+        <location filename="ElaLineEdit.cpp" line="192"/>
         <source>恢复</source>
         <translation>다시 실행(&amp;R)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="199"/>
+        <location filename="ElaLineEdit.cpp" line="200"/>
         <source>剪切</source>
         <translation>잘라내기(&amp;T)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="204"/>
+        <location filename="ElaLineEdit.cpp" line="205"/>
         <source>复制</source>
         <translation>복사(&amp;C)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="210"/>
+        <location filename="ElaLineEdit.cpp" line="211"/>
         <source>粘贴</source>
         <translation>붙여넣기(&amp;P)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="217"/>
+        <location filename="ElaLineEdit.cpp" line="218"/>
         <source>删除</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="232"/>
+        <location filename="ElaLineEdit.cpp" line="233"/>
         <source>全选</source>
         <translation>모두 선택(&amp;S)</translation>
     </message>
@@ -204,37 +237,37 @@
 <context>
     <name>ElaPlainTextEdit</name>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="115"/>
+        <location filename="ElaPlainTextEdit.cpp" line="117"/>
         <source>撤销</source>
         <translation>실행 취소(&amp;U)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="119"/>
+        <location filename="ElaPlainTextEdit.cpp" line="121"/>
         <source>恢复</source>
         <translation>다시 실행(&amp;R)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="127"/>
+        <location filename="ElaPlainTextEdit.cpp" line="129"/>
         <source>剪切</source>
         <translation>잘라내기(&amp;T)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="132"/>
+        <location filename="ElaPlainTextEdit.cpp" line="134"/>
         <source>复制</source>
         <translation>복사(&amp;C)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="138"/>
+        <location filename="ElaPlainTextEdit.cpp" line="140"/>
         <source>粘贴</source>
         <translation>붙여넣기(&amp;P)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="145"/>
+        <location filename="ElaPlainTextEdit.cpp" line="147"/>
         <source>删除</source>
         <translation>삭제</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="158"/>
+        <location filename="ElaPlainTextEdit.cpp" line="160"/>
         <source>全选</source>
         <translation>모두 선택(&amp;S)</translation>
     </message>
@@ -242,67 +275,67 @@
 <context>
     <name>ElaScrollBar</name>
     <message>
-        <location filename="ElaScrollBar.cpp" line="196"/>
+        <location filename="ElaScrollBar.cpp" line="197"/>
         <source>滚动到此处</source>
         <translation>여기로 스크롤</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="199"/>
+        <location filename="ElaScrollBar.cpp" line="200"/>
         <source>左边缘</source>
         <translation>왼쪽 경계</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="199"/>
+        <location filename="ElaScrollBar.cpp" line="200"/>
         <source>顶端</source>
         <translation>맨 위</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="201"/>
+        <location filename="ElaScrollBar.cpp" line="202"/>
         <source>右边缘</source>
         <translation>오른쪽 경계</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="201"/>
+        <location filename="ElaScrollBar.cpp" line="202"/>
         <source>底部</source>
         <translation>맨 아래</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="204"/>
+        <location filename="ElaScrollBar.cpp" line="205"/>
         <source>向左翻页</source>
         <translation>한 쪽 왼쪽</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="204"/>
+        <location filename="ElaScrollBar.cpp" line="205"/>
         <source>向上翻页</source>
         <translation>한 쪽 위</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="206"/>
+        <location filename="ElaScrollBar.cpp" line="207"/>
         <source>向右翻页</source>
         <translation>한 쪽 오른쪽</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="206"/>
+        <location filename="ElaScrollBar.cpp" line="207"/>
         <source>向下翻页</source>
         <translation>한 쪽 아래</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="209"/>
+        <location filename="ElaScrollBar.cpp" line="210"/>
         <source>向左滚动</source>
         <translation>왼쪽으로 스크롤</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="209"/>
+        <location filename="ElaScrollBar.cpp" line="210"/>
         <source>向上滚动</source>
         <translation>위로 스크롤</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="211"/>
+        <location filename="ElaScrollBar.cpp" line="212"/>
         <source>向右滚动</source>
         <translation>오른쪽으로 스크롤</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="211"/>
+        <location filename="ElaScrollBar.cpp" line="212"/>
         <source>向下滚动</source>
         <translation>아래로 스크롤</translation>
     </message>
@@ -310,12 +343,12 @@
 <context>
     <name>ElaSpinBox</name>
     <message>
-        <location filename="ElaSpinBox.cpp" line="126"/>
+        <location filename="ElaSpinBox.cpp" line="128"/>
         <source>增加</source>
         <translation>한 단계 위로</translation>
     </message>
     <message>
-        <location filename="ElaSpinBox.cpp" line="128"/>
+        <location filename="ElaSpinBox.cpp" line="130"/>
         <source>减少</source>
         <translation>한 단계 아래로</translation>
     </message>

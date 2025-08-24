@@ -21,10 +21,12 @@ ElaDialog::ElaDialog( QWidget* parent, Qt::WindowFlags flags )
     Q_D(ElaDialog);
     d->q_ptr = this;
 
+    setWindowTitle("ElaDialog");
+    setObjectName("ElaDialog");
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
     setStyleSheet("ElaDialog{background-color:transparent;}");
 #endif
-
+    // 自定义AppBar
     d->_appBar = new ElaAppBar(this);
     setIsStayTop( false );
     d->_appBar->setWindowButtonFlags(ElaAppBarType::MinimizeButtonHint | ElaAppBarType::MaximizeButtonHint | ElaAppBarType::CloseButtonHint);
@@ -33,6 +35,7 @@ ElaDialog::ElaDialog( QWidget* parent, Qt::WindowFlags flags )
     connect(d->_appBar, &ElaAppBar::themeChangeButtonClicked, this, &ElaDialog::themeChangeButtonClicked);
     connect(d->_appBar, &ElaAppBar::closeButtonClicked, this, &ElaDialog::closeButtonClicked);
 
+    // 主题
     d->_themeMode = eTheme->getThemeMode();
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         d->_themeMode = themeMode;
@@ -54,7 +57,8 @@ ElaDialog::~ElaDialog()
 
 void ElaDialog::setIsStayTop(bool isStayTop)
 {
-    appBar()->setIsStayTop(isStayTop);
+    Q_D(ElaDialog);
+    d->_appBar->setIsStayTop(isStayTop);
 }
 
 bool ElaDialog::getIsStayTop() const
@@ -84,18 +88,21 @@ bool ElaDialog::getIsFixedVerticalSize() const
 
 void ElaDialog::setIsDefaultClosed(bool isDefaultClosed)
 {
-    appBar()->setIsDefaultClosed(isDefaultClosed);
+    Q_D(ElaDialog);
+    d->_appBar->setIsDefaultClosed(isDefaultClosed);
     Q_EMIT pIsDefaultClosedChanged();
 }
 
 bool ElaDialog::getIsDefaultClosed() const
 {
-    return appBar()->getIsDefaultClosed();
+    Q_D(const ElaDialog);
+    return d->_appBar->getIsDefaultClosed();
 }
 
 void ElaDialog::setAppBarHeight(int appBarHeight)
 {
-    appBar()->setAppBarHeight(appBarHeight);
+    Q_D(ElaDialog);
+    d->_appBar->setAppBarHeight(appBarHeight);
     Q_EMIT pAppBarHeightChanged();
 }
 

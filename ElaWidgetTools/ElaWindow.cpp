@@ -493,6 +493,18 @@ void ElaWindow::closeWindow()
     d->_appBar->closeWindow();
 }
 
+void ElaWindow::ShowUI()
+{
+    raise();
+    activateWindow();
+    show();
+}
+
+void ElaWindow::HideUI()
+{
+    hide();
+}
+
 void ElaWindow::showEvent( QShowEvent* event )
 {
     do

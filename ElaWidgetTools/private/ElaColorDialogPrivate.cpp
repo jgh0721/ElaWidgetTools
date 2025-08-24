@@ -46,16 +46,16 @@ void ElaColorDialogPrivate::onColorModeChanged(int index)
 {
     if (index == 0)
     {
-        _firstText->setText("红色");
-        _secondText->setText("绿色");
-        _thridText->setText("蓝色");
+        _firstText->setText(tr("红色"));
+        _secondText->setText(tr("绿色"));
+        _thridText->setText(tr("蓝色"));
         _firstEdit->setValidator(new ElaIntValidator(0, 255, this));
     }
     else if (index == 1)
     {
-        _firstText->setText("色调");
-        _secondText->setText("饱和度");
-        _thridText->setText("值");
+        _firstText->setText(tr("色调"));
+        _secondText->setText(tr("饱和度"));
+        _thridText->setText(tr("值"));
         _firstEdit->setValidator(new ElaIntValidator(0, 359, this));
     }
     _updateEditValue();

@@ -1,5 +1,5 @@
-#ifndef ELADIALOGPRIVATE_H
-#define ELADIALOGPRIVATE_H
+#ifndef ELAFRAMEWORK_ELADIALOGPRIVATE_H
+#define ELAFRAMEWORK_ELADIALOGPRIVATE_H
 
 #include <QObject>
 
@@ -21,4 +21,4 @@ private:
     ElaAppBar*                              _appBar{nullptr};
 };
 
-#endif // ELADIALOGPRIVATE_H
+#endif //ELAFRAMEWORK_ELADIALOGPRIVATE_H

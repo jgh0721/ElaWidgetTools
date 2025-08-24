@@ -40,29 +40,62 @@
     </message>
 </context>
 <context>
+    <name>ElaColorDialogPrivate</name>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="49"/>
+        <source>红色</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="50"/>
+        <source>绿色</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="51"/>
+        <source>蓝色</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="56"/>
+        <source>色调</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="57"/>
+        <source>饱和度</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="private/ElaColorDialogPrivate.cpp" line="58"/>
+        <source>值</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ElaContentDialog</name>
     <message>
-        <location filename="ElaContentDialog.cpp" line="43"/>
+        <location filename="ElaContentDialog.cpp" line="50"/>
         <source>cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="55"/>
+        <location filename="ElaContentDialog.cpp" line="62"/>
         <source>minimum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="67"/>
+        <location filename="ElaContentDialog.cpp" line="74"/>
         <source>exit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="91"/>
+        <location filename="ElaContentDialog.cpp" line="98"/>
         <source>退出</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="94"/>
+        <location filename="ElaContentDialog.cpp" line="101"/>
         <source>确定要退出程序吗</source>
         <translation type="unfinished"></translation>
     </message>
@@ -70,12 +103,12 @@
 <context>
     <name>ElaDoubleSpinBox</name>
     <message>
-        <location filename="ElaDoubleSpinBox.cpp" line="126"/>
+        <location filename="ElaDoubleSpinBox.cpp" line="128"/>
         <source>增加</source>
         <translation>Up</translation>
     </message>
     <message>
-        <location filename="ElaDoubleSpinBox.cpp" line="128"/>
+        <location filename="ElaDoubleSpinBox.cpp" line="130"/>
         <source>减少</source>
         <translation>Down</translation>
     </message>
@@ -166,37 +199,37 @@
 <context>
     <name>ElaLineEdit</name>
     <message>
-        <location filename="ElaLineEdit.cpp" line="187"/>
+        <location filename="ElaLineEdit.cpp" line="188"/>
         <source>撤销</source>
         <translation>Undo(&amp;U)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="191"/>
+        <location filename="ElaLineEdit.cpp" line="192"/>
         <source>恢复</source>
         <translation>Redo(&amp;R)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="199"/>
+        <location filename="ElaLineEdit.cpp" line="200"/>
         <source>剪切</source>
         <translation>Cut(&amp;T)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="204"/>
+        <location filename="ElaLineEdit.cpp" line="205"/>
         <source>复制</source>
         <translation>Copy(&amp;C)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="210"/>
+        <location filename="ElaLineEdit.cpp" line="211"/>
         <source>粘贴</source>
         <translation>Paste(&amp;P)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="217"/>
+        <location filename="ElaLineEdit.cpp" line="218"/>
         <source>删除</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="232"/>
+        <location filename="ElaLineEdit.cpp" line="233"/>
         <source>全选</source>
         <translation>Select All(&amp;S)</translation>
     </message>
@@ -204,37 +237,37 @@
 <context>
     <name>ElaPlainTextEdit</name>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="115"/>
+        <location filename="ElaPlainTextEdit.cpp" line="117"/>
         <source>撤销</source>
         <translation type="unfinished">Undo(&amp;U)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="119"/>
+        <location filename="ElaPlainTextEdit.cpp" line="121"/>
         <source>恢复</source>
         <translation type="unfinished">Redo(&amp;R)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="127"/>
+        <location filename="ElaPlainTextEdit.cpp" line="129"/>
         <source>剪切</source>
         <translation type="unfinished">Cut(&amp;T)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="132"/>
+        <location filename="ElaPlainTextEdit.cpp" line="134"/>
         <source>复制</source>
         <translation type="unfinished">Copy(&amp;C)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="138"/>
+        <location filename="ElaPlainTextEdit.cpp" line="140"/>
         <source>粘贴</source>
         <translation type="unfinished">Paste(&amp;P)</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="145"/>
+        <location filename="ElaPlainTextEdit.cpp" line="147"/>
         <source>删除</source>
         <translation type="unfinished">Delete</translation>
     </message>
     <message>
-        <location filename="ElaPlainTextEdit.cpp" line="158"/>
+        <location filename="ElaPlainTextEdit.cpp" line="160"/>
         <source>全选</source>
         <translation type="unfinished">Select All(&amp;S)</translation>
     </message>
@@ -242,67 +275,67 @@
 <context>
     <name>ElaScrollBar</name>
     <message>
-        <location filename="ElaScrollBar.cpp" line="196"/>
+        <location filename="ElaScrollBar.cpp" line="197"/>
         <source>滚动到此处</source>
         <translation>Scroll Here</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="199"/>
+        <location filename="ElaScrollBar.cpp" line="200"/>
         <source>左边缘</source>
         <translation>Left Edge</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="199"/>
+        <location filename="ElaScrollBar.cpp" line="200"/>
         <source>顶端</source>
         <translation>Top</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="201"/>
+        <location filename="ElaScrollBar.cpp" line="202"/>
         <source>右边缘</source>
         <translation>Right Edge</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="201"/>
+        <location filename="ElaScrollBar.cpp" line="202"/>
         <source>底部</source>
         <translation>Bottom</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="204"/>
+        <location filename="ElaScrollBar.cpp" line="205"/>
         <source>向左翻页</source>
         <translation>Page Left</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="204"/>
+        <location filename="ElaScrollBar.cpp" line="205"/>
         <source>向上翻页</source>
         <translation>Page Up</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="206"/>
+        <location filename="ElaScrollBar.cpp" line="207"/>
         <source>向右翻页</source>
         <translation>Page Right</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="206"/>
+        <location filename="ElaScrollBar.cpp" line="207"/>
         <source>向下翻页</source>
         <translation>Page Down</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="209"/>
+        <location filename="ElaScrollBar.cpp" line="210"/>
         <source>向左滚动</source>
         <translation>Scroll Left</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="209"/>
+        <location filename="ElaScrollBar.cpp" line="210"/>
         <source>向上滚动</source>
         <translation>Scroll Up</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="211"/>
+        <location filename="ElaScrollBar.cpp" line="212"/>
         <source>向右滚动</source>
         <translation>Scroll Right</translation>
     </message>
     <message>
-        <location filename="ElaScrollBar.cpp" line="211"/>
+        <location filename="ElaScrollBar.cpp" line="212"/>
         <source>向下滚动</source>
         <translation>Scroll Down</translation>
     </message>
@@ -310,12 +343,12 @@
 <context>
     <name>ElaSpinBox</name>
     <message>
-        <location filename="ElaSpinBox.cpp" line="126"/>
+        <location filename="ElaSpinBox.cpp" line="128"/>
         <source>增加</source>
         <translation>Up</translation>
     </message>
     <message>
-        <location filename="ElaSpinBox.cpp" line="128"/>
+        <location filename="ElaSpinBox.cpp" line="130"/>
         <source>减少</source>
         <translation>Down</translation>
     </message>
