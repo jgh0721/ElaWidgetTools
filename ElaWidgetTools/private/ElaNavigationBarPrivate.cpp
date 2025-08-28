@@ -89,7 +89,7 @@ void ElaNavigationBarPrivate::onTreeViewClicked(const QModelIndex& index, bool i
         }
         else
         {
-            if (node->getKeyPoints())
+            if (node->getKeyPoints() && _pIsManualResetKeyPoint == false)
             {
                 node->setKeyPoints(0);
                 _navigationView->update();

@@ -6,6 +6,7 @@
 #include "ElaAppBar.h"
 #include "ElaProperty.h"
 
+class ElaAppBar;
 class ElaPushButton;
 class ElaText;
 class ElaContentDialogPrivate;
@@ -21,6 +22,8 @@ public:
     Q_SLOT virtual void onMiddleButtonClicked();
     Q_SLOT virtual void onRightButtonClicked();
     void setCentralWidget(QWidget* centralWidget);
+
+    ElaAppBar* appBar() const;
 
     ElaText* getDefaultTitle();
     ElaText* getDefaultSubTitle();

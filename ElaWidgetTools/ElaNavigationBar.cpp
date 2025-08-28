@@ -24,6 +24,7 @@
 #include <QVBoxLayout>
 Q_PROPERTY_CREATE_Q_CPP(ElaNavigationBar, bool, IsTransparent)
 Q_PROPERTY_CREATE_Q_CPP(ElaNavigationBar, bool, IsAllowPageOpenInNewWindow)
+Q_PROPERTY_CREATE_Q_CPP(ElaNavigationBar, bool, IsManualResetKeyPoint)
 ElaNavigationBar::ElaNavigationBar(QWidget* parent)
     : QWidget{parent}, d_ptr(new ElaNavigationBarPrivate())
 {

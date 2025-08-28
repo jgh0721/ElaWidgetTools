@@ -106,7 +106,7 @@ QVariant ElaCalendarModel::data(const QModelIndex& index, int role) const
                 QDate date = getDateFromIndex(index);
                 if (date.day() == 1)
                 {
-                    return QVariant::fromValue<ElaCalendarData>(ElaCalendarData(date.year(), date.month(), date.day(), QString("%1月").arg(date.month())));
+                    return QVariant::fromValue<ElaCalendarData>(ElaCalendarData(date.year(), date.month(), date.day(), tr("%1月").arg(date.month())));
                 }
                 else
                 {

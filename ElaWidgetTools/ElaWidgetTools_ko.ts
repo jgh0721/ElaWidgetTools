@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ko_KR" sourcelanguage="_US">
 <context>
+    <name>ElaCalendarPrivate</name>
+    <message>
+        <location filename="private/ElaCalendarPrivate.cpp" line="229"/>
+        <source>%1年</source>
+        <translation>%1년</translation>
+    </message>
+    <message>
+        <location filename="private/ElaCalendarPrivate.cpp" line="234"/>
+        <source>%1年%2月</source>
+        <translation>%1년%2월</translation>
+    </message>
+</context>
+<context>
     <name>ElaCalendarTitleModel</name>
     <message>
         <location filename="DeveloperComponents/ElaCalendarTitleModel.cpp" line="25"/>
@@ -59,12 +72,12 @@
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="56"/>
         <source>色调</source>
-        <translation>음정</translation>
+        <translation>색조</translation>
     </message>
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="57"/>
         <source>饱和度</source>
-        <translation>포화</translation>
+        <translation>채도</translation>
     </message>
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="58"/>
@@ -157,7 +170,7 @@
         <location filename="ElaKeyBinder.cpp" line="19"/>
         <location filename="ElaKeyBinder.cpp" line="20"/>
         <source>  按键: </source>
-        <translation> 설정: </translation>
+        <translation>  설정: </translation>
     </message>
     <message>
         <location filename="ElaKeyBinder.cpp" line="19"/>
@@ -232,6 +245,14 @@
         <location filename="ElaLineEdit.cpp" line="233"/>
         <source>全选</source>
         <translation>모두 선택(&amp;S)</translation>
+    </message>
+</context>
+<context>
+    <name>ElaNavigationView</name>
+    <message>
+        <location filename="DeveloperComponents/ElaNavigationView.cpp" line="102"/>
+        <source>在新窗口中打开</source>
+        <translation>새 창으로 열기</translation>
     </message>
 </context>
 <context>

@@ -40,6 +40,12 @@ ElaCalendarPicker::~ElaCalendarPicker()
 {
 }
 
+ElaCalendar* ElaCalendarPicker::Calendar() const
+{
+    Q_D(const ElaCalendarPicker);
+    return d->_calendar;
+}
+
 void ElaCalendarPicker::setSelectedDate(QDate selectedDate)
 {
     Q_D(ElaCalendarPicker);

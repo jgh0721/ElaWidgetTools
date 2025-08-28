@@ -31,6 +31,7 @@ ElaKeyBinder::ElaKeyBinder(QWidget* parent)
     d->_binderDialog->setLeftButtonText(tr("取消"));
     d->_binderDialog->setMiddleButtonText(tr("重置"));
     d->_binderDialog->setRightButtonText(tr("确认"));
+    d->_binderDialog->appBar()->setIsStayTop( true );
     connect(d->_binderDialog, &ElaContentDialog::middleButtonClicked, this, [=]() {
         d->_binderContainer->logOrResetHistoryData(false);
     });

@@ -101,14 +101,14 @@ void ElaApplication::init( const QString& ConfigFilePath )
     if( QFile::exists( ":/translations/ElaWidgetTools_ko.qm" ) == true )
     {
         QTranslator* ko = new QTranslator();
-        if( ko->load( "ElaWidgetTools_ko", ":/translations" ) == true )
+        if( ko->load( QLocale::Korean, ":/translations/ElaWidgetTools_ko.qm" ) == true )
             qApp->installTranslator( ko );
     }
 
     if( QFile::exists( ":/translations/ElaWidgetTools_en.qm" ) == true )
     {
         QTranslator* en = new QTranslator();
-        if( en->load( "ElaWidgetTools_en", ":/translations" ) == true )
+        if( en->load( QLocale::English, ":/translations/ElaWidgetTools_en.qm" ) == true )
             qApp->installTranslator( en );
     }
 

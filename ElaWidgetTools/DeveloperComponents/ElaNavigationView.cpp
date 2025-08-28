@@ -99,7 +99,7 @@ void ElaNavigationView::onCustomContextMenuRequested(const QPoint& pos)
     {
         ElaMenu menu;
         menu.setMenuItemHeight(27);
-        QAction* openAction = menu.addElaIconAction(ElaIconType::ObjectGroup, "在新窗口中打开");
+        QAction* openAction = menu.addElaIconAction(ElaIconType::ObjectGroup, tr("在新窗口中打开"));
         connect(openAction, &QAction::triggered, this, [=]() {
             Q_EMIT navigationOpenNewWindow(posNode->getNodeKey());
         });

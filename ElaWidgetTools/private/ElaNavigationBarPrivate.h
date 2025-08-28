@@ -30,6 +30,7 @@ class ElaNavigationBarPrivate : public QObject
     Q_D_CREATE(ElaNavigationBar)
     Q_PROPERTY_CREATE_D(bool, IsTransparent)
     Q_PROPERTY_CREATE_D(bool, IsAllowPageOpenInNewWindow)
+    Q_PROPERTY_CREATE_D(bool, IsManualResetKeyPoint)
     Q_PROPERTY_CREATE_D(int, NavigationBarWidth)
     Q_PROPERTY_CREATE(int, NavigationViewWidth);
 

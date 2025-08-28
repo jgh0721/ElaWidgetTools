@@ -4,6 +4,7 @@
 #include <QPushButton>
 
 #include "ElaProperty.h"
+class ElaCalendar;
 class ElaCalendarPickerPrivate;
 class ELA_EXPORT ElaCalendarPicker : public QPushButton
 {
@@ -18,6 +19,7 @@ public:
     explicit ElaCalendarPicker(QWidget* parent = nullptr);
     ~ElaCalendarPicker();
 
+    ElaCalendar* Calendar() const;
 Q_SIGNALS:
     Q_SIGNAL void selectedDateChanged(QDate date);
 

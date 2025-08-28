@@ -53,7 +53,7 @@ ElaCalendar::ElaCalendar(QWidget* parent)
 
     // 模式切换按钮
     d->_modeSwitchButton = new ElaToolButton(this);
-    d->_modeSwitchButton->setText("1924年1月");
+    d->_modeSwitchButton->setText(tr("1924年1月"));
     QFont switchButtonFont = d->_modeSwitchButton->font();
     switchButtonFont.setWeight(QFont::Bold);
     d->_modeSwitchButton->setFont(switchButtonFont);

@@ -16,6 +16,7 @@ class ELA_EXPORT ElaNavigationBar : public QWidget
     Q_PROPERTY_CREATE_Q_H(bool, IsTransparent)
     Q_PROPERTY_CREATE_Q_H(bool, IsAllowPageOpenInNewWindow)
     Q_PROPERTY_CREATE_Q_H(int, NavigationBarWidth)
+    Q_PROPERTY_CREATE_Q_H(bool, IsManualResetKeyPoint)
 public:
     explicit ElaNavigationBar(QWidget* parent = nullptr);
     ~ElaNavigationBar() override;

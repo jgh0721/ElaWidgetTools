@@ -226,12 +226,12 @@ void ElaCalendarPrivate::_updateSwitchButtonText()
     }
     case MonthMode:
     {
-        _modeSwitchButton->setText(QString("%1年").arg(data.year));
+        _modeSwitchButton->setText(tr("%1年").arg(data.year));
         break;
     }
     case DayMode:
     {
-        _modeSwitchButton->setText(QString("%1年%2月").arg(data.year).arg(data.month));
+        _modeSwitchButton->setText(tr("%1年%2月").arg(data.year).arg(data.month));
         break;
     }
     }

@@ -2,6 +2,19 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US" sourcelanguage="_US">
 <context>
+    <name>ElaCalendarPrivate</name>
+    <message>
+        <location filename="private/ElaCalendarPrivate.cpp" line="229"/>
+        <source>%1年</source>
+        <translation>%1Y</translation>
+    </message>
+    <message>
+        <location filename="private/ElaCalendarPrivate.cpp" line="234"/>
+        <source>%1年%2月</source>
+        <translation>%1Y%2D</translation>
+    </message>
+</context>
+<context>
     <name>ElaCalendarTitleModel</name>
     <message>
         <location filename="DeveloperComponents/ElaCalendarTitleModel.cpp" line="25"/>
@@ -44,32 +57,32 @@
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="49"/>
         <source>红色</source>
-        <translation type="unfinished"></translation>
+        <translation>Red</translation>
     </message>
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="50"/>
         <source>绿色</source>
-        <translation type="unfinished"></translation>
+        <translation>Green</translation>
     </message>
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="51"/>
         <source>蓝色</source>
-        <translation type="unfinished"></translation>
+        <translation>Blue</translation>
     </message>
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="56"/>
         <source>色调</source>
-        <translation type="unfinished"></translation>
+        <translation>Tone</translation>
     </message>
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="57"/>
         <source>饱和度</source>
-        <translation type="unfinished"></translation>
+        <translation>Saturation</translation>
     </message>
     <message>
         <location filename="private/ElaColorDialogPrivate.cpp" line="58"/>
         <source>值</source>
-        <translation type="unfinished"></translation>
+        <translation>Value</translation>
     </message>
 </context>
 <context>
@@ -77,27 +90,27 @@
     <message>
         <location filename="ElaContentDialog.cpp" line="50"/>
         <source>cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="ElaContentDialog.cpp" line="62"/>
         <source>minimum</source>
-        <translation type="unfinished"></translation>
+        <translation>Minimize</translation>
     </message>
     <message>
         <location filename="ElaContentDialog.cpp" line="74"/>
         <source>exit</source>
-        <translation type="unfinished"></translation>
+        <translation>Exit</translation>
     </message>
     <message>
         <location filename="ElaContentDialog.cpp" line="98"/>
         <source>退出</source>
-        <translation type="unfinished"></translation>
+        <translation>Close</translation>
     </message>
     <message>
         <location filename="ElaContentDialog.cpp" line="101"/>
         <source>确定要退出程序吗</source>
-        <translation type="unfinished"></translation>
+        <translation>Are you sure you want to quit the program?</translation>
     </message>
 </context>
 <context>
@@ -157,27 +170,27 @@
         <location filename="ElaKeyBinder.cpp" line="19"/>
         <location filename="ElaKeyBinder.cpp" line="20"/>
         <source>  按键: </source>
-        <translation type="unfinished"></translation>
+        <translation>  Set: </translation>
     </message>
     <message>
         <location filename="ElaKeyBinder.cpp" line="19"/>
         <source>未绑定</source>
-        <translation type="unfinished"></translation>
+        <translation>Not Set</translation>
     </message>
     <message>
         <location filename="ElaKeyBinder.cpp" line="31"/>
         <source>取消</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancel</translation>
     </message>
     <message>
         <location filename="ElaKeyBinder.cpp" line="32"/>
         <source>重置</source>
-        <translation type="unfinished"></translation>
+        <translation>Clear</translation>
     </message>
     <message>
         <location filename="ElaKeyBinder.cpp" line="33"/>
         <source>确认</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
@@ -185,7 +198,7 @@
     <message>
         <location filename="DeveloperComponents/ElaKeyBinderContainer.cpp" line="24"/>
         <source>按下任意按键以进行绑定</source>
-        <translation type="unfinished"></translation>
+        <translation>Please press the key to bind</translation>
     </message>
 </context>
 <context>
@@ -193,7 +206,7 @@
     <message>
         <location filename="private/ElaKeyBinderPrivate.cpp" line="10"/>
         <source>按下任意按键以进行绑定</source>
-        <translation type="unfinished"></translation>
+        <translation>Please press the key to bind</translation>
     </message>
 </context>
 <context>
@@ -235,41 +248,49 @@
     </message>
 </context>
 <context>
+    <name>ElaNavigationView</name>
+    <message>
+        <location filename="DeveloperComponents/ElaNavigationView.cpp" line="102"/>
+        <source>在新窗口中打开</source>
+        <translation>Open in new window</translation>
+    </message>
+</context>
+<context>
     <name>ElaPlainTextEdit</name>
     <message>
         <location filename="ElaPlainTextEdit.cpp" line="117"/>
         <source>撤销</source>
-        <translation type="unfinished">Undo(&amp;U)</translation>
+        <translation>Undo(&amp;U)</translation>
     </message>
     <message>
         <location filename="ElaPlainTextEdit.cpp" line="121"/>
         <source>恢复</source>
-        <translation type="unfinished">Redo(&amp;R)</translation>
+        <translation>Redo(&amp;R)</translation>
     </message>
     <message>
         <location filename="ElaPlainTextEdit.cpp" line="129"/>
         <source>剪切</source>
-        <translation type="unfinished">Cut(&amp;T)</translation>
+        <translation>Cut(&amp;T)</translation>
     </message>
     <message>
         <location filename="ElaPlainTextEdit.cpp" line="134"/>
         <source>复制</source>
-        <translation type="unfinished">Copy(&amp;C)</translation>
+        <translation>Copy(&amp;C)</translation>
     </message>
     <message>
         <location filename="ElaPlainTextEdit.cpp" line="140"/>
         <source>粘贴</source>
-        <translation type="unfinished">Paste(&amp;P)</translation>
+        <translation>Paste(&amp;P)</translation>
     </message>
     <message>
         <location filename="ElaPlainTextEdit.cpp" line="147"/>
         <source>删除</source>
-        <translation type="unfinished">Delete</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="ElaPlainTextEdit.cpp" line="160"/>
         <source>全选</source>
-        <translation type="unfinished">Select All(&amp;S)</translation>
+        <translation>Select All(&amp;S)</translation>
     </message>
 </context>
 <context>

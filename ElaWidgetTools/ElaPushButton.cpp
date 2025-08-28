@@ -113,7 +113,7 @@ void ElaPushButton::paintEvent(QPaintEvent* event)
     }
     //文字绘制
     painter.setPen(retrieveTextColor());
-    painter.drawText(foregroundRect, Qt::AlignCenter | Qt::TextHideMnemonic, text());
+    painter.drawText(foregroundRect, Qt::AlignCenter | Qt::TextShowMnemonic, text());
     painter.restore();
 }
 

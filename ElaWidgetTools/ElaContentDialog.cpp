@@ -155,6 +155,12 @@ void ElaContentDialog::setCentralWidget(QWidget* centralWidget)
     d->_mainLayout->addWidget(d->_buttonWidget);
 }
 
+ElaAppBar* ElaContentDialog::appBar() const
+{
+    Q_D(const ElaContentDialog);
+    return d->_appBar;
+}
+
 ElaText* ElaContentDialog::getDefaultTitle()
 {
     Q_D(ElaContentDialog);

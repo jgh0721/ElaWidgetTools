@@ -162,7 +162,7 @@ void ElaToggleButton::paintEvent(QPaintEvent* event)
 
     //文字绘制
     painter.setPen(retrieveTextColor());
-    painter.drawText(foregroundRect, Qt::AlignCenter | Qt::TextHideMnemonic, d->_pText);
+    painter.drawText(foregroundRect, Qt::AlignCenter | Qt::TextShowMnemonic, d->_pText);
     painter.restore();
 }
 
