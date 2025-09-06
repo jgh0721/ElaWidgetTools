@@ -13,7 +13,7 @@ class ElaThemePrivate : public QObject
     Q_D_CREATE(ElaTheme)
 public:
     explicit ElaThemePrivate(QObject* parent = nullptr);
-    ~ElaThemePrivate() override;
+    ~ElaThemePrivate();
 
 private:
     ElaThemeType::ThemeMode _themeMode{ElaThemeType::Light};

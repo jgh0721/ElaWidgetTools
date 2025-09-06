@@ -246,20 +246,17 @@ void ElaAppBar::setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* w
     {
     case ElaAppBarType::LeftArea:
     {
-        d->_mainLayout->insertWidget(4, widget);
-        //d->_mainLayout->setStretchFactor( widget, 2 );
+        d->_mainLayout->insertWidget(4, widget, 2);
         break;
     }
     case ElaAppBarType::MiddleArea:
     {
         d->_mainLayout->insertWidget(5, widget);
-        //d->_mainLayout->setStretchFactor( widget, 2 );
         break;
     }
     case ElaAppBarType::RightArea:
     {
         d->_mainLayout->insertWidget(6, widget);
-        //d->_mainLayout->setStretchFactor( widget, 2 );
         break;
     }
     }
@@ -494,13 +491,13 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
     Q_D( ElaAppBar );
     if( (eventType != "windows_generic_MSG") || !message )
     {
-        return -1;
+        return 0;
     }
     const auto msg  = static_cast<const MSG *>(message);
     const HWND hwnd = msg->hwnd;
     if( !hwnd || !msg )
     {
-        return -1;
+        return 0;
     }
     d->_currentWinID    = (qint64)hwnd;
     const UINT   uMsg   = msg->message;

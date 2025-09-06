@@ -172,7 +172,9 @@ void ElaApplication::init( const QString& ConfigFilePath )
     eTheme->setFontSize( font.pixelSize() );
 
     qApp->setFont(font);
-
+#ifdef Q_OS_WIN
+    eWinHelper->initWinAPI();
+#endif
     if( Theme >= 0 )
         eTheme->setThemeMode( static_cast<ElaThemeType::ThemeMode>(Theme) );
 }

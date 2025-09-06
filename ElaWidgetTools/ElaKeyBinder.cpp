@@ -26,12 +26,12 @@ ElaKeyBinder::ElaKeyBinder(QWidget* parent)
     textFont.setPixelSize(15);
     setFont(textFont);
     d->_binderContainer = new ElaKeyBinderContainer(this);
-    d->_binderDialog = new ElaContentDialog(window());
+    d->_binderDialog = new ElaContentDialog;
     d->_binderDialog->setCentralWidget(d->_binderContainer);
     d->_binderDialog->setLeftButtonText(tr("取消"));
     d->_binderDialog->setMiddleButtonText(tr("重置"));
     d->_binderDialog->setRightButtonText(tr("确认"));
-    d->_binderDialog->appBar()->setIsStayTop( true );
+
     connect(d->_binderDialog, &ElaContentDialog::middleButtonClicked, this, [=]() {
         d->_binderContainer->logOrResetHistoryData(false);
     });
@@ -142,6 +142,7 @@ void ElaKeyBinder::mouseReleaseEvent(QMouseEvent* event)
     Q_D(ElaKeyBinder);
     if (event->button() == Qt::LeftButton)
     {
+        d->_binderDialog->adjustSize();
         d->_binderDialog->show();
         d->_binderContainer->setFocus();
         d->_binderContainer->logOrResetHistoryData(true);
@@ -152,6 +153,10 @@ void ElaKeyBinder::mouseReleaseEvent(QMouseEvent* event)
 void ElaKeyBinder::paintEvent(QPaintEvent* event)
 {
     Q_D(ElaKeyBinder);
+    if (palette().color(QPalette::WindowText) != ElaThemeColor(d->_themeMode, BasicText))
+    {
+        d->onThemeChanged(d->_themeMode);
+    }
     QPainter painter(this);
     painter.save();
     painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);

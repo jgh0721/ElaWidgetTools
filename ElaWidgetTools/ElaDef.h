@@ -289,6 +289,18 @@ enum ButtonMode
 Q_ENUM_CREATE(ButtonMode)
 Q_END_ENUM_CREATE(ElaSpinBoxType)
 
+Q_BEGIN_ENUM_CREATE(ElaListViewType)
+// 아이콘 크기 열거형
+enum ElaIconViewSize
+{
+    SmallIcon = 0,  // 16x16 - List와 비슷한 레이아웃 (아이콘 왼쪽, 텍스트 오른쪽)
+    MediumIcon,     // 32x32 - 아이콘 위, 텍스트 아래 (컴팩트)
+    LargeIcon,      // 48x48 - 아이콘 위, 텍스트 아래 (표준)
+    ExtraLargeIcon  // 64x64 - 아이콘 위, 텍스트 아래 (큰 간격)
+};
+Q_ENUM_CREATE(ElaIconViewSize)
+Q_END_ENUM_CREATE(ElaListViewType)
+
 Q_BEGIN_ENUM_CREATE(ElaIconType)
 enum IconName
 {

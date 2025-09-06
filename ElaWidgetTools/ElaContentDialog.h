@@ -36,6 +36,9 @@ public:
     void setMiddleButtonText(QString text);
     void setRightButtonText(QString text);
 
+    bool isUseMaskWidget() const;
+    void setUseMaskWidget(bool useMaskWidget);
+
     void close();
 Q_SIGNALS:
     Q_SIGNAL void leftButtonClicked( bool* isClose = nullptr );
@@ -46,6 +49,9 @@ protected:
     virtual void showEvent(QShowEvent* event) override;
     virtual void paintEvent(QPaintEvent* event) override;
     virtual void keyPressEvent(QKeyEvent* event) override;
+
+private:
+    bool                                isUseMaskWidget_ = true;
 };
 
 #endif // ELACONTENTDIALOG_H

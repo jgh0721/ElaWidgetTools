@@ -144,6 +144,10 @@ void ElaLineEdit::focusOutEvent(QFocusEvent* event)
 void ElaLineEdit::paintEvent(QPaintEvent* event)
 {
     Q_D(ElaLineEdit);
+    if (palette().color(QPalette::Text) != ElaThemeColor(d->_themeMode, BasicText))
+    {
+        d->onThemeChanged(d->_themeMode);
+    }
     QLineEdit::paintEvent(event);
 
     // 텍스트가 없고 포커스가 있으면 placeholder를 수동으로 그림

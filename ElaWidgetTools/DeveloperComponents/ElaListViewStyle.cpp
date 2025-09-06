@@ -10,6 +10,7 @@ ElaListViewStyle::ElaListViewStyle(QStyle* style)
 {
     _pItemHeight = 35;
     _pIsTransparent = false;
+    _pIconViewSize = ElaListViewType::SmallIcon;
     _themeMode = eTheme->getThemeMode();
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         _themeMode = themeMode;
@@ -125,8 +126,49 @@ void ElaListViewStyle::drawControl(ControlElement element, const QStyleOption* o
             // QRect checkRect = proxy()->subElementRect(SE_ItemViewItemCheckIndicator, vopt, widget);
             QRect iconRect = proxy()->subElementRect(SE_ItemViewItemDecoration, vopt, widget);
             QRect textRect = proxy()->subElementRect(SE_ItemViewItemText, vopt, widget);
-            iconRect.adjust(_leftPadding, 0, 0, 0);
-            textRect.adjust(_leftPadding, 0, 0, 0);
+
+            if( viewMode == QListView::ListMode )
+            {
+                iconRect.adjust(_leftPadding, 0, 0, 0);
+                textRect.adjust(_leftPadding, 0, 0, 0);
+            }
+            else if (viewMode == QListView::IconMode)
+            {
+                int iconSize = getIconPixelSize();
+                int padding = 4;
+
+                if (isVerticalLayout())
+                {
+                    // 세로 레이아웃: 아이콘 위, 텍스트 아래
+
+                    // 아이콘을 아이템 상단 중앙에 배치
+                    iconRect = QRect(itemRect.x() + (itemRect.width() - iconSize) / 2,
+                                   itemRect.y() + padding,
+                                   iconSize, iconSize);
+
+                    // 텍스트를 아이콘 아래쪽에 배치
+                    int textTop = iconRect.bottom() + padding;
+                    int textHeight = itemRect.bottom() - textTop - padding;
+
+                    textRect = QRect(itemRect.x() + padding,
+                                   textTop,
+                                   itemRect.width() - 2 * padding,
+                                   textHeight);
+                }
+                else
+                {
+                    // 가로 레이아웃 (SmallIcon): 아이콘 왼쪽, 텍스트 오른쪽
+                    iconRect = QRect(itemRect.x() + padding,
+                                   itemRect.y() + (itemRect.height() - iconSize) / 2,
+                                   iconSize, iconSize);
+
+                    textRect = QRect(iconRect.right() + padding,
+                                   itemRect.y() + padding,
+                                   itemRect.right() - iconRect.right() - 2 * padding,
+                                   itemRect.height() - 2 * padding);
+                }
+            }
+
             // 图标绘制
             if (!vopt->icon.isNull())
             {
@@ -146,15 +188,59 @@ void ElaListViewStyle::drawControl(ControlElement element, const QStyleOption* o
             if (!vopt->text.isEmpty())
             {
                 painter->setPen(ElaThemeColor(_themeMode, BasicText));
-                painter->drawText(textRect, vopt->displayAlignment, vopt->text);
+                if( viewMode == QListView::ListMode )
+                {
+                    painter->drawText(textRect, vopt->displayAlignment, vopt->text);
+                }
+                else
+                {
+                    if (isVerticalLayout())
+                    {
+                        // 세로 레이아웃: 텍스트 중앙 정렬, 필요시 줄임표
+                        QFontMetrics fm(vopt->font);
+                        QString elidedText = vopt->text;
+
+                        // 아이콘 크기에 따른 텍스트 처리
+                        if (_pIconViewSize == ElaListViewType::ElaIconViewSize::MediumIcon)
+                        {
+                            // Medium 아이콘: 한 줄로 제한
+                            elidedText = fm.elidedText(vopt->text, Qt::ElideRight, textRect.width());
+                            painter->drawText(textRect, Qt::AlignHCenter | Qt::AlignTop, elidedText);
+                        }
+                        else
+                        {
+                            // Large, ExtraLarge 아이콘: 여러 줄 허용
+                            painter->drawText(textRect, Qt::AlignHCenter | Qt::AlignTop | Qt::TextWordWrap, vopt->text);
+                        }
+                    }
+                    else
+                    {
+                        // 가로 레이아웃 (SmallIcon): 왼쪽 정렬
+                        QFontMetrics fm(vopt->font);
+                        QString elidedText = fm.elidedText(vopt->text, Qt::ElideRight, textRect.width());
+                        painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, elidedText);
+                    }
+                }
             }
             // 选中特效
             if (vopt->state.testFlag(QStyle::State_Selected) && viewMode == QListView::ListMode)
             {
-                int heightOffset = itemRect.height() / 4;
-                painter->setPen(Qt::NoPen);
-                painter->setBrush(ElaThemeColor(_themeMode, PrimaryNormal));
-                painter->drawRoundedRect(QRectF(itemRect.x() + 3, itemRect.y() + heightOffset, 3, itemRect.height() - 2 * heightOffset), 3, 3);
+                if( viewMode == QListView::ListMode )
+                {
+                    int heightOffset = itemRect.height() / 4;
+                    painter->setPen(Qt::NoPen);
+                    painter->setBrush(ElaThemeColor(_themeMode, PrimaryNormal));
+                    painter->drawRoundedRect(QRectF(itemRect.x() + 3, itemRect.y() + heightOffset, 3, itemRect.height() - 2 * heightOffset), 3, 3);
+                }
+                else if( viewMode == QListView::IconMode )
+                {
+                    // Icon 모드: 테두리 강조
+                    painter->setPen(QPen(ElaThemeColor(_themeMode, PrimaryNormal), 2));
+                    painter->setBrush(Qt::NoBrush);
+                    QRect highlightRect = itemRect;
+                    highlightRect.adjust(1, 1, -1, -1);
+                    painter->drawRoundedRect(highlightRect, 6, 6);
+                }
             }
             painter->restore();
         }
@@ -181,8 +267,12 @@ QSize ElaListViewStyle::sizeFromContents(ContentsType type, const QStyleOption* 
         if (viewMode == QListView::ListMode)
         {
             itemSize.setWidth(itemSize.width() + _leftPadding);
+            itemSize.setHeight(_pItemHeight);
         }
-        itemSize.setHeight(_pItemHeight);
+        else if( viewMode == QListView::IconMode )
+        {
+            itemSize = getItemSizeForIconMode();
+        }
         return itemSize;
     }
     default:
@@ -191,4 +281,54 @@ QSize ElaListViewStyle::sizeFromContents(ContentsType type, const QStyleOption* 
     }
     }
     return QProxyStyle::sizeFromContents(type, option, size, widget);
+}
+
+int ElaListViewStyle::getIconPixelSize() const
+{
+    switch (_pIconViewSize)
+    {
+        case ElaListViewType::ElaIconViewSize::SmallIcon:
+            return 16;
+        case ElaListViewType::ElaIconViewSize::MediumIcon:
+            return 32;
+        case ElaListViewType::ElaIconViewSize::LargeIcon:
+            return 48;
+        case ElaListViewType::ElaIconViewSize::ExtraLargeIcon:
+            return 64;
+        default:
+            return 48;
+    }
+}
+
+QSize ElaListViewStyle::getItemSizeForIconMode() const
+{
+    int iconSize = getIconPixelSize();
+    int padding = 4;
+
+    switch (_pIconViewSize)
+    {
+        case ElaListViewType::ElaIconViewSize::SmallIcon:
+            // 작은 아이콘: 가로 레이아웃 (List 모드와 비슷)
+            return QSize(200, iconSize + 2 * padding);
+
+        case ElaListViewType::ElaIconViewSize::MediumIcon:
+            // 보통 아이콘: 세로 레이아웃, 컴팩트
+            return QSize(iconSize + 24, iconSize + 32);
+
+        case ElaListViewType::ElaIconViewSize::LargeIcon:
+            // 큰 아이콘: 세로 레이아웃, 표준 간격
+            return QSize(iconSize + 32, iconSize + 48);
+
+        case ElaListViewType::ElaIconViewSize::ExtraLargeIcon:
+            // 매우 큰 아이콘: 세로 레이아웃, 큰 간격
+            return QSize(iconSize + 40, iconSize + 60);
+
+        default:
+            return QSize(80, 80);
+    }
+}
+
+bool ElaListViewStyle::isVerticalLayout() const
+{
+    return _pIconViewSize != ElaListViewType::ElaIconViewSize::SmallIcon;
 }

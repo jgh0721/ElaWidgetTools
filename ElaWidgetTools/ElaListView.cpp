@@ -21,6 +21,9 @@ ElaListView::ElaListView(QWidget* parent)
     this->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    // 기본 아이콘 크기 설정
+    setIconViewSize(ElaListViewType::SmallIcon);
 }
 
 ElaListView::~ElaListView()
@@ -56,4 +59,25 @@ bool ElaListView::getIsTransparent() const
 {
     Q_D(const ElaListView);
     return d->_listViewStyle->getIsTransparent();
+}
+
+
+void ElaListView::setIconViewSize(ElaListViewType::ElaIconViewSize IconViewSize)
+{
+    Q_D(ElaListView);
+    d->_listViewStyle->setIconViewSize(IconViewSize);
+    doItemsLayout();
+    update();
+}
+
+ElaListViewType::ElaIconViewSize ElaListView::getIconViewSize() const
+{
+    Q_D(const ElaListView);
+    return d->_listViewStyle->getIconViewSize();
+}
+
+int ElaListView::getIconPixelSize() const
+{
+    Q_D(const ElaListView);
+    return d->_listViewStyle->getIconPixelSize();
 }

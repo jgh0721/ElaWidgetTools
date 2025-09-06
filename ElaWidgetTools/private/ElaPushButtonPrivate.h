@@ -28,7 +28,7 @@ class ElaPushButtonPrivate : public QObject
     Q_PROPERTY_CREATE_D(bool, NoEffectButton)
 public:
     explicit ElaPushButtonPrivate(QObject* parent = nullptr);
-    ~ElaPushButtonPrivate() override;
+    ~ElaPushButtonPrivate();
 
 private:
     bool _isPressed{false};

@@ -23,6 +23,8 @@ T_ListView::T_ListView(QWidget* parent)
     _listView->setFixedHeight(450);
     // _listView->setAlternatingRowColors(true);
     _listView->setModel(new T_ListViewModel(this));
+    _listView->setViewMode( QListView::IconMode );
+
     ElaScrollBar* listViewFloatScrollBar = new ElaScrollBar(_listView->verticalScrollBar(), _listView);
     listViewFloatScrollBar->setIsAnimation(true);
     QHBoxLayout* listViewLayout = new QHBoxLayout();

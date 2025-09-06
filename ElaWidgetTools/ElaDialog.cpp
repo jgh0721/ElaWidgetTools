@@ -1,20 +1,15 @@
 #include "ElaDialog.h"
 
-#include "private/ElaDialogPrivate.h"
-
-#include <QEvent>
-#include <QThread>
-#include <QTimer>
-#include <QScreen>
-#include <QApplication>
-#include <QCloseEvent>
-#include <QPainter>
-
 #include "ElaApplication.h"
 #include "ElaTheme.h"
-
-Q_TAKEOVER_NATIVEEVENT_CPP( ElaDialog, d_func()->_appBar );
-
+#include "private/ElaDialogPrivate.h"
+#include <QApplication>
+#include <QHBoxLayout>
+#include <QPainter>
+#include <QScreen>
+#include <QTimer>
+#include <QVBoxLayout>
+Q_TAKEOVER_NATIVEEVENT_CPP(ElaDialog, d_func()->_appBar);
 ElaDialog::ElaDialog( QWidget* parent, Qt::WindowFlags flags )
     : QDialog(parent, flags & ~Qt::FramelessWindowHint), d_ptr(new ElaDialogPrivate())
 {

@@ -1,7 +1,7 @@
 #include "ElaPlainTextEditPrivate.h"
 #include "ElaApplication.h"
 #include "ElaPlainTextEdit.h"
-#include <QTimer>
+#include "ElaTheme.h"
 ElaPlainTextEditPrivate::ElaPlainTextEditPrivate(QObject* parent)
     : QObject{parent}
 {
@@ -39,45 +39,28 @@ void ElaPlainTextEditPrivate::onThemeChanged(ElaThemeType::ThemeMode themeMode)
 {
     Q_Q(ElaPlainTextEdit);
     _themeMode = themeMode;
-    if (q->isVisible())
-    {
-        _changeTheme();
-    }
-    else
-    {
-        QTimer::singleShot(1, this, [=] {
-            _changeTheme();
-        });
-    }
-}
-
-void ElaPlainTextEditPrivate::_changeTheme()
-{
-    Q_Q(ElaPlainTextEdit);
+    QPalette palette = q->palette();
     if (_themeMode == ElaThemeType::Light)
     {
-        QPalette palette;
         if( _pTextColor.isValid() == false )
-            palette.setColor(QPalette::Text, Qt::black);
+            palette.setColor(QPalette::Text, ElaThemeColor(_themeMode, BasicText));
         else
             palette.setColor(QPalette::Text, _pTextColor);
         if( _pPlaceHolderTextColor.isValid() == false )
             palette.setColor(QPalette::PlaceholderText, QColor(0x00, 0x00, 0x00, 128));
         else
             palette.setColor(QPalette::PlaceholderText, _pPlaceHolderTextColor);
-        q->setPalette(palette);
     }
     else
     {
-        QPalette palette;
         if( _pTextColor.isValid() == false )
-            palette.setColor(QPalette::Text, Qt::white);
+            palette.setColor(QPalette::Text, ElaThemeColor(_themeMode, BasicText));
         else
             palette.setColor(QPalette::Text, _pTextColor);
         if( _pPlaceHolderTextColor.isValid() == false )
             palette.setColor(QPalette::PlaceholderText, QColor(0xBA, 0xBA, 0xBA));
         else
             palette.setColor(QPalette::PlaceholderText, _pPlaceHolderTextColor);
-        q->setPalette(palette);
     }
+    q->setPalette(palette);
 }

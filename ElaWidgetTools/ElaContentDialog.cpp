@@ -209,6 +209,16 @@ void ElaContentDialog::setRightButtonText(QString text)
     d->_rightButton->setText(text);
 }
 
+bool ElaContentDialog::isUseMaskWidget() const
+{
+    return isUseMaskWidget_;
+}
+
+void ElaContentDialog::setUseMaskWidget( bool useMaskWidget )
+{
+    isUseMaskWidget_ = useMaskWidget;
+}
+
 void ElaContentDialog::close()
 {
     Q_D(ElaContentDialog);
@@ -218,7 +228,7 @@ void ElaContentDialog::close()
 void ElaContentDialog::showEvent(QShowEvent* event)
 {
     Q_D(ElaContentDialog);
-    if( parentWidget() != nullptr && d->_maskWidget != nullptr)
+    if( parentWidget() != nullptr && d->_maskWidget != nullptr && isUseMaskWidget_ == true )
     {
         d->_maskWidget->setVisible(true);
         d->_maskWidget->raise();

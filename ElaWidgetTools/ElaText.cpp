@@ -191,6 +191,10 @@ QColor ElaText::getDarkTextColor() const
 void ElaText::paintEvent(QPaintEvent* event)
 {
     Q_D(ElaText);
+    if (palette().color(QPalette::WindowText) != ElaThemeColor(d->_themeMode, BasicText))
+    {
+        d->onThemeChanged(d->_themeMode);
+    }
     if (d->_pElaIcon != ElaIconType::None)
     {
         QPainter painter(this);

@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/Zi>")
 
 add_definitions(-DELAWIDGETTOOLS_LIBRARY)
 
@@ -106,6 +107,30 @@ else ()
     )
 endif ()
 
+if (MSVC)
+    if (LIB_TYPE STREQUAL "STATIC")
+
+        # Multi-Config (Visual Studio)
+        if(CMAKE_CONFIGURATION_TYPES)
+            set_target_properties(${PROJECT_NAME} PROPERTIES
+                                  COMPILE_PDB_NAME "${PROJECT_NAME}$<$<CONFIG:Debug>:d>"
+                                  )
+		else() # Single-Config (Makefile, Ninja 등)
+            if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+                set_target_properties(${PROJECT_NAME} PROPERTIES
+                                      COMPILE_PDB_NAME "${PROJECT_NAME}d"
+                                      )
+            else()
+                set_target_properties(${PROJECT_NAME} PROPERTIES
+                                      COMPILE_PDB_NAME "${PROJECT_NAME}"
+                                      )
+            endif()
+        endif()
+
+        set_target_properties(${PROJECT_NAME} PROPERTIES
+                              COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}" )
+    endif()
+endif()
 
 install(
     TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_resources_1
@@ -155,4 +180,17 @@ configure_package_config_file(
 install(
     FILES ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake ${PROJECT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake DESTINATION ${PROJECT_NAME}/lib/cmake
 )
+
+if (MSVC)
+    if (LIB_TYPE STREQUAL "STATIC")
+        # 정적 라이브러리용 PDB 설치
+        install(FILES
+            "$<$<CONFIG:Debug>:${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Debug/${PROJECT_NAME}d.pdb>"
+            "$<$<CONFIG:Release>:${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/Release/${PROJECT_NAME}.pdb>"
+            "$<$<CONFIG:RelWithDebInfo>:${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}/RelWithDebInfo/${PROJECT_NAME}.pdb>"
+            DESTINATION ${PROJECT_NAME}/lib
+        )
+    endif ()
+endif ()
+        
 install(FILES ${QM_FILES} DESTINATION "translations")

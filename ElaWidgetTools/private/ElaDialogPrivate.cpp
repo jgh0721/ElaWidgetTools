@@ -1,8 +1,7 @@
 #include "ElaDialogPrivate.h"
-#include "ElaDialog.h"
 
 ElaDialogPrivate::ElaDialogPrivate(QObject* parent)
-    : QObject{parent}
+    : QObject(parent)
 {
 }
 
