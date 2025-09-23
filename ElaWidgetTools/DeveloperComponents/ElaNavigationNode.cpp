@@ -32,6 +32,11 @@ QString ElaNavigationNode::getNodeTitle() const
     return _nodeTitle;
 }
 
+void ElaNavigationNode::setNodeTitle(QString nodeTitle)
+{
+    _nodeTitle = nodeTitle;
+}
+
 void ElaNavigationNode::setIsExpanded(bool isExpanded)
 {
     _isExpanded = isExpanded;

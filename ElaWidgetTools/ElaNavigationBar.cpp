@@ -386,6 +386,23 @@ ElaNavigationType::NodeOperateReturnType ElaNavigationBar::addFooterNode(QString
     return returnType;
 }
 
+void ElaNavigationBar::setNodeText(QString nodeKey, QString Title)
+{
+    Q_D(ElaNavigationBar);
+    if ( d->_navigationModel == nullptr )
+        return;
+
+
+    auto Node = d->_navigationModel->getNavigationNode(nodeKey);
+    if( Node == nullptr )
+        Node = d->_footerModel->getNavigationNode(nodeKey);
+
+    if( Node == nullptr )
+        return;
+
+    Node->setNodeTitle(Title);
+}
+
 bool ElaNavigationBar::getNavigationNodeIsExpanded(QString expanderKey) const
 {
     Q_D(const ElaNavigationBar);

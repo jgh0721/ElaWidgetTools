@@ -26,6 +26,7 @@ public:
 
     QString getNodeKey() const;
     QString getNodeTitle() const;
+    void setNodeTitle(QString nodeTitle);
 
     void setIsExpanded(bool isExpanded);
     bool getIsExpanded() const;

@@ -31,6 +31,7 @@
 #include <QTimer>
 #endif
 
+#include "ElaNavigationBar.h"
 #include "ExamplePage/T_Home.h"
 #include "ExamplePage/T_Icon.h"
 #include "ExamplePage/T_LogWidget.h"

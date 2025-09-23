@@ -110,7 +110,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     }
     connect(parent, &QWidget::windowIconChanged, this, [=](const QIcon& icon) {
         d->_iconLabel->setPixmap(icon.pixmap(d->_pIconSize));
-        d->_iconLabel->setVisible(icon.isNull() ? false : true);
+        d->_iconLabel->setVisible(!icon.isNull());
         d->_iconLabelLayout->setContentsMargins(icon.isNull() ? 0 : 10, 0, 0, 0);
     });
 
@@ -134,7 +134,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     }
     connect(parent, &QWidget::windowTitleChanged, this, [=](const QString& title) {
         d->_titleLabel->setText(title);
-        d->_titleLabel->setVisible(title.isEmpty() ? false : true);
+        d->_titleLabel->setVisible(!title.isEmpty());
         d->_titleLabelLayout->setContentsMargins(title.isEmpty() ? 0 : 10, 0, 0, 0);
     });
 
