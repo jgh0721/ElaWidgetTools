@@ -99,6 +99,10 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 target_link_libraries(${PROJECT_NAME} PUBLIC
     Qt${QT_VERSION_MAJOR}::Widgets
 )
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+	target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::WidgetsPrivate)
+endif ()
+
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} PUBLIC
         D3D11
