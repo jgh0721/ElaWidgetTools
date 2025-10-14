@@ -20,7 +20,7 @@ private:
     ~ElaApplication() override;
 
 public:
-    void init( const QString& ConfigFilePath = "" );
+    void init( const QString& ConfigFilePath = "", bool IsPlugin = false );
     void syncWindowDisplayMode(QWidget* widget, bool isSync = true);
     static bool containsCursorToItem(QWidget* item);
 };

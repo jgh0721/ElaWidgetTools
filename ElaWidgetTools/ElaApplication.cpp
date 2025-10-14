@@ -92,10 +92,11 @@ QString ElaApplication::getElaMicaImagePath() const
     return d->_pElaMicaImagePath;
 }
 
-void ElaApplication::init( const QString& ConfigFilePath )
+void ElaApplication::init( const QString& ConfigFilePath, bool IsPlugin )
 {
     Q_INIT_RESOURCE(ElaWidgetTools);
-    QApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
+    if(IsPlugin == false)
+        QApplication::setAttribute(Qt::AA_DontCreateNativeWidgetSiblings);
     QFontDatabase::addApplicationFont(":/include/Font/ElaAwesome.ttf");
     //默认字体
     if( QFile::exists( ":/translations/ElaWidgetTools_ko.qm" ) == true )

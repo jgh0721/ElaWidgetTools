@@ -86,7 +86,7 @@ const auto ElaWidgetToolsTheme = QStringLiteral("ElaWidgetToolsTheme.ini");
 ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
 : QObject(parent)
 {
-    eApp->init( ElaWidgetToolsTheme );
+    eApp->init( ElaWidgetToolsTheme, true );
 
     m_extensions
     << new ElaAcrylicUrlCardPlugin(this)
@@ -135,7 +135,7 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaSpinBoxPlugin(this)
     << new ElaSuggestBoxPlugin(this)
 
-    << new ElaTabBarPlugin(this)
+    //<< new ElaTabBarPlugin(this)
     << new ElaTableViewPlugin(this)
     << new ElaTableWidgetPlugin(this)
     << new ElaTabWidgetPlugin(this)
@@ -147,7 +147,7 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaTreeViewPlugin(this)
     << new ElaTreeWidgetPlugin(this)
 
-    << new ElaWidgetPlugin(this)
+    // << new ElaWidgetPlugin(this)
     << new ElaWindowPlugin(this)
     ;
 }
