@@ -1,17 +1,16 @@
 #include "mainwindow.h"
 
-#include <QDebug>
-#include <QGraphicsView>
-#include <QHBoxLayout>
-
 #include "ElaContentDialog.h"
 #include "ElaDockWidget.h"
 #include "ElaEventBus.h"
 #include "ElaLog.h"
 #include "ElaMenu.h"
 #include "ElaMenuBar.h"
+#include "ElaNavigationRouter.h"
 #include "ElaProgressBar.h"
+#include "ElaProgressRing.h"
 #include "ElaStatusBar.h"
+#include "ElaSuggestBox.h"
 #include "ElaText.h"
 #include "ElaTheme.h"
 #include "ElaToolBar.h"
@@ -24,6 +23,9 @@
 #include "T_Setting.h"
 #include "T_TableView.h"
 #include "T_TreeView.h"
+#include <QDebug>
+#include <QGraphicsView>
+#include <QHBoxLayout>
 #include <QMouseEvent>
 #ifdef Q_OS_WIN
 #include "ElaApplication.h"
@@ -31,7 +33,6 @@
 #include <QTimer>
 #endif
 
-#include "ElaNavigationBar.h"
 #include "ExamplePage/T_Home.h"
 #include "ExamplePage/T_Icon.h"
 #include "ExamplePage/T_LogWidget.h"
@@ -100,9 +101,7 @@ void MainWindow::initWindow()
     // setNavigationBarWidth(260);
     ElaText* centralStack = new ElaText("这是一个主窗口堆栈页面", this);
     centralStack->setFocusPolicy(Qt::StrongFocus);
-    QFont font = centralStack->font();
-    font.setPixelSize(32);
-    centralStack->setFont(font);
+    centralStack->setTextPixelSize(32);
     centralStack->setAlignment(Qt::AlignCenter);
     addCentralWidget(centralStack);
 
@@ -129,6 +128,67 @@ void MainWindow::initWindow()
         setCustomMenu(nullptr);
     });
     setCustomMenu(appBarMenu);
+
+    // 堆栈独立自定义窗口
+    QWidget* centralCustomWidget = new QWidget(this);
+    QHBoxLayout* centralCustomWidgetLayout = new QHBoxLayout(centralCustomWidget);
+    centralCustomWidgetLayout->setContentsMargins(13, 15, 9, 6);
+    ElaToolButton* leftButton = new ElaToolButton(this);
+    leftButton->setElaIcon(ElaIconType::AngleLeft);
+    leftButton->setEnabled(false);
+    connect(leftButton, &ElaToolButton::clicked, this, [=]() {
+        ElaNavigationRouter::getInstance()->navigationRouteBack();
+    });
+    ElaToolButton* rightButton = new ElaToolButton(this);
+    rightButton->setElaIcon(ElaIconType::AngleRight);
+    rightButton->setEnabled(false);
+    connect(rightButton, &ElaToolButton::clicked, this, [=]() {
+        ElaNavigationRouter::getInstance()->navigationRouteForward();
+    });
+    connect(ElaNavigationRouter::getInstance(), &ElaNavigationRouter::navigationRouterStateChanged, this, [=](ElaNavigationRouterType::RouteMode routeMode) {
+        switch (routeMode)
+        {
+        case ElaNavigationRouterType::BackValid:
+        {
+            leftButton->setEnabled(true);
+            break;
+        }
+        case ElaNavigationRouterType::BackInvalid:
+        {
+            leftButton->setEnabled(false);
+            break;
+        }
+        case ElaNavigationRouterType::ForwardValid:
+        {
+            rightButton->setEnabled(true);
+            break;
+        }
+        case ElaNavigationRouterType::ForwardInvalid:
+        {
+            rightButton->setEnabled(false);
+            break;
+        }
+        }
+    });
+    ElaSuggestBox* centralStackSuggest = new ElaSuggestBox(this);
+    centralStackSuggest->setFixedHeight(32);
+    centralStackSuggest->setPlaceholderText("搜索关键字");
+
+    ElaText* progressBusyRingText = new ElaText("系统运行中", this);
+    progressBusyRingText->setTextPixelSize(15);
+
+    ElaProgressRing* progressBusyRing = new ElaProgressRing(this);
+    progressBusyRing->setBusyingWidth(4);
+    progressBusyRing->setFixedSize(28, 28);
+    progressBusyRing->setIsBusying(true);
+
+    centralCustomWidgetLayout->addWidget(leftButton);
+    centralCustomWidgetLayout->addWidget(rightButton);
+    centralCustomWidgetLayout->addWidget(centralStackSuggest);
+    centralCustomWidgetLayout->addStretch();
+    centralCustomWidgetLayout->addWidget(progressBusyRingText);
+    centralCustomWidgetLayout->addWidget(progressBusyRing);
+    setCentralCustomWidget(centralCustomWidget);
 }
 
 void MainWindow::initEdgeLayout()
@@ -309,7 +369,6 @@ void MainWindow::initContent()
     connect(this, &ElaWindow::navigationNodeClicked, this, [=](ElaNavigationType::NavigationNodeType nodeType, QString nodeKey) {
         if (_aboutKey == nodeKey)
         {
-            _aboutPage->setFixedSize(400, 400);
             _aboutPage->moveToCenter();
             _aboutPage->show();
         }

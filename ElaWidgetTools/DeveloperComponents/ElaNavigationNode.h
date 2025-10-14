@@ -20,13 +20,12 @@ class ElaNavigationNode : public QObject
     Q_PROPERTY_CREATE(bool, IsHasFooterPage)
     Q_PROPERTY_CREATE(bool, IsExpanderNode)
     Q_PROPERTY_CREATE(bool, IsVisible)
+    Q_PROPERTY_CREATE(QString, NodeTitle)
 public:
     explicit ElaNavigationNode(QString nodeTitle, ElaNavigationNode* parent = nullptr);
-    ~ElaNavigationNode();
+    ~ElaNavigationNode() override;
 
     QString getNodeKey() const;
-    QString getNodeTitle() const;
-    void setNodeTitle(QString nodeTitle);
 
     void setIsExpanded(bool isExpanded);
     bool getIsExpanded() const;
@@ -47,7 +46,6 @@ public:
 
 private:
     QString _nodeKey = "";
-    QString _nodeTitle = "";
     bool _isExpanded{false};
 };
 

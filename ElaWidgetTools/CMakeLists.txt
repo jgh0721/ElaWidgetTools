@@ -79,6 +79,7 @@ qt_add_resources(${PROJECT_NAME}
 
 FILE(GLOB EXPORT_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
 target_include_directories(${PROJECT_NAME} PUBLIC
+    ${Qt${QT_VERSION_MAJOR}Widgets_PRIVATE_INCLUDE_DIRS}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DeveloperComponents>
@@ -95,15 +96,13 @@ endif ()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} PUBLIC
+    Qt${QT_VERSION_MAJOR}::Widgets
+)
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} PUBLIC
-        Qt${QT_VERSION_MAJOR}::Widgets
         D3D11
         DXGI
-    )
-else ()
-    target_link_libraries(${PROJECT_NAME} PUBLIC
-        Qt${QT_VERSION_MAJOR}::Widgets
     )
 endif ()
 

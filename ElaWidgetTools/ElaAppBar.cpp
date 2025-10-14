@@ -36,7 +36,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     : QWidget{parent}, d_ptr(new ElaAppBarPrivate())
 {
     Q_D(ElaAppBar);
-    d->_buttonFlags = ElaAppBarType::RouteBackButtonHint | ElaAppBarType::StayTopButtonHint | ElaAppBarType::ThemeChangeButtonHint | ElaAppBarType::MinimizeButtonHint | ElaAppBarType::MaximizeButtonHint | ElaAppBarType::CloseButtonHint;
+    d->_buttonFlags = ElaAppBarType::RouteBackButtonHint | ElaAppBarType::RouteForwardButtonHint | ElaAppBarType::StayTopButtonHint | ElaAppBarType::ThemeChangeButtonHint | ElaAppBarType::MinimizeButtonHint | ElaAppBarType::MaximizeButtonHint | ElaAppBarType::CloseButtonHint;
     window()->setAttribute(Qt::WA_Mapped);
     d->_pAppBarHeight = 45;
     setFixedHeight(d->_pAppBarHeight);
@@ -56,7 +56,6 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 
     window()->installEventFilter(this);
 #ifdef Q_OS_WIN
-    eWinHelper->initWinAPI();
     if (!eWinHelper->getIsWinVersionGreater10())
     {
         d->_win7Margins = 8;
@@ -65,7 +64,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     window()->setWindowFlags((window()->windowFlags()) | Qt::WindowMinimizeButtonHint | Qt::FramelessWindowHint);
 #endif
 #else
-    window()->setWindowFlags((window()->windowFlags()) | Qt::FramelessWindowHint | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint);
+    window()->setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::FramelessWindowHint | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint | Qt::WindowSystemMenuHint | Qt::WindowFullscreenButtonHint | Qt::WindowSystemMenuHint);
 #endif
     setMouseTracking(true);
     setObjectName("ElaAppBar");
@@ -77,6 +76,12 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     // 路由跳转
     connect(d->_routeBackButton, &ElaIconButton::clicked, this, &ElaAppBar::routeBackButtonClicked);
 
+    d->_routeForwardButton = new ElaToolButton(this);
+    d->_routeForwardButton->setElaIcon(ElaIconType::ArrowRight);
+    d->_routeForwardButton->setFixedSize(35, 30);
+    d->_routeForwardButton->setEnabled(false);
+    connect(d->_routeForwardButton, &ElaToolButton::clicked, this, &ElaAppBar::routeForwardButtonClicked);
+
     // 导航栏展开按钮
     d->_navigationButton = new ElaToolButton(this);
     d->_navigationButton->setElaIcon(ElaIconType::Bars);
@@ -84,13 +89,13 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_navigationButton->setObjectName("NavigationButton");
     d->_navigationButton->setVisible(false);
     // 展开导航栏
-    connect(d->_navigationButton, &ElaIconButton::clicked, this, &ElaAppBar::navigationButtonClicked);
+    connect(d->_navigationButton, &ElaToolButton::clicked, this, &ElaAppBar::navigationButtonClicked);
 
     // 设置置顶
     d->_stayTopButton = new ElaToolButton(this);
     d->_stayTopButton->setElaIcon(ElaIconType::ArrowUpToArc);
     d->_stayTopButton->setFixedSize(40, 30);
-    connect(d->_stayTopButton, &ElaIconButton::clicked, this, [=]() {
+    connect(d->_stayTopButton, &ElaToolButton::clicked, this, [=]() {
         this->setIsStayTop(!this->getIsStayTop());
     });
     connect(this, &ElaAppBar::pIsStayTopChanged, d, &ElaAppBarPrivate::onStayTopButtonClicked);
@@ -142,7 +147,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_themeChangeButton = new ElaToolButton(this);
     d->_themeChangeButton->setElaIcon(ElaIconType::MoonStars);
     d->_themeChangeButton->setFixedSize(40, 30);
-    connect(d->_themeChangeButton, &ElaIconButton::clicked, this, &ElaAppBar::themeChangeButtonClicked);
+    connect(d->_themeChangeButton, &ElaToolButton::clicked, this, &ElaAppBar::themeChangeButtonClicked);
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         d->_onThemeModeChange(themeMode);
     });
@@ -150,12 +155,12 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_minButton = new ElaToolButton(this);
     d->_minButton->setElaIcon(ElaIconType::Dash);
     d->_minButton->setFixedSize(40, 30);
-    connect(d->_minButton, &ElaIconButton::clicked, d, &ElaAppBarPrivate::onMinButtonClicked);
+    connect(d->_minButton, &ElaToolButton::clicked, d, &ElaAppBarPrivate::onMinButtonClicked);
     d->_maxButton = new ElaToolButton(this);
     d->_maxButton->setIconSize(QSize(18, 18));
     d->_maxButton->setElaIcon(ElaIconType::Square);
     d->_maxButton->setFixedSize(40, 30);
-    connect(d->_maxButton, &ElaIconButton::clicked, d, &ElaAppBarPrivate::onMaxButtonClicked);
+    connect(d->_maxButton, &ElaToolButton::clicked, d, &ElaAppBarPrivate::onMaxButtonClicked);
     d->_closeButton = new ElaIconButton(ElaIconType::Xmark, 18, 40, 30, this);
     d->_closeButton->setLightHoverColor(QColor(0xE8, 0x11, 0x23));
     d->_closeButton->setDarkHoverColor(QColor(0xE8, 0x11, 0x23));
@@ -169,6 +174,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_mainLayout->setContentsMargins(0, 0, 0, 0);
     d->_mainLayout->setSpacing(0);
     d->_mainLayout->addLayout(d->_createVLayout(d->_routeBackButton));
+    d->_mainLayout->addLayout(d->_createVLayout(d->_routeForwardButton));
     d->_mainLayout->addLayout(d->_createVLayout(d->_navigationButton));
     d->_mainLayout->addLayout(d->_iconLabelLayout);
     d->_mainLayout->addLayout(d->_titleLabelLayout);
@@ -414,6 +420,7 @@ void ElaAppBar::setWindowButtonFlags(ElaAppBarType::ButtonFlags buttonFlags)
     if (d->_buttonFlags.testFlag(ElaAppBarType::NoneButtonHint))
     {
         d->_routeBackButton->setVisible(false);
+        d->_routeForwardButton->setVisible(false);
         d->_navigationButton->setVisible(false);
         d->_stayTopButton->setVisible(false);
         d->_themeChangeButton->setVisible(false);
@@ -424,6 +431,7 @@ void ElaAppBar::setWindowButtonFlags(ElaAppBarType::ButtonFlags buttonFlags)
     else
     {
         d->_routeBackButton->setVisible(d->_buttonFlags.testFlag(ElaAppBarType::RouteBackButtonHint));
+        d->_routeForwardButton->setVisible(d->_buttonFlags.testFlag(ElaAppBarType::RouteForwardButtonHint));
         d->_navigationButton->setVisible(d->_buttonFlags.testFlag(ElaAppBarType::NavigationButtonHint));
         d->_stayTopButton->setVisible(d->_buttonFlags.testFlag(ElaAppBarType::StayTopButtonHint));
         d->_themeChangeButton->setVisible(d->_buttonFlags.testFlag(ElaAppBarType::ThemeChangeButtonHint));
@@ -454,6 +462,12 @@ void ElaAppBar::setRouteBackButtonEnable(bool isEnable)
 {
     Q_D(ElaAppBar);
     d->_routeBackButton->setEnabled(isEnable);
+}
+
+void ElaAppBar::setRouteForwardButtonEnable(bool isEnable)
+{
+    Q_D(ElaAppBar);
+    d->_routeForwardButton->setEnabled(isEnable);
 }
 
 void ElaAppBar::closeWindow()
@@ -505,11 +519,6 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
     const LPARAM lParam = msg->lParam;
     switch( uMsg )
     {
-        case WM_IME_SETCONTEXT: {
-            // SetWindowPos 에 SWP_FRAMECHANGED 를 넣은 후 IME 가 작동되지 않는 문제 수정
-            *result = ::DefWindowProcW( hwnd, uMsg, wParam, wParam ? lParam | ISC_SHOWUIALL : lParam );
-            return 1;
-        }
         case WM_WINDOWPOSCHANGING:
         {
             WINDOWPOS* wp = reinterpret_cast<WINDOWPOS *>(lParam);
@@ -996,7 +1005,7 @@ bool ElaAppBar::eventFilter(QObject* obj, QEvent* event)
         break;
     }
     }
-    return QWidget::eventFilter(obj, event);
+    return QObject::eventFilter(obj, event);
 }
 
 #ifdef Q_OS_WIN

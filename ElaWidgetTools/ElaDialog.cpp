@@ -18,6 +18,9 @@ ElaDialog::ElaDialog( QWidget* parent, Qt::WindowFlags flags )
 
     setWindowTitle("ElaDialog");
     setObjectName("ElaDialog");
+#ifndef Q_OS_WIN
+    setAttribute(Qt::WA_Hover);
+#endif
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
     setStyleSheet("ElaDialog{background-color:transparent;}");
 #endif
@@ -314,5 +317,5 @@ void ElaDialog::paintEvent( QPaintEvent* event )
         painter.drawRect(rect());
         painter.restore();
     }
-    QDialog::paintEvent( event );
+    QWidget::paintEvent(event);
 }
