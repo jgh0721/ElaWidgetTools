@@ -2,6 +2,7 @@
 #define ELANAVIGATIONBAR_H
 
 #include <QWidget>
+#include <QIcon>
 
 #include "ElaDef.h"
 #include "ElaProperty.h"
@@ -53,6 +54,8 @@ public:
     int getPageOpenInNewWindowCount(QString nodeKey) const;
 
     QList<ElaSuggestBox::SuggestData> getSuggestDataList() const;
+    void setPageNodeIcon( const QString& pageKey, const QIcon& icon );
+    void setFooterNodeIcon( const QString& footerKey, const QIcon& icon );
 
 Q_SIGNALS:
     Q_SIGNAL void pageOpenInNewWindow(QString nodeKey);

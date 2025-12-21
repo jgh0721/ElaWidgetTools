@@ -2,6 +2,8 @@
 #define ELAFOOTERMODEL_H
 
 #include <QAbstractListModel>
+#include <QHash>
+#include <QIcon>
 
 #include "ElaDef.h"
 class ElaNavigationNode;
@@ -16,6 +18,7 @@ public:
     int getFooterNodeCount() const;
     ElaNavigationNode* getNavigationNode(QString footerKey);
     void removeNavigationNode(QString footerKey);
+    void setFooterNodeIcon( const QString& footerKey, const QIcon& icon );
 
 protected:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -23,6 +26,7 @@ protected:
 
 private:
     QList<ElaNavigationNode*> _footerNodeList;
+    QHash<QString, QIcon> _footerIconMap;
 };
 
 #endif // ELAFOOTERMODEL_H

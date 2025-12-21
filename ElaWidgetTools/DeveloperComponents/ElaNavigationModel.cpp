@@ -93,6 +93,20 @@ QVariant ElaNavigationModel::data(const QModelIndex& index, int role) const
 {
     Q_UNUSED(index)
     Q_UNUSED(role)
+    auto* node = static_cast< ElaNavigationNode* >( index.internalPointer() );
+    if( !node )
+        return {};
+
+    if( role == Qt::DisplayRole )
+    {
+        return node->getNodeTitle();
+    }
+    if( role == Qt::DecorationRole )
+    {
+        const QString key = node->getNodeKey();
+        if( _iconMap.contains( key ) )
+            return _iconMap.value( key );
+    }
     return QVariant();
 }
 
@@ -311,4 +325,19 @@ QList<ElaNavigationNode*> ElaNavigationModel::getRootExpandedNodes() const
         }
     }
     return expandedNodeList;
+}
+
+void ElaNavigationModel::setPageNodeIcon( const QString& pageKey, const QIcon& icon )
+{
+    if( pageKey.isEmpty() || icon.isNull() )
+        return;
+
+    _iconMap.insert( pageKey, icon );
+
+    if( auto* node = getNavigationNode( pageKey ) )
+    {
+        const QModelIndex idx = node->getModelIndex();
+        if( idx.isValid() )
+            Q_EMIT dataChanged( idx, idx, { Qt::DecorationRole } );
+    }
 }

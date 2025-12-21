@@ -3,6 +3,7 @@
 
 #include <QAbstractItemModel>
 #include <QObject>
+#include <QIcon> 
 
 #include "ElaDef.h"
 class ElaNavigationNode;
@@ -33,9 +34,12 @@ public:
     QList<ElaNavigationNode*> getRootExpanderNodes() const;
     QList<ElaNavigationNode*> getRootExpandedNodes() const;
 
+    void setPageNodeIcon( const QString& pageKey, const QIcon& icon );
+
 private:
     QMap<QString, ElaNavigationNode*> _nodesMap;
     ElaNavigationNode* _rootNode{nullptr};
+    QMap<QString, QIcon> _iconMap;
 };
 
 #endif // ELANAVIGATIONMODEL_H

@@ -217,6 +217,21 @@ ElaNavigationType::NodeOperateReturnType ElaNavigationBar::addPageNode(QString p
         d->_pageNewWindowCountMap.insert(pageKey, 0);
         d->_addStackedPage(page, pageKey);
         d->_initNodeModelIndex(QModelIndex());
+
+        if (awesome == ElaIconType::None)
+        {
+            const QVariant v = page->property("ElaPageIcon");
+            if (v.isValid())
+            {
+                QIcon nodeIcon;
+                if (v.userType() == QMetaType::QIcon)
+                    nodeIcon = v.value<QIcon>();
+                else if (v.userType() == QMetaType::QPixmap)
+                    nodeIcon = QIcon(v.value<QPixmap>());
+                if (!nodeIcon.isNull())
+                    setPageNodeIcon(pageKey, nodeIcon);
+            }
+        }
         d->_resetNodeSelected();
     }
     return returnType;
@@ -339,6 +354,21 @@ ElaNavigationType::NodeOperateReturnType ElaNavigationBar::addFooterNode(QString
     if (returnType == ElaNavigationType::Success)
     {
         d_ptr->_addFooterPage(page, footerKey);
+
+        if (awesome == ElaIconType::None)
+        {
+            const QVariant v = page->property("ElaFooterIcon");
+            if (v.isValid())
+            {
+                QIcon nodeIcon;
+                if (v.userType() == QMetaType::QIcon)   
+                    nodeIcon = v.value<QIcon>();
+                else if (v.userType() == QMetaType::QPixmap) 
+                    nodeIcon = QIcon(v.value<QPixmap>());
+                if (!nodeIcon.isNull())
+                setFooterNodeIcon(footerKey, nodeIcon);
+            }
+        }
     }
     return returnType;
 }
@@ -594,4 +624,22 @@ void ElaNavigationBar::paintEvent(QPaintEvent* event)
         painter.restore();
     }
     QWidget::paintEvent(event);
+}
+
+void ElaNavigationBar::setPageNodeIcon(const QString& pageKey, const QIcon& icon)
+{
+    Q_D(ElaNavigationBar);
+    if (pageKey.isEmpty() || icon.isNull())
+        return;
+    //ElaNavigationModel의 SetPageNodeIcon 호출
+    d_ptr->_navigationModel->setPageNodeIcon(pageKey, icon);
+}
+
+void ElaNavigationBar::setFooterNodeIcon(const QString& footerKey, const QIcon& icon)
+{
+    Q_D(ElaNavigationBar);
+    if (footerKey.isEmpty() || icon.isNull())
+        return;
+    //ElaFooterModel의 SetFooterNodeIcon 호출
+    d_ptr->_footerModel->setFooterNodeIcon(footerKey, icon);
 }

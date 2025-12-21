@@ -398,6 +398,24 @@ ElaNavigationType::NodeOperateReturnType ElaWindow::addPageNode(QString pageTitl
     return returnType;
 }
 
+ElaNavigationType::NodeOperateReturnType ElaWindow::addPageNode( const QString& pageTitle, QWidget* page, const QPixmap& pix )
+{
+    Q_D( ElaWindow );
+
+    QIcon icon;
+    if( pix.isNull() == false )
+    {
+        icon.addPixmap( pix, QIcon::Normal, QIcon::Off );
+        icon.addPixmap( pix, QIcon::Active, QIcon::Off );
+        icon.addPixmap( pix, QIcon::Selected, QIcon::On );
+        icon.addPixmap( pix, QIcon::Disabled, QIcon::Off );
+    }
+
+    page->setProperty( "ElaPageIcon", QVariant::fromValue( icon ) );
+
+    return d->_navigationBar->addPageNode( pageTitle, page, ElaIconType::None );
+}
+
 ElaNavigationType::NodeOperateReturnType ElaWindow::addPageNode(QString pageTitle, QWidget* page, QString targetExpanderKey, ElaIconType::IconName awesome)
 {
     Q_D(ElaWindow);
@@ -446,6 +464,24 @@ ElaNavigationType::NodeOperateReturnType ElaWindow::addFooterNode(QString footer
         d->_pageMetaMap.insert(page->property("ElaPageKey").toString(), page->metaObject());
     }
     return returnType;
+}
+
+ElaNavigationType::NodeOperateReturnType ElaWindow::addFooterNode( const QString& footerTitle, QWidget* page, QString& footerKey, int keyPoints, const QPixmap& pix )
+{
+    Q_D( ElaWindow );
+
+    QIcon icon;
+    if( pix.isNull() == false )
+    {
+        icon.addPixmap( pix, QIcon::Normal, QIcon::Off );
+        icon.addPixmap( pix, QIcon::Active, QIcon::Off );
+        icon.addPixmap( pix, QIcon::Selected, QIcon::On );
+        icon.addPixmap( pix, QIcon::Disabled, QIcon::Off );
+    }
+
+    page->setProperty( "ElaFooterIcon", QVariant::fromValue( icon ) );
+    
+    return d->_navigationBar->addFooterNode( footerTitle, page, footerKey, keyPoints, ElaIconType::None );
 }
 
 void ElaWindow::addCentralWidget(QWidget* centralWidget)

@@ -111,11 +111,12 @@ void ElaFooterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
     initStyleOption(&viewOption, index);
     ElaFooterModel* model = dynamic_cast<ElaFooterModel*>(const_cast<QAbstractItemModel*>(index.model()));
     ElaNavigationNode* node = index.data(Qt::UserRole).value<ElaNavigationNode*>();
+    const QIcon decoIcon = qvariant_cast< QIcon >( index.data( Qt::DecorationRole ) );
+    const bool hasPng = !decoIcon.isNull();
     if (option.state.testFlag(QStyle::State_HasFocus))
     {
         viewOption.state &= ~QStyle::State_HasFocus;
     }
-    QStyledItemDelegate::paint(painter, viewOption, index);
     // 背景绘制
     QRect itemRect = option.rect;
     painter->save();
@@ -175,7 +176,23 @@ void ElaFooterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
     }
     // 图标绘制
     painter->setPen(index == _pPressIndex ? ElaThemeColor(_themeMode, BasicTextPress) : ElaThemeColor(_themeMode, BasicText));
-    if (node->getAwesome() != ElaIconType::None)
+    const int iconSize = 24;
+    const QRect iconRect( itemRect.x() + ( _iconAreaWidth - iconSize ) / 2,
+                         itemRect.y() + ( itemRect.height() - iconSize ) / 2,
+                         iconSize, iconSize );
+    if( hasPng )
+    {
+        const qreal dpr = painter->device()->devicePixelRatioF();
+        QPixmap pm = decoIcon.pixmap( QSize( qRound( iconSize * dpr ), qRound( iconSize * dpr ) ) );
+        pm.setDevicePixelRatio( dpr );
+        const bool oneToOne = ( pm.width() / pm.devicePixelRatioF() == iconSize ) &&
+            ( pm.height() / pm.devicePixelRatioF() == iconSize );
+        painter->save();
+        painter->setRenderHint( QPainter::SmoothPixmapTransform, !oneToOne );
+        painter->drawPixmap( iconRect, pm );
+        painter->restore();
+    }
+    else if( node->getAwesome() != ElaIconType::None )
     {
         painter->save();
         QFont iconFont = QFont("ElaAwesome");
@@ -218,7 +235,7 @@ void ElaFooterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
     // 文字绘制
     painter->setPen(index == _pPressIndex ? ElaThemeColor(_themeMode, BasicTextPress) : ElaThemeColor(_themeMode, BasicText));
     QRect textRect;
-    if (node->getAwesome() != ElaIconType::None)
+    if (hasPng||node->getAwesome()!=ElaIconType::None)
     {
         textRect = QRect(itemRect.x() + _iconAreaWidth, itemRect.y(), itemRect.width() - _textRightSpacing - _indicatorIconAreaWidth - _iconAreaWidth, itemRect.height());
     }

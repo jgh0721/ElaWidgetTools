@@ -2,6 +2,7 @@
 #define ELAWINDOW_H
 
 #include <QMainWindow>
+#include <QPixmap> 
 
 #include "ElaAppBar.h"
 #include "ElaDef.h"
@@ -52,11 +53,13 @@ public:
     ElaNavigationType::NodeOperateReturnType addExpanderNode(QString expanderTitle, QString& expanderKey, ElaIconType::IconName awesome = ElaIconType::None) const;
     ElaNavigationType::NodeOperateReturnType addExpanderNode(QString expanderTitle, QString& expanderKey, QString targetExpanderKey, ElaIconType::IconName awesome = ElaIconType::None) const;
     ElaNavigationType::NodeOperateReturnType addPageNode(QString pageTitle, QWidget* page, ElaIconType::IconName awesome = ElaIconType::None);
+    ElaNavigationType::NodeOperateReturnType addPageNode( const QString& pageTitle, QWidget* page, const QPixmap& pix );
     ElaNavigationType::NodeOperateReturnType addPageNode(QString pageTitle, QWidget* page, QString targetExpanderKey, ElaIconType::IconName awesome = ElaIconType::None);
     ElaNavigationType::NodeOperateReturnType addPageNode(QString pageTitle, QWidget* page, int keyPoints = 0, ElaIconType::IconName awesome = ElaIconType::None);
     ElaNavigationType::NodeOperateReturnType addPageNode(QString pageTitle, QWidget* page, QString targetExpanderKey, int keyPoints = 0, ElaIconType::IconName awesome = ElaIconType::None);
     ElaNavigationType::NodeOperateReturnType addFooterNode(QString footerTitle, QString& footerKey, int keyPoints = 0, ElaIconType::IconName awesome = ElaIconType::None) const;
     ElaNavigationType::NodeOperateReturnType addFooterNode(QString footerTitle, QWidget* page, QString& footerKey, int keyPoints = 0, ElaIconType::IconName awesome = ElaIconType::None);
+    ElaNavigationType::NodeOperateReturnType addFooterNode( const QString& footerTitle, QWidget* page, QString& footerKey, int keyPoints, const QPixmap& pix );
 
     void addCentralWidget(QWidget* centralWidget);
     QWidget* getCentralWidget(int index) const;

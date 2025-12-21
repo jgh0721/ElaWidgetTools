@@ -21,6 +21,14 @@ int ElaFooterModel::rowCount(const QModelIndex& parent) const
 
 QVariant ElaFooterModel::data(const QModelIndex& index, int role) const
 {
+    auto* node = _footerNodeList.at( index.row() );
+    if( role == Qt::DecorationRole )
+    {
+        const QString key = node->getNodeKey();
+        auto it = _footerIconMap.constFind( key );
+        if( it != _footerIconMap.cend() )
+            return it.value();
+    }
     if (role == Qt::UserRole)
     {
         if (index.row() < _footerNodeList.count())
@@ -75,6 +83,25 @@ void ElaFooterModel::removeNavigationNode(QString footerKey)
         {
             _footerNodeList.removeOne(node);
             break;
+        }
+    }
+}
+
+void ElaFooterModel::setFooterNodeIcon( const QString& footerKey, const QIcon& icon )
+{
+    if( footerKey.isEmpty() || icon.isNull() )
+        return;
+
+    _footerIconMap.insert( footerKey, icon );
+
+    if( auto* node = getNavigationNode( footerKey ) )
+    {
+        const int row = _footerNodeList.indexOf( node );
+        if( row >= 0 )
+        {
+            const QModelIndex idx = index( row, 0 );
+            if( idx.isValid() )
+                Q_EMIT dataChanged( idx, idx, { Qt::DecorationRole } );
         }
     }
 }
