@@ -11,7 +11,7 @@ class ElaKeyBinderContainer : public QWidget
     Q_PRIVATE_CREATE(quint32, NativeVirtualBinderKey)
 public:
     explicit ElaKeyBinderContainer(QWidget* parent = nullptr);
-    ~ElaKeyBinderContainer();
+    ~ElaKeyBinderContainer() override;
     void logOrResetHistoryData(bool isLog);
     void saveBinderChanged();
     void setCaption( const QString& caption );

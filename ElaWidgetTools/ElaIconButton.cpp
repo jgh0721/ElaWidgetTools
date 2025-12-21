@@ -40,8 +40,12 @@ ElaIconButton::ElaIconButton(QPixmap pix, QWidget* parent)
     d->_pIsSelected = false;
     d->_pBorderRadius = 0;
     d->_themeMode = eTheme->getThemeMode();
-    connect(this, &ElaIconButton::pIsSelectedChanged, this, [=]() { update(); });
-    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) { d->_themeMode = themeMode; });
+    connect(this, &ElaIconButton::pIsSelectedChanged, this, [=]() {
+        update();
+    });
+    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
+        d->_themeMode = themeMode;
+    });
 }
 
 ElaIconButton::ElaIconButton(ElaIconType::IconName awesome, QWidget* parent)
@@ -65,8 +69,12 @@ ElaIconButton::ElaIconButton(ElaIconType::IconName awesome, QWidget* parent)
     this->setFont(iconFont);
     d->_pAwesome = awesome;
     this->setText(QChar((unsigned short)awesome));
-    connect(this, &ElaIconButton::pIsSelectedChanged, this, [=]() { update(); });
-    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) { d->_themeMode = themeMode; });
+    connect(this, &ElaIconButton::pIsSelectedChanged, this, [=]() {
+        update();
+    });
+    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
+        d->_themeMode = themeMode;
+    });
 }
 
 ElaIconButton::ElaIconButton(ElaIconType::IconName awesome, int pixelSize, QWidget* parent)
@@ -90,8 +98,12 @@ ElaIconButton::ElaIconButton(ElaIconType::IconName awesome, int pixelSize, QWidg
     this->setFont(iconFont);
     d->_pAwesome = awesome;
     this->setText(QChar((unsigned short)awesome));
-    connect(this, &ElaIconButton::pIsSelectedChanged, this, [=]() { update(); });
-    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) { d->_themeMode = themeMode; });
+    connect(this, &ElaIconButton::pIsSelectedChanged, this, [=]() {
+        update();
+    });
+    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
+        d->_themeMode = themeMode;
+    });
 }
 
 ElaIconButton::ElaIconButton(ElaIconType::IconName awesome, int pixelSize, int fixedWidth, int fixedHeight, QWidget* parent)
@@ -116,8 +128,12 @@ ElaIconButton::ElaIconButton(ElaIconType::IconName awesome, int pixelSize, int f
     d->_pAwesome = awesome;
     this->setText(QChar((unsigned short)awesome));
     this->setFixedSize(fixedWidth, fixedHeight);
-    connect(this, &ElaIconButton::pIsSelectedChanged, this, [=]() { update(); });
-    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) { d->_themeMode = themeMode; });
+    connect(this, &ElaIconButton::pIsSelectedChanged, this, [=]() {
+        update();
+    });
+    connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
+        d->_themeMode = themeMode;
+    });
 }
 
 ElaIconButton::~ElaIconButton()

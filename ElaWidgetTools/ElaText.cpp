@@ -50,9 +50,8 @@ ElaText::~ElaText()
 void ElaText::setIsWrapAnywhere(bool isWrapAnywhere)
 {
     Q_D(ElaText);
-    d->_isWrapAnywhere = isWrapAnywhere;
     setWordWrap(isWrapAnywhere);
-    Q_EMIT pIsWrapAnywhereChanged();
+    d->_isWrapAnywhere = isWrapAnywhere;
 }
 
 bool ElaText::getIsWrapAnywhere() const

@@ -209,9 +209,6 @@ void ElaApplication::syncWindowDisplayMode(QWidget* widget, bool isSync)
                 d->_updateMica(widget, false);
             }
         }
-        else
-        {
-        }
         break;
     }
     default:

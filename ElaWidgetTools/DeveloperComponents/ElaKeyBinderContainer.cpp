@@ -24,6 +24,7 @@ ElaKeyBinderContainer::ElaKeyBinderContainer(QWidget* parent)
     _caption = tr("按下任意按键以进行绑定");
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         _themeMode = themeMode;
+        update();
     });
 }
 
