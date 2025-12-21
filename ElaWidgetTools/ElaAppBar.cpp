@@ -496,34 +496,34 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, q
 int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, long* result)
 #endif
 {
-    Q_D( ElaAppBar );
-    if( (eventType != "windows_generic_MSG") || !message )
-    {
-        return 0;
-    }
-    const auto msg  = static_cast<const MSG *>(message);
-    const HWND hwnd = msg->hwnd;
-    if( !hwnd || !msg )
-    {
-        return 0;
-    }
-    d->_currentWinID    = (qint64)hwnd;
-    const UINT   uMsg   = msg->message;
-    const WPARAM wParam = msg->wParam;
-    const LPARAM lParam = msg->lParam;
-    switch( uMsg )
-    {
-        case WM_WINDOWPOSCHANGING:
-        {
-            WINDOWPOS* wp = reinterpret_cast<WINDOWPOS *>(lParam);
-            if( wp != nullptr && (wp->flags & SWP_NOSIZE) == 0 )
-            {
-                wp->flags |= SWP_NOCOPYBITS;
-                *result = ::DefWindowProcW( hwnd, uMsg, wParam, lParam );
-                return 1;
-            }
-            return 0;
-        }
+     Q_D( ElaAppBar );
+     if( (eventType != "windows_generic_MSG") || !message )
+     {
+         return 0;
+     }
+     const auto msg  = static_cast<const MSG *>(message);
+     const HWND hwnd = msg->hwnd;
+     if( !hwnd || !msg )
+     {
+         return 0;
+     }
+     d->_currentWinID    = (qint64)hwnd;
+     const UINT   uMsg   = msg->message;
+     const WPARAM wParam = msg->wParam;
+     const LPARAM lParam = msg->lParam;
+     switch( uMsg )
+     {
+         case WM_WINDOWPOSCHANGING:
+         {
+             WINDOWPOS* wp = reinterpret_cast<WINDOWPOS *>(lParam);
+             if( wp != nullptr && (wp->flags & SWP_NOSIZE) == 0 )
+             {
+                 wp->flags |= SWP_NOCOPYBITS;
+                 *result = ::DefWindowProcW( hwnd, uMsg, wParam, lParam );
+                 return 1;
+             }
+             return 0;
+         }
 	    case WM_NCPAINT:
 	    {
 	        if (!eWinHelper->getIsCompositionEnabled())
@@ -536,30 +536,30 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
 	            return -1;
 	        }
 	    }
-        case WM_NCACTIVATE:
-        {
-	        if (eWinHelper->getIsCompositionEnabled())
-	        {
-	            *result = ::DefWindowProcW(hwnd, WM_NCACTIVATE, wParam, -1);
-	        }
-	        else
-	        {
-	            *result = TRUE;
-	        }
-            return 1;
-        }
-        case WM_SIZE:
-        {
-            if( wParam == SIZE_RESTORED )
-            {
-                d->_changeMaxButtonAwesome( false );
-            }
-            else if( wParam == SIZE_MAXIMIZED )
-            {
-                d->_changeMaxButtonAwesome( true );
-            }
-            return 0;
-        }
+     case WM_NCACTIVATE:
+     {
+	     if (eWinHelper->getIsCompositionEnabled())
+	     {
+	         *result = ::DefWindowProcW(hwnd, WM_NCACTIVATE, wParam, -1);
+	     }
+	     else
+	     {
+	         *result = TRUE;
+	     }
+         return 1;
+     }
+         case WM_SIZE:
+         {
+             if( wParam == SIZE_RESTORED )
+             {
+                 d->_changeMaxButtonAwesome( false );
+             }
+             else if( wParam == SIZE_MAXIMIZED )
+             {
+                 d->_changeMaxButtonAwesome( true );
+             }
+             return 0;
+         }
 #if QT_VERSION <= QT_VERSION_CHECK(6, 0, 0)
         case WM_SHOWWINDOW:
         {
@@ -577,253 +577,241 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             return -1;
         }
 #endif
-        case WM_NCCALCSIZE:
-        {
-            if (wParam == FALSE)
-            {
-                return 0;
-            }
+         case WM_NCCALCSIZE: {
+             if( wParam == FALSE )
+             {
+                 return 0;
+             }
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))
-            if (::IsZoomed(hwnd))
-            {
-                this->move(7, 7);
-                window()->setContentsMargins(8, 8 + height(), 8, 8);
-            }
-            else
-            {
-                this->move(0, 0);
-                window()->setContentsMargins(0, height(), 0, 0);
-            }
-            *result = 0;
-            return 1;
-            #else
-	        RECT* clientRect = &((NCCALCSIZE_PARAMS*)(lParam))->rgrc[0];
-	        if (eWinHelper->getIsWinVersionGreater10())
-	        {
-	            const LONG originTop = clientRect->top;
-	            const LRESULT hitTestResult = ::DefWindowProcW(hwnd, WM_NCCALCSIZE, wParam, lParam);
-	            if ((hitTestResult != HTERROR) && (hitTestResult != HTNOWHERE))
-	            {
-	                *result = static_cast<long>(hitTestResult);
-	                return 1;
-	            }
-	            clientRect->top = originTop;
-	        }
-            if (::IsZoomed(hwnd))
-            {
-#if QT_VERSION >= QT_VERSION_CHECK( 5, 14, 0 )
-                auto geometry = window()->screen()->geometry();
-            #else
-                QScreen* screen = qApp->screenAt(window()->geometry().center());
-                QRect geometry;
-                if (!screen)
-                {
-                    screen = qApp->screenAt(QCursor::pos());
-                }
-                geometry = screen->geometry();
-            #endif
-                clientRect->top = geometry.top();
-	            if (!eWinHelper->getIsWinVersionGreater10())
-	            {
-	                quint32 borderThickness = eWinHelper->getResizeBorderThickness(hwnd);
-	                clientRect->left = geometry.left();
-	                clientRect->bottom -= borderThickness;
-	                clientRect->right -= borderThickness;
-	            }
-            }
-            *result = WVR_REDRAW;
-            return 1;
-            #endif
-        }
-        case WM_MOVE:
-        {
-            QScreen* currentScreen = qApp->screenAt( window()->geometry().center() );
-            if( currentScreen && currentScreen != d->_lastScreen )
-            {
-                if( d->_lastScreen )
-                {
-                    ::SetWindowPos( hwnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED );
-                    ::RedrawWindow( hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
-                }
-                d->_lastScreen = currentScreen;
-            }
-            break;
-        }
-        case WM_NCHITTEST:
-        {
-            if( d->_containsCursorToItem( d->_maxButton ) )
-            {
-                if( *result == HTNOWHERE )
-                {
-                    if( (d->_buttonFlags & ElaAppBarType::MaximizeButtonHint) > 0 )
-                    {
-                        if( !d->_isHoverMaxButton )
-                        {
-                            d->_isHoverMaxButton = true;
-                            d->_maxButton->setIsSelected( true );
-                            d->_maxButton->update();
-                        }
-                        *result = HTZOOM;
-                    }
-                }
-                return 1;
-            }
-            else
-            {
-                if( d->_isHoverMaxButton )
-                {
-                    d->_isHoverMaxButton = false;
-                    d->_maxButton->setIsSelected( false );
-                    d->_maxButton->update();
-                }
-            }
-            POINT nativeLocalPos{GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam )};
-            ::ScreenToClient( hwnd, &nativeLocalPos );
-            RECT clientRect{0, 0, 0, 0};
-            ::GetClientRect( hwnd, &clientRect );
-            auto clientWidth  = clientRect.right - clientRect.left;
-            auto clientHeight = clientRect.bottom - clientRect.top;
-        	bool left = nativeLocalPos.x < d->_win7Margins;
-        	bool right = nativeLocalPos.x > clientWidth - d->_win7Margins;
-            bool top = nativeLocalPos.y < d->_margins;
-        	bool bottom = nativeLocalPos.y > clientHeight - d->_win7Margins;
-            *result = HTNOWHERE;
-            if( !d->_pIsOnlyAllowMinAndClose && !window()->isFullScreen() && !window()->isMaximized() )
-            {
-                if( left && top )
-                {
-                    if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
-                        *result = HTTOPLEFT;
-                }
-                else if( left && bottom )
-                {
-                    if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
-                        *result = HTBOTTOMLEFT;
-                }
-                else if( right && top )
-                {
-                    if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
-                        *result = HTTOPRIGHT;
-                }
-                else if( right && bottom )
-                {
-                    if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
-                        *result = HTBOTTOMRIGHT;
-                }
-                else if( left )
-                {
-                    if( !d->_pIsFixedHorizontalSize )
-                        *result = HTLEFT;
-                }
-                else if( right )
-                {
-                    if( !d->_pIsFixedHorizontalSize )
-                        *result = HTRIGHT;
-                }
-                else if( top )
-                {
-                    if( !d->_pIsFixedVerticalSize)
-                        *result = HTTOP;
-                }
-                else if( bottom )
-                {
-                    if( !d->_pIsFixedVerticalSize )
-                        *result = HTBOTTOM;
-                }
-            }
-            if( 0 != *result )
-            {
-                return 1;
-            }
-            if( d->_containsCursorToItem( this ) && !window()->isFullScreen() )
-            {
-                *result = HTCAPTION;
-                return 1;
-            }
-            *result = HTCLIENT;
-            return 1;
-        }
-        case WM_GETMINMAXINFO:
-        {
-            MINMAXINFO* minmaxInfo = reinterpret_cast<MINMAXINFO*>(lParam);
-            RECT rect;
-            SystemParametersInfo(SPI_GETWORKAREA, 0, &rect, 0);
-            d->_lastMinTrackWidth = d->_calculateMinimumWidth();
-            minmaxInfo->ptMinTrackSize.x = d->_lastMinTrackWidth * qApp->devicePixelRatio();
-            minmaxInfo->ptMinTrackSize.y = parentWidget()->minimumHeight() * qApp->devicePixelRatio();
-            minmaxInfo->ptMaxPosition.x = rect.left;
-            minmaxInfo->ptMaxPosition.y = rect.top;
-            return 1;
-        }
-        case WM_LBUTTONDBLCLK:
-        {
-            QVariantMap postData;
-            postData.insert("WMClickType", ElaAppBarType::WMLBUTTONDBLCLK);
-            ElaEventBus::getInstance()->post("WMWindowClicked", postData);
-            return 0;
-        }
-        case WM_LBUTTONDOWN:
-        {
-            QVariantMap postData;
-            postData.insert("WMClickType", ElaAppBarType::WMLBUTTONDOWN);
-            ElaEventBus::getInstance()->post("WMWindowClicked", postData);
-            return 0;
-        }
-        case WM_LBUTTONUP:
-        {
-            QVariantMap postData;
-            postData.insert("WMClickType", ElaAppBarType::WMLBUTTONUP);
-            ElaEventBus::getInstance()->post("WMWindowClicked", postData);
-            return 0;
-        }
-        case WM_NCLBUTTONDOWN:
-        {
-            QVariantMap postData;
-            postData.insert("WMClickType", ElaAppBarType::WMNCLBUTTONDOWN);
-            ElaEventBus::getInstance()->post("WMWindowClicked", postData);
-            if (d->_containsCursorToItem(d->_maxButton) || d->_pIsOnlyAllowMinAndClose)
-            {
-                return 1;
-            }
-        } break;
-        case WM_NCLBUTTONUP:
-        {
-            QVariantMap postData;
-            postData.insert("WMClickType", ElaAppBarType::WMNCLBUTTONDOWN);
-            ElaEventBus::getInstance()->post("WMWindowClicked", postData);
-            if (d->_containsCursorToItem(d->_maxButton) && !d->_pIsOnlyAllowMinAndClose)
-            {
-                if( d->_buttonFlags & ElaAppBarType::MaximizeButtonHint )
-                d->onMaxButtonClicked();
-                return 1;
-            }
-        } break;
-        case WM_NCLBUTTONDBLCLK:
-        {
-            if ((!d->_pIsOnlyAllowMinAndClose) && (!d->_pIsFixedHorizontalSize || !d->_pIsFixedVerticalSize))
-            {
-                if( d->_buttonFlags & ElaAppBarType::MaximizeButtonHint )
-                return 0;
-            }
-            return 1;
-        }
-        case WM_NCRBUTTONDOWN:
-        {
-            if (wParam == HTCAPTION && !d->_pIsOnlyAllowMinAndClose)
-            {
-                d->_showAppBarMenu(QCursor::pos());
-            }
-        } break;
-        case WM_KEYDOWN:
-        case WM_SYSKEYDOWN:
-        {
-            if ((GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_SPACE) & 0x8000) && !d->_pIsOnlyAllowMinAndClose)
-            {
-                auto pos = window()->geometry().topLeft();
-                d->_showAppBarMenu(QPoint(pos.x(), pos.y() + this->height()));
-            }
-        } break;
-    }
+             if( ::IsZoomed(hwnd) )
+             {
+                 this->move(7, 7);
+                 window()->setContentsMargins(8, 8 + height(), 8, 8);
+             }
+             else
+             {
+                 this->move(0, 0);
+                 window()->setContentsMargins(0, height(), 0, 0);
+             }
+             *result = 0;
+             return 1;
+#else
+             RECT* clientRect = &( ( NCCALCSIZE_PARAMS* )( lParam ) )->rgrc[ 0 ];
+             if( eWinHelper->getIsWinVersionGreater10() )
+             {
+                 const RECT    originRect    = *clientRect;
+                 const LRESULT hitTestResult = ::DefWindowProcW(hwnd, WM_NCCALCSIZE, wParam, lParam);
+                 if( ( hitTestResult != HTERROR ) && ( hitTestResult != HTNOWHERE ) )
+                 {
+                     *result = static_cast< long >( hitTestResult );
+                     return 1;
+                 }
+                 *clientRect = originRect;
+             }
+             if( ::IsZoomed(hwnd) )
+             {
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+                 auto geometry = window()->screen()->geometry();
+#else
+                 QScreen* screen = qApp->screenAt(window()->geometry().center());
+                 QRect    geometry;
+                 if( !screen )
+                 {
+                     screen = qApp->screenAt(QCursor::pos());
+                 }
+                 geometry = screen->geometry();
+#endif
+                 clientRect->top = geometry.top();
+                 if( !eWinHelper->getIsWinVersionGreater10() )
+                 {
+                     quint32 borderThickness = eWinHelper->getResizeBorderThickness(hwnd);
+                     clientRect->left        = geometry.left();
+                     clientRect->bottom      -= borderThickness;
+                     clientRect->right       -= borderThickness;
+                 }
+             }
+             *result = WVR_REDRAW;
+             return 1;
+#endif
+         }
+         case WM_MOVE:
+         {
+             QScreen* currentScreen = qApp->screenAt( window()->geometry().center() );
+             if( currentScreen && currentScreen != d->_lastScreen )
+             {
+                 if( d->_lastScreen )
+                 {
+                     ::SetWindowPos( hwnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED );
+                     ::RedrawWindow( hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW );
+                 }
+                 d->_lastScreen = currentScreen;
+             }
+             break;
+         }
+         case WM_NCHITTEST: {
+             if( d->_containsCursorToItem(d->_maxButton) )
+             {
+                 if( *result == HTNOWHERE )
+                 {
+                     if( ( d->_buttonFlags & ElaAppBarType::MaximizeButtonHint ) > 0 )
+                     {
+                         if( !d->_isHoverMaxButton )
+                         {
+                             d->_isHoverMaxButton = true;
+                             d->_maxButton->setIsSelected(true);
+                             d->_maxButton->update();
+                         }
+                         *result = HTZOOM;
+                     }
+                 }
+                 return 1;
+             }
+             else
+             {
+                 if( d->_isHoverMaxButton )
+                 {
+                     d->_isHoverMaxButton = false;
+                     d->_maxButton->setIsSelected(false);
+                     d->_maxButton->update();
+                 }
+             }
+             POINT nativeLocalPos{ GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
+             ::ScreenToClient(hwnd, &nativeLocalPos);
+             RECT clientRect{ 0, 0, 0, 0 };
+             ::GetClientRect(hwnd, &clientRect);
+             auto clientWidth  = clientRect.right - clientRect.left;
+             auto clientHeight = clientRect.bottom - clientRect.top;
+             bool left         = nativeLocalPos.x < d->_win7Margins;
+             bool right        = nativeLocalPos.x > clientWidth - d->_win7Margins;
+             bool top          = nativeLocalPos.y < d->_margins;
+             bool bottom       = nativeLocalPos.y > clientHeight - d->_win7Margins;
+             *result           = HTNOWHERE;
+             if( !d->_pIsOnlyAllowMinAndClose && !window()->isFullScreen() && !window()->isMaximized() )
+             {
+                 if( left && top )
+                 {
+                     if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
+                         *result = HTTOPLEFT;
+                 }
+                 else if( left && bottom )
+                 {
+                     if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
+                         *result = HTBOTTOMLEFT;
+                 }
+                 else if( right && top )
+                 {
+                     if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
+                         *result = HTTOPRIGHT;
+                 }
+                 else if( right && bottom )
+                 {
+                     if( !d->_pIsFixedHorizontalSize && !d->_pIsFixedVerticalSize )
+                         *result = HTBOTTOMRIGHT;
+                 }
+                 else if( left )
+                 {
+                     if( !d->_pIsFixedHorizontalSize )
+                         *result = HTLEFT;
+                 }
+                 else if( right )
+                 {
+                     if( !d->_pIsFixedHorizontalSize )
+                         *result = HTRIGHT;
+                 }
+                 else if( top )
+                 {
+                     if( !d->_pIsFixedVerticalSize )
+                         *result = HTTOP;
+                 }
+                 else if( bottom )
+                 {
+                     if( !d->_pIsFixedVerticalSize )
+                         *result = HTBOTTOM;
+                 }
+             }
+             if( 0 != *result )
+             {
+                 return 1;
+             }
+             if( d->_containsCursorToItem(this) && !window()->isFullScreen() )
+             {
+                 *result = HTCAPTION;
+                 return 1;
+             }
+             *result = HTCLIENT;
+             return 1;
+         }
+         case WM_GETMINMAXINFO:
+             return -1;
+         case WM_LBUTTONDBLCLK:
+         {
+             QVariantMap postData;
+             postData.insert("WMClickType", ElaAppBarType::WMLBUTTONDBLCLK);
+             ElaEventBus::getInstance()->post("WMWindowClicked", postData);
+             return 0;
+         }
+         case WM_LBUTTONDOWN:
+         {
+             QVariantMap postData;
+             postData.insert("WMClickType", ElaAppBarType::WMLBUTTONDOWN);
+             ElaEventBus::getInstance()->post("WMWindowClicked", postData);
+             return 0;
+         }
+         case WM_LBUTTONUP:
+         {
+             QVariantMap postData;
+             postData.insert("WMClickType", ElaAppBarType::WMLBUTTONUP);
+             ElaEventBus::getInstance()->post("WMWindowClicked", postData);
+             return 0;
+         }
+         case WM_NCLBUTTONDOWN:
+         {
+             QVariantMap postData;
+             postData.insert("WMClickType", ElaAppBarType::WMNCLBUTTONDOWN);
+             ElaEventBus::getInstance()->post("WMWindowClicked", postData);
+             if (d->_containsCursorToItem(d->_maxButton) || d->_pIsOnlyAllowMinAndClose)
+             {
+                 return 1;
+             }
+         } break;
+         case WM_NCLBUTTONUP:
+         {
+             QVariantMap postData;
+             postData.insert("WMClickType", ElaAppBarType::WMNCLBUTTONDOWN);
+             ElaEventBus::getInstance()->post("WMWindowClicked", postData);
+             if (d->_containsCursorToItem(d->_maxButton) && !d->_pIsOnlyAllowMinAndClose)
+             {
+                 if( d->_buttonFlags & ElaAppBarType::MaximizeButtonHint )
+                 d->onMaxButtonClicked();
+                 return 1;
+             }
+         } break;
+         case WM_NCLBUTTONDBLCLK:
+         {
+             if ((!d->_pIsOnlyAllowMinAndClose) && (!d->_pIsFixedHorizontalSize || !d->_pIsFixedVerticalSize))
+             {
+                 if( d->_buttonFlags & ElaAppBarType::MaximizeButtonHint )
+                 return 0;
+             }
+             return 1;
+         }
+         case WM_NCRBUTTONDOWN:
+         {
+             if (wParam == HTCAPTION && !d->_pIsOnlyAllowMinAndClose)
+             {
+                 d->_showAppBarMenu(QCursor::pos());
+             }
+         } break;
+         case WM_KEYDOWN:
+         case WM_SYSKEYDOWN:
+         {
+             if ((GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_SPACE) & 0x8000) && !d->_pIsOnlyAllowMinAndClose)
+             {
+                 auto pos = window()->geometry().topLeft();
+                 d->_showAppBarMenu(QPoint(pos.x(), pos.y() + this->height()));
+             }
+         } break;
+     }
     return -1;
 }
 #endif
