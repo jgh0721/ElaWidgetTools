@@ -54,10 +54,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 
     window()->installEventFilter(this);
 #ifdef Q_OS_WIN
-    if (!eWinHelper->getIsWinVersionGreater10())
-    {
         d->_win7Margins = 8;
-    }
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))
     window()->setWindowFlags((window()->windowFlags()) | Qt::WindowMinimizeButtonHint | Qt::FramelessWindowHint);
 #endif
@@ -649,6 +646,9 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
              break;
          }
          case WM_NCHITTEST: {
+             if( isMaximized() )
+                 return -1;
+
              if( d->_containsCursorToItem(d->_maxButton) )
              {
                  if( *result == HTNOWHERE )
@@ -675,16 +675,20 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
                      d->_maxButton->update();
                  }
              }
-             POINT nativeLocalPos{ GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-             ::ScreenToClient(hwnd, &nativeLocalPos);
-             RECT clientRect{ 0, 0, 0, 0 };
-             ::GetClientRect(hwnd, &clientRect);
-             auto clientWidth  = clientRect.right - clientRect.left;
-             auto clientHeight = clientRect.bottom - clientRect.top;
-             bool left         = nativeLocalPos.x < d->_win7Margins;
-             bool right        = nativeLocalPos.x > clientWidth - d->_win7Margins;
-             bool top          = nativeLocalPos.y < d->_margins;
-             bool bottom       = nativeLocalPos.y > clientHeight - d->_win7Margins;
+
+             POINT pt{
+                 GET_X_LPARAM(msg->lParam),
+                 GET_Y_LPARAM(msg->lParam)
+             };
+
+             const LONG border = MulDiv(d->_win7Margins, GetDpiForWindow(hwnd), 96);
+             RECT winRect;
+             GetWindowRect(hwnd, &winRect);
+
+             bool left   = pt.x < winRect.left   + border;
+             bool right  = pt.x > winRect.right  - border;
+             bool top    = pt.y < winRect.top    + border;
+             bool bottom = pt.y > winRect.bottom - border;
              *result           = HTNOWHERE;
              if( !d->_pIsOnlyAllowMinAndClose && !window()->isFullScreen() && !window()->isMaximized() )
              {
@@ -742,7 +746,34 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
              return 1;
          }
          case WM_GETMINMAXINFO:
-             return -1;
+         {
+             auto* mmi = reinterpret_cast< MINMAXINFO* >( msg->lParam );
+
+             HMONITOR hMon = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+             if( !hMon )
+                 break;
+
+             MONITORINFO mi{};
+             mi.cbSize = sizeof( mi );
+             GetMonitorInfo(hMon, &mi);
+
+             RECT rcWork = mi.rcWork;
+             RECT rcMon  = mi.rcMonitor;
+
+             // 최대화 위치 & 크기
+             mmi->ptMaxPosition.x = rcWork.left - rcMon.left;
+             mmi->ptMaxPosition.y = rcWork.top - rcMon.top;
+             mmi->ptMaxSize.x     = rcWork.right - rcWork.left;
+             mmi->ptMaxSize.y     = rcWork.bottom - rcWork.top;
+
+             // DPI 기반 최소 크기
+             UINT dpi              = GetDpiForWindow(hwnd);
+             mmi->ptMinTrackSize.x = MulDiv(128, dpi, 96);
+             mmi->ptMinTrackSize.y = MulDiv(128, dpi, 96);
+
+             *result = 0;
+             return 1;
+         }
          case WM_LBUTTONDBLCLK:
          {
              QVariantMap postData;
