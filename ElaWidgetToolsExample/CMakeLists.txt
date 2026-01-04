@@ -21,7 +21,6 @@ FILE(GLOB EAXMPLEPAGE ExamplePage/*.h ExamplePage/*.cpp)
 source_group(ModelView FILES ${MODELVIEW})
 source_group(ExamplePage FILES ${EAXMPLEPAGE})
 
-
 set(PROJECT_SOURCES
     ${ORIGIN}
     ${MODELVIEW}
@@ -58,9 +57,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_NAME})
 
-IF(ELAPACKETIO_BUILD_STATIC_LIB)
-    add_definitions(-DELAPACKETIO_STATIC_LIBRARY)
-ENDIF()
 if (ELAWIDGETTOOLS_BUILD_STATIC_LIB)
     add_definitions(-DELAWIDGETTOOLS_STATIC_LIBRARY)
 ENDIF()
@@ -70,18 +66,10 @@ if (WIN32)
         ExamplePage
         ModelView
     )
-    if (BUILD_ELAPACKETIO)
-        target_link_libraries(${PROJECT_NAME} PRIVATE
-            Qt${QT_VERSION_MAJOR}::Widgets
-            ElaWidgetTools
-            ElaPacketIO
-        )
-    else ()
-        target_link_libraries(${PROJECT_NAME} PRIVATE
-            Qt${QT_VERSION_MAJOR}::Widgets
-            ElaWidgetTools
-        )
-    endif ()
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+        Qt${QT_VERSION_MAJOR}::Widgets
+        ElaWidgetTools
+    )
 
 else ()
     target_include_directories(${PROJECT_NAME} PUBLIC

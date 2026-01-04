@@ -10,7 +10,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
-option(ELAPACKETIO_BUILD_STATIC_LIB "Build static library." ON)
 option(ELAWIDGETTOOLS_BUILD_STATIC_LIB "Build static library." ON)
 
 IF(DEFINED ENV{QT_PATH})
@@ -21,7 +20,6 @@ ENDIF()
 
 SET(CMAKE_INSTALL_PREFIX ${CMAKE_SOURCE_DIR}/Install CACHE PATH "Installation path" FORCE)
 
-option(BUILD_ELAPACKETIO "Build ElaPacketIO" OFF)
 list(APPEND CMAKE_PREFIX_PATH ${QT_SDK_DIR})
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets LinguistTools)
@@ -47,10 +45,6 @@ if (NOT WIN32)
 endif ()
 
 add_subdirectory(ElaWidgetTools)
-if (WIN32 AND BUILD_ELAPACKETIO)
-    add_definitions(-DBUILD_WITH_ELAPACKETIO)
-    add_subdirectory(ElaPacketIO)
-endif ()
 add_subdirectory(ElaWidgetToolsExample)
 add_subdirectory(ElaWidgetToolsDesigner)
 
