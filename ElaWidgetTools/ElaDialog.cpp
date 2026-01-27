@@ -300,7 +300,7 @@ void ElaDialog::changeEvent( QEvent* event )
     QDialog::changeEvent( event );
 }
 
-void ElaDialog::paintEvent( QPaintEvent* event )
+void ElaDialog::paintEvent(QPaintEvent* event)
 {
     Q_D(ElaDialog);
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))

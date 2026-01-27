@@ -29,6 +29,8 @@ public:
     void navigationNodeStateChange(QVariantMap data);
 
 private:
+    void drawKeyPoints( QPainter* Painter, ElaNavigationNode* Node, QRect ItemRect ) const;
+
     ElaThemeType::ThemeMode _themeMode;
     bool _isSelectMarkDisplay{true};
     int _leftPadding{11};

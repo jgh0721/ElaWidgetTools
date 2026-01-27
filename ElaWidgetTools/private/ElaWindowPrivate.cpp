@@ -155,38 +155,6 @@ void ElaWindowPrivate::onThemeReadyChange()
     }
 }
 
-void ElaWindowPrivate::onDisplayModeChanged()
-{
-    _currentNavigationBarDisplayMode = _pNavigationBarDisplayMode;
-    switch (_pNavigationBarDisplayMode)
-    {
-    case ElaNavigationType::Auto:
-    {
-        _appBar->setWindowButtonFlag(ElaAppBarType::NavigationButtonHint, false);
-        _doNavigationDisplayModeChange();
-        break;
-    }
-    case ElaNavigationType::Minimal:
-    {
-        _navigationBar->setDisplayMode(ElaNavigationType::Minimal, true);
-        _appBar->setWindowButtonFlag(ElaAppBarType::NavigationButtonHint);
-        break;
-    }
-    case ElaNavigationType::Compact:
-    {
-        _navigationBar->setDisplayMode(ElaNavigationType::Compact, true);
-        _appBar->setWindowButtonFlag(ElaAppBarType::NavigationButtonHint, false);
-        break;
-    }
-    case ElaNavigationType::Maximal:
-    {
-        _navigationBar->setDisplayMode(ElaNavigationType::Maximal, true);
-        _appBar->setWindowButtonFlag(ElaAppBarType::NavigationButtonHint, false);
-        break;
-    }
-    }
-}
-
 void ElaWindowPrivate::onThemeModeChanged(ElaThemeType::ThemeMode themeMode)
 {
     Q_Q(ElaWindow);
@@ -238,18 +206,14 @@ void ElaWindowPrivate::onNavigationNodeClicked(ElaNavigationType::NavigationNode
 
 void ElaWindowPrivate::onNavigationNodeAdded(ElaNavigationType::NavigationNodeType nodeType, QString nodeKey, QWidget* page)
 {
-    if (nodeType == ElaNavigationType::PageNode)
+    if (nodeType == ElaNavigationType::CategoryNode)
     {
-        _routeMap.insert(nodeKey, page);
-        _navigationCenterStackedWidget->getContainerStackedWidget()->addWidget(page);
+        return;
     }
-    else
+    _routeMap.insert(nodeKey, page);
+    if (page)
     {
-        _routeMap.insert(nodeKey, page);
-        if (page)
-        {
-            _navigationCenterStackedWidget->getContainerStackedWidget()->addWidget(page);
-        }
+        _navigationCenterStackedWidget->getContainerStackedWidget()->addWidget(page);
     }
 }
 

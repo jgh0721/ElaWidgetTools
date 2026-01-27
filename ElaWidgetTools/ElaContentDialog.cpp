@@ -41,11 +41,6 @@ ElaContentDialog::ElaContentDialog(QWidget* parent)
 #ifdef Q_OS_WIN
     // 防止意外拉伸
     createWinId();
-#if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))
-    window()->setWindowFlags((window()->windowFlags()) | Qt::WindowMinimizeButtonHint | Qt::FramelessWindowHint);
-#endif
-#else
-    window()->setWindowFlags((window()->windowFlags()) | Qt::FramelessWindowHint);
 #endif
     d->_leftButton = new ElaPushButton(tr("cancel"), this);
     connect(d->_leftButton, &ElaPushButton::clicked, this, [=]() {

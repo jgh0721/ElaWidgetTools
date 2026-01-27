@@ -1,22 +1,22 @@
 #include "ElaNavigationStyle.h"
 
-#include <QPainter>
-#include <QPainterPath>
-#include <QPropertyAnimation>
-#include <QStyleOption>
-
 #include "ElaNavigationModel.h"
 #include "ElaNavigationNode.h"
 #include "ElaNavigationView.h"
 #include "ElaTheme.h"
+#include <QDebug>
+#include <QPainter>
+#include <QPainterPath>
+#include <QPropertyAnimation>
+#include <QStyleOption>
 ElaNavigationStyle::ElaNavigationStyle(QStyle* style)
 {
     _pOpacity = 1;
-    _pItemHeight = 40;
-    _pLastSelectMarkTop = 10.0;
-    _pLastSelectMarkBottom = 10.0;
-    _pSelectMarkTop = 10.0;
-    _pSelectMarkBottom = 10.0;
+    _pItemHeight = 38;
+    _pLastSelectMarkTop = 10.5;
+    _pLastSelectMarkBottom = 10.5;
+    _pSelectMarkTop = 10.5;
+    _pSelectMarkBottom = 10.5;
 
     // Mark向上
     _lastSelectMarkTopAnimation = new QPropertyAnimation(this, "pLastSelectMarkTop");
@@ -36,7 +36,7 @@ ElaNavigationStyle::ElaNavigationStyle(QStyle* style)
         _isSelectMarkDisplay = true;
         _lastSelectedNode = nullptr;
         _selectMarkBottomAnimation->setStartValue(0);
-        _selectMarkBottomAnimation->setEndValue(10);
+        _selectMarkBottomAnimation->setEndValue(10.5);
         _selectMarkBottomAnimation->start();
     });
 
@@ -57,8 +57,8 @@ ElaNavigationStyle::ElaNavigationStyle(QStyle* style)
     connect(_lastSelectMarkBottomAnimation, &QPropertyAnimation::finished, this, [=]() {
         _isSelectMarkDisplay = true;
         _lastSelectedNode = nullptr;
-        _selectMarkTopAnimation->setStartValue(0);
-        _selectMarkTopAnimation->setEndValue(10);
+        _selectMarkTopAnimation->setStartValue(0.0);
+        _selectMarkTopAnimation->setEndValue(10.5);
         _selectMarkTopAnimation->start();
     });
     _themeMode = eTheme->getThemeMode();
@@ -80,9 +80,13 @@ void ElaNavigationStyle::drawPrimitive(PrimitiveElement element, const QStyleOpt
         // Item背景
         if (const QStyleOptionViewItem* vopt = qstyleoption_cast<const QStyleOptionViewItem*>(option))
         {
-            painter->save();
             QModelIndex index = vopt->index;
             ElaNavigationNode* node = static_cast<ElaNavigationNode*>(index.internalPointer());
+            if (node->getIsCategoryNode())
+            {
+                return;
+            }
+            painter->save();
             if (this->_opacityAnimationTargetNode && node->getParentNode() == this->_opacityAnimationTargetNode)
             {
                 painter->setOpacity(_pOpacity);
@@ -92,7 +96,7 @@ void ElaNavigationStyle::drawPrimitive(PrimitiveElement element, const QStyleOpt
             itemRect.setTop(itemRect.top() + 2);
             itemRect.setBottom(itemRect.bottom() - 2);
             QPainterPath path;
-            path.addRoundedRect(itemRect, 8, 8);
+            path.addRoundedRect(itemRect, 5, 5);
             if (vopt->state & QStyle::State_Selected)
             {
                 if (index == _pPressIndex)
@@ -185,30 +189,52 @@ void ElaNavigationStyle::drawControl(ControlElement element, const QStyleOption*
             {
                 painter->setPen(Qt::NoPen);
                 painter->setBrush(ElaThemeColor(_themeMode, PrimaryNormal));
-                painter->drawRoundedRect(QRectF(itemRect.x() + 3, itemRect.y() + _pSelectMarkTop, 3, itemRect.height() - _pSelectMarkTop - _pSelectMarkBottom), 3, 3);
+                painter->drawRoundedRect(QRectF(itemRect.x() + 3, itemRect.y() + _pSelectMarkTop, 3, itemRect.height() - _pSelectMarkTop - _pSelectMarkBottom), 1.5, 1.5);
             }
             if (node == _lastSelectedNode)
             {
                 painter->setPen(Qt::NoPen);
                 painter->setBrush(ElaThemeColor(_themeMode, PrimaryNormal));
-                painter->drawRoundedRect(QRectF(itemRect.x() + 3, itemRect.y() + _pLastSelectMarkTop, 3, itemRect.height() - _pLastSelectMarkTop - _pLastSelectMarkBottom), 3, 3);
+                painter->drawRoundedRect(QRectF(itemRect.x() + 3, itemRect.y() + _pLastSelectMarkTop, 3, itemRect.height() - _pLastSelectMarkTop - _pLastSelectMarkBottom), 1.5, 1.5);
             }
 
             // 图标绘制
             painter->setPen(vopt->index == _pPressIndex ? ElaThemeColor(_themeMode, BasicTextPress) : ElaThemeColor(_themeMode, BasicText));
-            if (node->getAwesome() != ElaIconType::None)
+            const QIcon Ico = qvariant_cast<QIcon>( node->getModelIndex().data( Qt::DecorationRole ) );
+            if( Ico.isNull() == true )
             {
-                painter->save();
-                QFont iconFont = QFont("ElaAwesome");
-                iconFont.setPixelSize(17);
-                painter->setFont(iconFont);
-                painter->drawText(QRect(itemRect.x(), itemRect.y(), _iconAreaWidth, itemRect.height()), Qt::AlignCenter, QChar((unsigned short)node->getAwesome()));
-                painter->restore();
+                if (node->getAwesome() != ElaIconType::None)
+                {
+                    painter->save();
+                    QFont iconFont = QFont("ElaAwesome");
+                    iconFont.setPixelSize(17);
+                    painter->setFont(iconFont);
+                    painter->drawText(QRect(itemRect.x(), itemRect.y(), _iconAreaWidth, itemRect.height()), Qt::AlignCenter, QChar((unsigned short)node->getAwesome()));
+                    painter->restore();
+                }
+            }
+            else
+            {
+                const int IconSize =  24;
+                const qreal dpr = painter->device()->devicePixelRatioF();
+                QPixmap pm = Ico.pixmap( QSize( qRound( IconSize * dpr ), qRound( IconSize * dpr ) ) );
+                pm.setDevicePixelRatio( dpr );
+                painter->drawPixmap( QRect(itemRect.x(), itemRect.y(), _iconAreaWidth, itemRect.height()), pm );
             }
 
             int viewWidth = widget->width();
             // 文字绘制
-            painter->setPen(vopt->index == _pPressIndex ? ElaThemeColor(_themeMode, BasicTextPress) : ElaThemeColor(_themeMode, BasicText));
+            if (node->getIsCategoryNode())
+            {
+                QFont categoryFont = painter->font();
+                categoryFont.setBold(true);
+                painter->setFont(categoryFont);
+                painter->setPen(ElaThemeColor(_themeMode, BasicTextCategory));
+            }
+            else
+            {
+                painter->setPen((vopt->index == _pPressIndex) ? ElaThemeColor(_themeMode, BasicTextPress) : ElaThemeColor(_themeMode, BasicText));
+            }
             QRect textRect;
             if (node->getAwesome() != ElaIconType::None)
             {
@@ -229,7 +255,6 @@ void ElaNavigationStyle::drawControl(ControlElement element, const QStyleOption*
                     if (node->getIsHasChild())
                     {
                         QRectF expandIconRect(itemRect.right() - _indicatorIconAreaWidth, itemRect.y(), 17, itemRect.height());
-
                         painter->save();
                         QFont iconFont = QFont("ElaAwesome");
                         iconFont.setPixelSize(17);
@@ -267,35 +292,12 @@ void ElaNavigationStyle::drawControl(ControlElement element, const QStyleOption*
                 }
                 else
                 {
-                    int keyPoints = node->getKeyPoints();
-                    if (keyPoints)
-                    {
-                        // KeyPoints
-                        painter->save();
-                        painter->setPen(Qt::NoPen);
-                        painter->setBrush(ElaThemeColor(_themeMode, PrimaryNormal));
-                        int keyPointRadius = 8;
-                        painter->drawEllipse(QPoint(itemRect.right() - 26, itemRect.y() + itemRect.height() / 2), keyPointRadius, keyPointRadius);
-                        painter->setPen(QPen(ElaThemeColor(_themeMode, BasicTextInvert), 2));
-                        QFont font = painter->font();
-                        font.setBold(true);
-                        if (keyPoints > 99)
-                        {
-                            keyPoints = 99;
-                        }
-                        if (keyPoints > 9)
-                        {
-                            font.setPixelSize(10);
-                        }
-                        else
-                        {
-                            font.setPixelSize(11);
-                        }
-                        painter->setFont(font);
-                        painter->drawText(QRect(QPoint(itemRect.right() - 26 - keyPointRadius, itemRect.y() + itemRect.height() / 2 - keyPointRadius), QSize(2 * keyPointRadius, 2 * keyPointRadius)), Qt::AlignCenter, QString::number(keyPoints));
-                        painter->restore();
-                    }
+                    drawKeyPoints(painter, node, itemRect);
                 }
+            }
+            else
+            {
+                drawKeyPoints(painter, node, itemRect);
             }
             painter->restore();
         }
@@ -402,14 +404,14 @@ void ElaNavigationStyle::navigationNodeStateChange(QVariantMap data)
         _lastSelectedNode = data.value("LastSelectedNode").value<ElaNavigationNode*>();
         ElaNavigationNode* selectedNode = data.value("SelectedNode").value<ElaNavigationNode*>();
         bool direction = _compareItemY(selectedNode, _lastSelectedNode);
-        _pLastSelectMarkTop = 10;
-        _pLastSelectMarkBottom = 10;
-        _pSelectMarkTop = 10;
-        _pSelectMarkBottom = 10;
+        _pLastSelectMarkTop = 10.5;
+        _pLastSelectMarkBottom = 10.5;
+        _pSelectMarkTop = 10.5;
+        _pSelectMarkBottom = 10.5;
         if (direction)
         {
-            _lastSelectMarkTopAnimation->setStartValue(10);
-            _lastSelectMarkTopAnimation->setEndValue(0);
+            _lastSelectMarkTopAnimation->setStartValue(10.5);
+            _lastSelectMarkTopAnimation->setEndValue(0.0);
             _lastSelectMarkTopAnimation->start();
             _lastSelectMarkBottomAnimation->stop();
             _selectMarkTopAnimation->stop();
@@ -417,13 +419,45 @@ void ElaNavigationStyle::navigationNodeStateChange(QVariantMap data)
         }
         else
         {
-            _lastSelectMarkBottomAnimation->setStartValue(10);
-            _lastSelectMarkBottomAnimation->setEndValue(0);
+            _lastSelectMarkBottomAnimation->setStartValue(10.5);
+            _lastSelectMarkBottomAnimation->setEndValue(0.0);
             _lastSelectMarkBottomAnimation->start();
             _lastSelectMarkTopAnimation->stop();
             _selectMarkBottomAnimation->stop();
             _isSelectMarkDisplay = false;
         }
+    }
+}
+
+void ElaNavigationStyle::drawKeyPoints( QPainter* Painter, ElaNavigationNode* Node, QRect ItemRect ) const
+{
+    int keyPoints = Node->getKeyPoints();
+    if (keyPoints)
+    {
+        // KeyPoints
+        Painter->save();
+        Painter->setPen( Qt::NoPen );
+        Painter->setBrush( Qt::red );
+        int keyPointRadius = 8;
+        Painter->drawEllipse(QPoint(ItemRect.right() - 13, ItemRect.y() + ItemRect.height() / 2), keyPointRadius, keyPointRadius);
+        Painter->setPen(QPen( Qt::white, 2));
+        QFont font = Painter->font();
+        font.setBold(true);
+        if (keyPoints > 99)
+        {
+            keyPoints = 99;
+        }
+        if (keyPoints > 9)
+        {
+            font.setPixelSize(11);
+        }
+        else
+        {
+            font.setPixelSize(12);
+        }
+        Painter->setFont(font);
+        Painter->drawText(QRect(QPoint(ItemRect.right() - 13 - keyPointRadius, ItemRect.y() + ItemRect.height() / 2 - keyPointRadius), QSize(2 * keyPointRadius, 2 * keyPointRadius)), Qt::AlignCenter, QString::number(keyPoints));
+        Painter->restore();
     }
 }
 

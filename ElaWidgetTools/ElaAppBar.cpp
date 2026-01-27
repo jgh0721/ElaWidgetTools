@@ -66,7 +66,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     setStyleSheet("ElaAppBar{background-color:transparent;}");
     d->_routeBackButton = new ElaToolButton(this);
     d->_routeBackButton->setElaIcon(ElaIconType::ArrowLeft);
-    d->_routeBackButton->setFixedSize(40, 30);
+    d->_routeBackButton->setFixedSize(35, 30);
     d->_routeBackButton->setEnabled(false);
     // 路由跳转
     connect(d->_routeBackButton, &ElaIconButton::clicked, this, &ElaAppBar::routeBackButtonClicked);
