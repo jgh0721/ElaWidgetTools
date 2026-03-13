@@ -1,5 +1,5 @@
-﻿#ifndef ELAPROPERTY_H
-#define ELAPROPERTY_H
+﻿#ifndef ELAFRAMEWORK_ELAWIDGETTOOLS_ELAPROPERTY_H_
+#define ELAFRAMEWORK_ELAWIDGETTOOLS_ELAPROPERTY_H_
 
 #include <QtCore/qglobal.h>
 
@@ -30,7 +30,23 @@ public:                                                     \
 private:                                                    \
     TYPE _p##M;
 
-// Q_D Q_Q普通属性快速创建
+#define Q_PROPERTY_REF_CREATE(TYPE, M)                      \
+    Q_PROPERTY(TYPE p##M MEMBER _p##M NOTIFY p##M##Changed) \
+public:                                                     \
+    Q_SIGNAL void p##M##Changed();                          \
+    void set##M(const TYPE& M)                              \
+    {                                                       \
+        _p##M = M;                                          \
+        Q_EMIT p##M##Changed();                             \
+    }                                                       \
+    const TYPE& get##M() const                              \
+    {                                                       \
+        return _p##M;                                       \
+    }                                                       \
+                                                            \
+private:                                                    \
+    TYPE _p##M;
+
 #define Q_PROPERTY_CREATE_Q_H(TYPE, M)                                  \
     Q_PROPERTY(TYPE p##M READ get##M WRITE set##M NOTIFY p##M##Changed) \
 public:                                                                 \
@@ -38,11 +54,22 @@ public:                                                                 \
     void set##M(TYPE M);                                                \
     TYPE get##M() const;
 
-// Q_D Q_Q指针变量快速创建
+#define Q_PROPERTY_REF_CREATE_Q_H(TYPE, M)                              \
+    Q_PROPERTY(TYPE p##M READ get##M WRITE set##M NOTIFY p##M##Changed) \
+public:                                                                 \
+    Q_SIGNAL void p##M##Changed();                                      \
+    void set##M(const TYPE& M);                                         \
+    const TYPE& get##M() const;
+
 #define Q_PRIVATE_CREATE_Q_H(TYPE, M) \
 public:                               \
     void set##M(TYPE M);              \
     TYPE get##M() const;
+
+#define Q_PRIVATE_REF_CREATE_Q_H(TYPE, M) \
+public:                                   \
+    void set##M(const TYPE& M);           \
+    const TYPE& get##M() const;
 
 #define Q_PROPERTY_CREATE_Q_CPP(CLASS, TYPE, M) \
     void CLASS::set##M(TYPE M)                  \
@@ -56,6 +83,18 @@ public:                               \
         return d_ptr->_p##M;                    \
     }
 
+#define Q_PROPERTY_REF_CREATE_Q_CPP(CLASS, TYPE, M) \
+    void CLASS::set##M(const TYPE& M)               \
+    {                                               \
+        Q_D(CLASS);                                 \
+        d->_p##M = M;                               \
+        Q_EMIT p##M##Changed();                     \
+    }                                               \
+    const TYPE& CLASS::get##M() const               \
+    {                                               \
+        return d_ptr->_p##M;                        \
+    }
+
 #define Q_PRIVATE_CREATE_Q_CPP(CLASS, TYPE, M) \
     void CLASS::set##M(TYPE M)                 \
     {                                          \
@@ -65,6 +104,17 @@ public:                               \
     TYPE CLASS::get##M() const                 \
     {                                          \
         return d_ptr->_p##M;                   \
+    }
+
+#define Q_PRIVATE_REF_CREATE_Q_CPP(CLASS, TYPE, M) \
+    void CLASS::set##M(const TYPE& M)              \
+    {                                              \
+        Q_D(CLASS);                                \
+        d->_p##M = M;                              \
+    }                                              \
+    const TYPE& CLASS::get##M() const              \
+    {                                              \
+        return d_ptr->_p##M;                       \
     }
 
 #define Q_PROPERTY_CREATE_D(TYPE, M) \
@@ -89,6 +139,20 @@ public:                           \
 private:                          \
     TYPE _p##M;
 
+#define Q_PRIVATE_REF_CREATE(TYPE, M) \
+public:                               \
+    void set##M(const TYPE& M)        \
+    {                                 \
+        _p##M = M;                    \
+    }                                 \
+    const TYPE& get##M() const        \
+    {                                 \
+        return _p##M;                 \
+    }                                 \
+                                      \
+private:                              \
+    TYPE _p##M;
+
 #define Q_Q_CREATE(CLASS)                                        \
 protected:                                                       \
     explicit CLASS(CLASS##Private& dd, CLASS* parent = nullptr); \
@@ -105,4 +169,4 @@ protected:                \
 private:                  \
     Q_DECLARE_PUBLIC(CLASS);
 
-#endif // ELAPROPERTY_H
+#endif // ELAFRAMEWORK_ELAWIDGETTOOLS_ELAPROPERTY_H_

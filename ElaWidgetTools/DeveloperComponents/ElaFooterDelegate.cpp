@@ -117,6 +117,7 @@ void ElaFooterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
     {
         viewOption.state &= ~QStyle::State_HasFocus;
     }
+    QStyledItemDelegate::paint(painter, viewOption, index);
     // 背景绘制
     QRect itemRect = option.rect;
     painter->save();

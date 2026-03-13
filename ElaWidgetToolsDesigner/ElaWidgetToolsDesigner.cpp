@@ -73,6 +73,7 @@
 #include "ElaTreeView.h"
 #include "ElaTreeWidget.h"
 
+#include "ElaDialog.h"
 #include "ElaWidget.h"
 #include "ElaWindow.h"
 
@@ -596,7 +597,7 @@ QString ElaRollerPlugin::domXml() const
 DEFINE_BASE(ElaScrollArea)
 DEFINE_BASE_ICON( ElaScrollArea, QStringLiteral(":res/TreeView.png") )
 DEFINE_BASE_WHATS_THIS(ElaScrollArea, "ElaScrollArea on ElaWidgetTools")
-DEFINE_BASE_IS_CONTAINER(ElaScrollArea, false )
+DEFINE_BASE_IS_CONTAINER(ElaScrollArea, true )
 
 QString ElaScrollAreaPlugin::domXml() const
 {
@@ -610,7 +611,7 @@ QString ElaScrollAreaPlugin::domXml() const
 DEFINE_BASE(ElaScrollPageArea)
 DEFINE_BASE_ICON( ElaScrollPageArea, QStringLiteral(":res/TreeView.png") )
 DEFINE_BASE_WHATS_THIS(ElaScrollPageArea, "ElaScrollPageArea on ElaWidgetTools")
-DEFINE_BASE_IS_CONTAINER(ElaScrollPageArea, false )
+DEFINE_BASE_IS_CONTAINER(ElaScrollPageArea, true )
 
 QString ElaScrollPageAreaPlugin::domXml() const
 {
@@ -812,6 +813,20 @@ QString ElaTreeWidgetPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaTreeWidget");
     return createWidgetXml( className, className.toLower(), QSize( 300, 200 ) );
+}
+
+///////////////////////////////////////////////////////////////////////////////
+///
+
+DEFINE_BASE(ElaDialog)
+DEFINE_BASE_ICON( ElaDialog, ElaIcon::getInstance()->getElaIcon( ElaIconType::Display ) )
+DEFINE_BASE_WHATS_THIS(ElaDialog, "ElaDialog on ElaWidgetTools")
+DEFINE_BASE_IS_CONTAINER(ElaDialog, true )
+
+QString ElaWidgetPlugin::domXml() const
+{
+    QString className = QStringLiteral("ElaDialog");
+    return createWidgetXml( className, className.toLower(), QSize( 320, 240 ) );
 }
 
 ///////////////////////////////////////////////////////////////////////////////

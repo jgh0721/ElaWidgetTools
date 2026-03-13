@@ -574,7 +574,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
             return -1;
         }
 #endif
-         case WM_NCCALCSIZE: {
+         case WM_NCCALCSIZE: 
+		 {
              if( wParam == FALSE )
              {
                  return 0;
@@ -645,7 +646,8 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
              }
              break;
          }
-         case WM_NCHITTEST: {
+         case WM_NCHITTEST: 
+		 {
              if( isMaximized() )
                  return -1;
 
