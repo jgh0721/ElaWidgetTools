@@ -19,7 +19,7 @@ class ELA_EXPORT ElaDialog : public QDialog
     Q_PROPERTY_CREATE_Q_H(int, AppBarHeight)
     Q_TAKEOVER_NATIVEEVENT_H
 public:
-    explicit ElaDialog(QWidget* parent = nullptr, Qt::WindowFlags flags = Qt::Dialog);
+    explicit ElaDialog(QWidget* parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
     ~ElaDialog() override;
 
     ElaAppBar*                          appBar() const;

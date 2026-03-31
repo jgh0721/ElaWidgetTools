@@ -115,6 +115,20 @@ ElaAppBar* ElaDialog::appBar() const
     return d->_appBar;
 }
 
+void ElaDialog::moveToCenter()
+{
+    if (isMaximized() || isFullScreen())
+    {
+        return;
+    }
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
+    auto geometry = screen()->availableGeometry();
+#else
+    auto geometry = qApp->screenAt(this->geometry().center())->geometry();
+#endif
+    setGeometry((geometry.left() + geometry.right() - width()) / 2, (geometry.top() + geometry.bottom() - height()) / 2, width(), height());
+}
+
 void ElaDialog::setWindowButtonFlag(ElaAppBarType::ButtonType buttonFlag, bool isEnable)
 {
     Q_D(ElaDialog);
@@ -130,20 +144,6 @@ void ElaDialog::setWindowButtonFlags(ElaAppBarType::ButtonFlags buttonFlags)
 ElaAppBarType::ButtonFlags ElaDialog::getWindowButtonFlags() const
 {
     return appBar()->getWindowButtonFlags();
-}
-
-void ElaDialog::moveToCenter()
-{
-    if (isMaximized() || isFullScreen())
-    {
-        return;
-    }
-#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
-    auto geometry = screen()->availableGeometry();
-#else
-    auto geometry = qApp->screenAt(this->geometry().center())->geometry();
-#endif
-    setGeometry((geometry.left() + geometry.right() - width()) / 2, (geometry.top() + geometry.bottom() - height()) / 2, width(), height());
 }
 
 void ElaDialog::ShowUI()

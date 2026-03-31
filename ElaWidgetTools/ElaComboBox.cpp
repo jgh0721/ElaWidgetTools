@@ -6,6 +6,7 @@
 #include "private/ElaComboBoxPrivate.h"
 #include <QAbstractItemView>
 #include <QApplication>
+#include <QDebug>
 #include <QLayout>
 #include <QLineEdit>
 #include <QListView>
