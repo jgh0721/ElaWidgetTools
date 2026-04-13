@@ -13,11 +13,9 @@ T_About::T_About(QWidget* parent)
     setWindowTitle("关于..");
     setWindowIcon(QIcon(":/include/Image/Moon.jpg"));
     this->setIsFixedHorizontalSize(true);
-    this->setIsFixedVerticalSize(false);
+    this->setIsFixedVerticalSize(true);
     setWindowModality(Qt::ApplicationModal);
     setWindowButtonFlags(ElaAppBarType::CloseButtonHint);
-    setWindowButtonFlag( ElaAppBarType::MaximizeButtonHint, false );
-
     ElaImageCard* pixCard = new ElaImageCard(this);
     pixCard->setFixedSize(60, 60);
     pixCard->setIsPreserveAspectCrop(false);

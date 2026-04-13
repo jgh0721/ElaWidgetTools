@@ -200,7 +200,7 @@ void ElaNavigationStyle::drawControl(ControlElement element, const QStyleOption*
 
             // 图标绘制
             painter->setPen(vopt->index == _pPressIndex ? ElaThemeColor(_themeMode, BasicTextPress) : ElaThemeColor(_themeMode, BasicText));
-            const QIcon Ico = qvariant_cast<QIcon>( node->getModelIndex().data( Qt::DecorationRole ) );
+            const QIcon Ico = qvariant_cast<QIcon>( node->getModelIndex().data( Qt::UserRole+1 ) );
             if( Ico.isNull() == true )
             {
                 if (node->getAwesome() != ElaIconType::None)
@@ -209,7 +209,7 @@ void ElaNavigationStyle::drawControl(ControlElement element, const QStyleOption*
                     QFont iconFont = QFont("ElaAwesome");
                     iconFont.setPixelSize(17);
                     painter->setFont(iconFont);
-                    painter->drawText(QRect(itemRect.x(), itemRect.y(), _iconAreaWidth, itemRect.height()), Qt::AlignCenter, QChar((unsigned short)node->getAwesome()));
+                    painter->drawText(QRect(itemRect.x(), itemRect.y(), _iconAreaWidth, itemRect.height()), Qt::AlignCenter, QChar((int)node->getAwesome()));
                     painter->restore();
                 }
             }
@@ -236,7 +236,7 @@ void ElaNavigationStyle::drawControl(ControlElement element, const QStyleOption*
                 painter->setPen((vopt->index == _pPressIndex) ? ElaThemeColor(_themeMode, BasicTextPress) : ElaThemeColor(_themeMode, BasicText));
             }
             QRect textRect;
-            if (node->getAwesome() != ElaIconType::None)
+            if (node->getAwesome() != ElaIconType::None||!Ico.isNull())
             {
                 textRect = QRect(itemRect.x() + _iconAreaWidth, itemRect.y(), itemRect.width() - _textRightSpacing - _indicatorIconAreaWidth - _iconAreaWidth, itemRect.height());
             }

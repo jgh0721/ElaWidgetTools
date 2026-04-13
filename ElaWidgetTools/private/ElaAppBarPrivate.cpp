@@ -196,8 +196,7 @@ bool ElaAppBarPrivate::_containsCursorToItem(QWidget* item)
     {
         return false;
     }
-    auto point = item->window()->mapFromGlobal(QCursor::pos());
-    QRectF rect = QRectF(item->mapTo(item->window(), QPoint(0, 0)), item->size());
+    QRect itemRect = QRect(item->mapToGlobal(QPoint(0, 0)), item->size());
     if (item == q)
     {
         for (int i = 0; i < _clientWidgetList.count(); i++)
@@ -219,18 +218,15 @@ bool ElaAppBarPrivate::_containsCursorToItem(QWidget* item)
                     QMetaObject::invokeMethod(customAreaHitTestObject, _customAreaHitTestFunctionNameList[i].toLocal8Bit().constData(), Qt::AutoConnection, Q_RETURN_ARG(bool, isContainsInAppBar));
                     return isContainsInAppBar;
                 }
-                else
-                {
-                    return false;
-                }
+                return false;
             }
         }
     }
     else if (item == _maxButton)
     {
-        rect.adjust(0, 8, 0, 0);
+        itemRect.adjust(0, 8, 0, 0);
     }
-    if (rect.contains(point))
+    if (itemRect.contains(QCursor::pos()))
     {
         return true;
     }
@@ -252,54 +248,35 @@ void ElaAppBarPrivate::_onThemeModeChange(ElaThemeType::ThemeMode themeMode)
 int ElaAppBarPrivate::_calculateMinimumWidth()
 {
     Q_Q(ElaAppBar);
-    int width = 0;
+    int appBarWidth = 0;
     if (_titleLabel->isVisible())
     {
-        width += _titleLabel->width();
-        width += 10;
+        appBarWidth += _titleLabel->width();
+        appBarWidth += 10;
     }
     if (_iconLabel->isVisible())
     {
-        width += _iconLabel->width();
-        width += 10;
+        appBarWidth += _iconLabel->width();
+        appBarWidth += 10;
     }
-    bool isHasNavigationBar = false;
-    if (q->parentWidget()->findChild<ElaNavigationBar*>())
-    {
-        isHasNavigationBar = true;
-        width += 305;
-    }
-    else
-    {
-        width += 5;
-    }
-
-    int customWidgetWidth = 0;
     for (int i = 0; i < _customAreaWidgetList.count(); i++)
     {
-        customWidgetWidth += _customAreaWidgetList[i]->minimumWidth();
-    }
-    if (isHasNavigationBar)
-    {
-        if (customWidgetWidth > 300)
+        auto customAreaWidget = _customAreaWidgetList[i];
+        if (customAreaWidget->isVisible())
         {
-            width += customWidgetWidth - 300;
+            appBarWidth += customAreaWidget->minimumWidth();
         }
     }
-    else
-    {
-        width += customWidgetWidth;
-    }
-
     QList<QAbstractButton*> buttonList = q->findChildren<QAbstractButton*>();
-    for (auto button: buttonList)
+    for (const auto clientWidget: _clientWidgetList)
     {
-        if (button->isVisible() && button->objectName() != "NavigationButton")
+        if (clientWidget->isVisible())
         {
-            width += button->width();
+            appBarWidth += clientWidget->minimumWidth();
         }
     }
-    return width;
+    auto windowMinWidth = q->parentWidget()->minimumWidth() + 20;
+    return qMax(appBarWidth, windowMinWidth);
 }
 
 QVBoxLayout* ElaAppBarPrivate::_createVLayout(QWidget* widget)
@@ -318,4 +295,35 @@ QVBoxLayout* ElaAppBarPrivate::_createVLayout(QWidget* widget)
     vLayout->addWidget(widget);
     vLayout->addStretch();
     return vLayout;
+}
+
+void ElaAppBarPrivate::_updateLayoutSize()
+{
+    Q_Q(ElaAppBar);
+    int appBarHeight = _pAppBarHeight; // 현재 AppBar 높이 (기본 45)
+
+    int titleFontSize = _titleLabel->font().pixelSize();
+    int targetIconSize = qMax(16, qMin(appBarHeight / 2, (int)(titleFontSize * 1.4)));
+    QSize iconSize(targetIconSize, targetIconSize);
+
+    int btnHeight = qMin(32, (int)(appBarHeight * 0.75));
+    int btnWidth = (int)(btnHeight * 1.3); // 보통 40x30 비율 유지
+
+    for (auto widget : _clientWidgetList) {
+        if (!widget)
+            continue;
+
+        // ElaToolButton이나 ElaIconButton인 경우 아이콘 크기 설정
+        if (auto tBtn = qobject_cast<ElaToolButton*>(widget)) {
+            tBtn->setIconSize(iconSize);
+            widget->setFixedSize(btnWidth, btnHeight);
+        } else if (auto iBtn = qobject_cast<ElaIconButton*>(widget)) {
+            iBtn->setIconSize(iconSize);
+            widget->setFixedSize(btnWidth, btnHeight);
+        }
+    }
+
+    if (_iconLabel) {
+        q->setIconSize(iconSize); // 기존 getIconSize/setIconSize 프로퍼티 활용
+    }
 }

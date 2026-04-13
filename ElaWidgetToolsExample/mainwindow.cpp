@@ -1,12 +1,12 @@
 #include "mainwindow.h"
 
+#include "ElaActionCommander.h"
 #include "ElaContentDialog.h"
 #include "ElaDockWidget.h"
 #include "ElaEventBus.h"
 #include "ElaLog.h"
 #include "ElaMenu.h"
 #include "ElaMenuBar.h"
-#include "ElaNavigationRouter.h"
 #include "ElaProgressBar.h"
 #include "ElaProgressRing.h"
 #include "ElaStatusBar.h"
@@ -143,33 +143,37 @@ void MainWindow::initWindow()
     leftButton->setElaIcon(ElaIconType::AngleLeft);
     leftButton->setEnabled(false);
     connect(leftButton, &ElaToolButton::clicked, this, [=]() {
-        ElaNavigationRouter::getInstance()->navigationRouteBack();
+        ElaActionCommander::getInstance()->undoCommand("ElaWidgetToolsAction");
     });
     ElaToolButton* rightButton = new ElaToolButton(this);
     rightButton->setElaIcon(ElaIconType::AngleRight);
     rightButton->setEnabled(false);
     connect(rightButton, &ElaToolButton::clicked, this, [=]() {
-        ElaNavigationRouter::getInstance()->navigationRouteForward();
+        ElaActionCommander::getInstance()->redoCommand("ElaWidgetToolsAction");
     });
-    connect(ElaNavigationRouter::getInstance(), &ElaNavigationRouter::navigationRouterStateChanged, this, [=](ElaNavigationRouterType::RouteMode routeMode) {
-        switch (routeMode)
+    connect(ElaActionCommander::getInstance(), &ElaActionCommander::commanderStateChanged, this, [=](const QString& domainName, ElaActionCommanderType::CommanderState state) {
+        if (domainName != "ElaWidgetToolsAction")
         {
-        case ElaNavigationRouterType::BackValid:
+            return;
+        }
+        switch (state)
+        {
+        case ElaActionCommanderType::UndoValid:
         {
             leftButton->setEnabled(true);
             break;
         }
-        case ElaNavigationRouterType::BackInvalid:
+        case ElaActionCommanderType::UndoInvalid:
         {
             leftButton->setEnabled(false);
             break;
         }
-        case ElaNavigationRouterType::ForwardValid:
+        case ElaActionCommanderType::RedoValid:
         {
             rightButton->setEnabled(true);
             break;
         }
-        case ElaNavigationRouterType::ForwardInvalid:
+        case ElaActionCommanderType::RedoInvalid:
         {
             rightButton->setEnabled(false);
             break;
@@ -207,13 +211,13 @@ void MainWindow::initEdgeLayout()
     ElaMenuBar* menuBar = new ElaMenuBar(this);
     menuBar->setFixedHeight(30);
     QWidget* customWidget = new QWidget(this);
-    customWidget->setFixedWidth(500);
+    //customWidget->setFixedWidth(500);
     QVBoxLayout* customLayout = new QVBoxLayout(customWidget);
     customLayout->setContentsMargins(0, 0, 0, 0);
     customLayout->addWidget(menuBar);
     customLayout->addStretch();
     // this->setMenuBar(menuBar);
-    this->setCustomWidget(ElaAppBarType::MiddleArea, customWidget);
+    this->setCustomWidget(ElaAppBarType::LeftArea, customWidget);
 
     menuBar->addElaIconAction(ElaIconType::AtomSimple, "动作菜单");
     ElaMenu* iconMenu = menuBar->addMenu(ElaIconType::Aperture, "图标菜单");

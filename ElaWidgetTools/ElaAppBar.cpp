@@ -54,7 +54,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 
     window()->installEventFilter(this);
 #ifdef Q_OS_WIN
-        d->_win7Margins = 8;
+    d->_win7Margins = 8;
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))
     window()->setWindowFlags((window()->windowFlags()) | Qt::WindowMinimizeButtonHint | Qt::FramelessWindowHint);
 #endif
@@ -119,7 +119,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_titleLabel->setIsWrapAnywhere(true);
     d->_titleLabel->setTextPixelSize(13);
     d->_titleLabel->setAlignment(Qt::AlignVCenter);
-    d->_titleLabel->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+    d->_titleLabel->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
     d->_titleLabelLayout = d->_createVLayout(d->_titleLabel);
     d->_titleLabelLayout->setAlignment(Qt::AlignVCenter);
 
@@ -179,6 +179,9 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     leftLayout->addLayout(d->_titleLabelLayout);
     d->_mainLayout->addLayout(leftLayout);
 
+    d->_middleLayout = new QHBoxLayout();
+    d->_middleLayout->setSpacing(0);
+    d->_middleLayout->setContentsMargins(0, 0, 0, 0);
     auto leftAreaWidget = new QWidget(this);
     leftAreaWidget->setVisible(false);
     auto middleAreaWidget = new QWidget(this);
@@ -188,9 +191,10 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_customAreaWidgetList[0] = leftAreaWidget;
     d->_customAreaWidgetList[1] = middleAreaWidget;
     d->_customAreaWidgetList[2] = rightAreaWidget;
-    d->_mainLayout->addWidget(leftAreaWidget);
-    d->_mainLayout->addWidget(middleAreaWidget);
-    d->_mainLayout->addWidget(rightAreaWidget);
+    d->_middleLayout->addWidget(leftAreaWidget);
+    d->_middleLayout->addWidget(middleAreaWidget);
+    d->_middleLayout->addWidget(rightAreaWidget);
+    d->_mainLayout->addLayout(d->_middleLayout);
 
     QHBoxLayout* rightLayout = new QHBoxLayout();
     rightLayout->setSpacing(0);
@@ -269,8 +273,8 @@ void ElaAppBar::setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* w
     widget->setMaximumHeight(height());
     widget->setParent(this);
     int customAreaIndex = (int)customArea - 1;
-    d->_mainLayout->removeWidget(d->_customAreaWidgetList[customAreaIndex]);
-    d->_mainLayout->insertWidget(customAreaIndex + 1, widget);
+    d->_middleLayout->removeWidget(d->_customAreaWidgetList[customAreaIndex]);
+    d->_middleLayout->insertWidget(customAreaIndex + 1, widget);
     d->_customAreaWidgetList[customAreaIndex] = widget;
     d->_customAreaHitTestObjectList[customAreaIndex] = hitTestObject;
     d->_customAreaHitTestFunctionNameList[customAreaIndex] = hitTestFunctionName;
@@ -747,35 +751,35 @@ int ElaAppBar::takeOverNativeEvent(const QByteArray& eventType, void* message, l
              *result = HTCLIENT;
              return 1;
          }
-         case WM_GETMINMAXINFO:
-         {
-             auto* mmi = reinterpret_cast< MINMAXINFO* >( msg->lParam );
-
-             HMONITOR hMon = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-             if( !hMon )
-                 break;
-
-             MONITORINFO mi{};
-             mi.cbSize = sizeof( mi );
-             GetMonitorInfo(hMon, &mi);
-
-             RECT rcWork = mi.rcWork;
-             RECT rcMon  = mi.rcMonitor;
-
-             // 최대화 위치 & 크기
-             mmi->ptMaxPosition.x = rcWork.left - rcMon.left;
-             mmi->ptMaxPosition.y = rcWork.top - rcMon.top;
-             mmi->ptMaxSize.x     = rcWork.right - rcWork.left;
-             mmi->ptMaxSize.y     = rcWork.bottom - rcWork.top;
-
-             // DPI 기반 최소 크기
-             UINT dpi              = GetDpiForWindow(hwnd);
-             mmi->ptMinTrackSize.x = MulDiv(128, dpi, 96);
-             mmi->ptMinTrackSize.y = MulDiv(128, dpi, 96);
-
-             *result = 0;
-             return 1;
-         }
+         // case WM_GETMINMAXINFO:
+         // {
+         //     auto* mmi = reinterpret_cast< MINMAXINFO* >( msg->lParam );
+         //
+         //     HMONITOR hMon = MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+         //     if( !hMon )
+         //         break;
+         //
+         //     MONITORINFO mi{};
+         //     mi.cbSize = sizeof( mi );
+         //     GetMonitorInfo(hMon, &mi);
+         //
+         //     RECT rcWork = mi.rcWork;
+         //     RECT rcMon  = mi.rcMonitor;
+         //
+         //     // 최대화 위치 & 크기
+         //     mmi->ptMaxPosition.x = rcWork.left - rcMon.left;
+         //     mmi->ptMaxPosition.y = rcWork.top - rcMon.top;
+         //     mmi->ptMaxSize.x     = rcWork.right - rcWork.left;
+         //     mmi->ptMaxSize.y     = rcWork.bottom - rcWork.top;
+         //
+         //     // DPI 기반 최소 크기
+         //     UINT dpi              = GetDpiForWindow(hwnd);
+         //     mmi->ptMinTrackSize.x = MulDiv(128, dpi, 96);
+         //     mmi->ptMinTrackSize.y = MulDiv(128, dpi, 96);
+         //
+         //     *result = 0;
+         //     return 1;
+         // }
          case WM_LBUTTONDBLCLK:
          {
              QVariantMap postData;

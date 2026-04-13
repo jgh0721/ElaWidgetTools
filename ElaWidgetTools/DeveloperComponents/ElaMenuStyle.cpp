@@ -97,7 +97,7 @@ void ElaMenuStyle::drawControl(ControlElement element, const QStyleOption* optio
                     QFont iconFont = QFont("ElaAwesome");
                     iconFont.setPixelSize(_pMenuItemHeight * 0.57);
                     painter->setFont(iconFont);
-                    painter->drawText(QRectF(menuRect.x() + contentPadding, menuRect.y(), _iconWidth, menuRect.height()), Qt::AlignCenter, mopt->checked ? QChar((unsigned short)ElaIconType::Check) : QChar((unsigned short)ElaIconType::None));
+                    painter->drawText(QRectF(menuRect.x() + contentPadding, menuRect.y(), _iconWidth, menuRect.height()), Qt::AlignCenter, mopt->checked ? QChar((int)ElaIconType::Check) : QChar((int)ElaIconType::None));
                     painter->restore();
                 }
                 else
@@ -153,7 +153,7 @@ void ElaMenuStyle::drawControl(ControlElement element, const QStyleOption* optio
                     QFont iconFont = QFont("ElaAwesome");
                     iconFont.setPixelSize(18);
                     painter->setFont(iconFont);
-                    painter->drawText(QRect(menuRect.right() - 25, menuRect.y(), 25, menuRect.height()), Qt::AlignVCenter, QChar((unsigned short)ElaIconType::AngleRight));
+                    painter->drawText(QRect(menuRect.right() - 25, menuRect.y(), 25, menuRect.height()), Qt::AlignVCenter, QChar((int)ElaIconType::AngleRight));
                     painter->restore();
                 }
                 painter->restore();
@@ -199,36 +199,40 @@ int ElaMenuStyle::pixelMetric(PixelMetric metric, const QStyleOption* option, co
 
 QSize ElaMenuStyle::sizeFromContents(ContentsType type, const QStyleOption* option, const QSize& size, const QWidget* widget) const
 {
-    switch (type)
-    {
-    case QStyle::CT_MenuItem:
+    const ElaMenu* menu = dynamic_cast<const ElaMenu*>(widget);
+    QSize baseSize = QProxyStyle::sizeFromContents(type, option, size, widget);
+
+    if (type == QStyle::CT_MenuItem)
     {
         if (const QStyleOptionMenuItem* mopt = qstyleoption_cast<const QStyleOptionMenuItem*>(option))
         {
             if (mopt->menuItemType == QStyleOptionMenuItem::Separator)
             {
-                break;
+                return QSize(baseSize.width(), 10); // 구분선 높이 고정
             }
-            QSize menuItemSize = QProxyStyle::sizeFromContents(type, option, size, widget);
-            const ElaMenu* menu = dynamic_cast<const ElaMenu*>(widget);
+
             if (menu->isHasIcon() || mopt->menuHasCheckableItems)
-            {
                 _isAnyoneItemHasIcon = true;
-            }
-            if (menu->isHasChildMenu())
-            {
-                return QSize(menuItemSize.width() + 20, _pMenuItemHeight);
-            }
-            else
-            {
-                return QSize(menuItemSize.width(), _pMenuItemHeight);
-            }
+
+            int itemHeight = _pMenuItemHeight;
+            int iconWidth = _pMenuItemHeight * 0.7;
+            int textMargin = 10;
+            int contentPadding = 8; // 고정 패딩
+
+            // 텍스트 너비 계산 (FontMetrics 사용)
+            int textWidth = option->fontMetrics.horizontalAdvance(mopt->text.split("\t").at(0));
+            int shortcutWidth = 0;
+            if (mopt->text.contains("\t"))
+                shortcutWidth = option->fontMetrics.horizontalAdvance(mopt->text.split("\t").at(1)) + 20;
+
+            // 전체 너비 = 좌패딩 + 아이콘 + 여백 + 텍스트 + 단축키 + 화살표 + 우패딩
+            int totalWidth = contentPadding + iconWidth + textMargin + textWidth + shortcutWidth + contentPadding;
+
+            if (mopt->menuItemType == QStyleOptionMenuItem::SubMenu)
+                totalWidth += 25; // 서브메뉴 화살표 공간
+
+            return QSize(qMax(baseSize.width(), totalWidth), itemHeight);
         }
     }
-    default:
-    {
-        break;
-    }
-    }
-    return QProxyStyle::sizeFromContents(type, option, size, widget);
+    return baseSize;
 }

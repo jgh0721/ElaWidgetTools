@@ -136,7 +136,7 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaSpinBoxPlugin(this)
     << new ElaSuggestBoxPlugin(this)
 
-    //<< new ElaTabBarPlugin(this)
+    // << new ElaTabBarPlugin(this)
     << new ElaTableViewPlugin(this)
     << new ElaTableWidgetPlugin(this)
     << new ElaTabWidgetPlugin(this)
@@ -148,6 +148,7 @@ ElaWidgetToolsDesignerPlugin::ElaWidgetToolsDesignerPlugin(QObject *parent)
     << new ElaTreeViewPlugin(this)
     << new ElaTreeWidgetPlugin(this)
 
+    << new ElaDialogPlugin(this)
     // << new ElaWidgetPlugin(this)
     << new ElaWindowPlugin(this)
     ;
@@ -823,7 +824,7 @@ DEFINE_BASE_ICON( ElaDialog, ElaIcon::getInstance()->getElaIcon( ElaIconType::Di
 DEFINE_BASE_WHATS_THIS(ElaDialog, "ElaDialog on ElaWidgetTools")
 DEFINE_BASE_IS_CONTAINER(ElaDialog, true )
 
-QString ElaWidgetPlugin::domXml() const
+QString ElaDialogPlugin::domXml() const
 {
     QString className = QStringLiteral("ElaDialog");
     return createWidgetXml( className, className.toLower(), QSize( 320, 240 ) );

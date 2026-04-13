@@ -17,15 +17,18 @@ add_definitions(-DELAWIDGETTOOLS_LIBRARY)
 FILE(GLOB ORIGIN *.h *.cpp)
 FILE(GLOB PRIVATE private/*.h private/*.cpp)
 FILE(GLOB DEVELOPER DeveloperComponents/*.h DeveloperComponents/*.cpp)
+FILE(GLOB DEVELOPER_COMMAND DeveloperComponents/Command/*.h DeveloperComponents/Command/*.cpp)
 
 source_group(include FILES ${INCLUDE})
 source_group(private FILES ${PRIVATE})
 source_group(DeveloperComponents FILES ${DEVELOPER})
+source_group(DeveloperComponents/Command FILES ${DEVELOPER_COMMAND})
 
 set(PROJECT_SOURCES
     ${ORIGIN}
     ${PRIVATE}
     ${DEVELOPER}
+    ${DEVELOPER_COMMAND}
     ${CMAKE_CURRENT_SOURCE_DIR}/ElaWidgetTools.qrc
 )
 
@@ -83,6 +86,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/private>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DeveloperComponents>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/DeveloperComponents/Command>
     $<INSTALL_INTERFACE:${PROJECT_NAME}/include>
 )
 

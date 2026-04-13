@@ -26,7 +26,7 @@ ElaKeyBinder::ElaKeyBinder(QWidget* parent)
     textFont.setPixelSize(15);
     setFont(textFont);
     d->_binderContainer = new ElaKeyBinderContainer(this);
-    d->_binderDialog = new ElaContentDialog;
+    d->_binderDialog = new ElaContentDialog(window());
     d->_binderDialog->setCentralWidget(d->_binderContainer);
     d->_binderDialog->setLeftButtonText(tr("取消"));
     d->_binderDialog->setMiddleButtonText(tr("重置"));
@@ -172,7 +172,7 @@ void ElaKeyBinder::paintEvent(QPaintEvent* event)
     painter.setPen(ElaThemeColor(d->_themeMode, BasicText));
     QRect iconRect = rect();
     iconRect.adjust(0, 0, -10, 0);
-    painter.drawText(iconRect, Qt::AlignVCenter | Qt::AlignRight, QChar((unsigned short)ElaIconType::Pencil));
+    painter.drawText(iconRect, Qt::AlignVCenter | Qt::AlignRight, QChar((int)ElaIconType::Pencil));
     painter.restore();
     QLabel::paintEvent(event);
 }

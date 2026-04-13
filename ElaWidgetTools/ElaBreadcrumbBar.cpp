@@ -30,13 +30,17 @@ ElaBreadcrumbBar::ElaBreadcrumbBar(QWidget* parent)
     d->_listView->setModel(d->_listModel);
     d->_listDelegate = new ElaBreadcrumbBarDelegate(this);
     d->_listView->setItemDelegate(d->_listDelegate);
+    d->_listView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(d->_listView, &QListView::clicked, this, [=](const QModelIndex& index) {
         if (d->_pIsAutoRemove)
         {
             if (d->_listModel->getBreadcrumbListCount() != 1 && index.row() != d->_listModel->getBreadcrumbListCount() * 2 - 2 && index.data(Qt::DisplayRole).toString() != ">")
             {
-                Q_EMIT breadcrumbClicked(index.data(Qt::DisplayRole).toString(), d->_listModel->getBreadcrumbList(), index.row() );
+                auto breadcrumb = index.data(Qt::DisplayRole).toString();
+                auto lastBreadcrumbList = d->_listModel->getBreadcrumbList();
+				auto row = index.row();
                 d->_listModel->removeBreadcrumb(index.row() / 2 + 1);
+                Q_EMIT breadcrumbClicked(breadcrumb, lastBreadcrumbList, row);
             }
         }
         else

@@ -111,7 +111,7 @@ void ElaFooterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
     initStyleOption(&viewOption, index);
     ElaFooterModel* model = dynamic_cast<ElaFooterModel*>(const_cast<QAbstractItemModel*>(index.model()));
     ElaNavigationNode* node = index.data(Qt::UserRole).value<ElaNavigationNode*>();
-    const QIcon decoIcon = qvariant_cast< QIcon >( index.data( Qt::DecorationRole ) );
+    const QIcon decoIcon = qvariant_cast< QIcon >( index.data( Qt::UserRole+1 ) );
     const bool hasPng = !decoIcon.isNull();
     if (option.state.testFlag(QStyle::State_HasFocus))
     {
@@ -199,7 +199,7 @@ void ElaFooterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
         QFont iconFont = QFont("ElaAwesome");
         iconFont.setPixelSize(17);
         painter->setFont(iconFont);
-        painter->drawText(QRect(itemRect.x(), itemRect.y(), _iconAreaWidth, itemRect.height()), Qt::AlignCenter, QChar((unsigned short)node->getAwesome()));
+        painter->drawText(QRect(itemRect.x(), itemRect.y(), _iconAreaWidth, itemRect.height()), Qt::AlignCenter, QChar((int)node->getAwesome()));
         painter->restore();
     }
 

@@ -142,7 +142,7 @@ QVariant ElaNavigationModel::data(const QModelIndex& index, int role) const
     {
         return node->getNodeTitle();
     }
-    if( role == Qt::DecorationRole )
+    if( role == Qt::UserRole+1 )
     {
         const QString key = node->getNodeKey();
         if( _iconMap.contains( key ) )
@@ -438,6 +438,6 @@ void ElaNavigationModel::setPageNodeIcon( const QString& pageKey, const QIcon& i
     {
         const QModelIndex idx = node->getModelIndex();
         if( idx.isValid() )
-            Q_EMIT dataChanged( idx, idx, { Qt::DecorationRole } );
+            Q_EMIT dataChanged( idx, idx, { Qt::UserRole+1 } );
     }
 }

@@ -38,6 +38,7 @@ public:
 private:
     ElaThemeType::ThemeMode _themeMode;
     QHBoxLayout* _mainLayout{nullptr};
+    QHBoxLayout* _middleLayout{nullptr};
     QVBoxLayout* _iconLabelLayout{nullptr};
     QVBoxLayout* _titleLabelLayout{nullptr};
     ElaAppBarType::ButtonFlags _buttonFlags;
@@ -70,6 +71,7 @@ private:
     void _onThemeModeChange(ElaThemeType::ThemeMode themeMode);
     int _calculateMinimumWidth();
     QVBoxLayout* _createVLayout(QWidget* widget);
+    void _updateLayoutSize();
 };
 
 #endif // ELAAPPBARPRIVATE_H
