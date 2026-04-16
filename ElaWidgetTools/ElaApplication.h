@@ -7,6 +7,7 @@
 #include "ElaDef.h"
 #include "ElaSingleton.h"
 #define eApp ElaApplication::getInstance()
+class QTranslator;
 class ElaApplicationPrivate;
 class ELA_EXPORT ElaApplication : public QObject
 {
@@ -19,10 +20,13 @@ private:
     explicit ElaApplication(QObject* parent = nullptr);
     ~ElaApplication() override;
 
+    QTranslator* ko = nullptr;
+    QTranslator* en = nullptr;
 public:
     void init( const QString& ConfigFilePath = "", bool IsPlugin = false );
     void syncWindowDisplayMode(QWidget* widget, bool isSync = true);
     static bool containsCursorToItem(QWidget* item);
+    void switchLanguageTo(const QString& Lang);
 };
 
 #endif // ELAAPPLICATION_H

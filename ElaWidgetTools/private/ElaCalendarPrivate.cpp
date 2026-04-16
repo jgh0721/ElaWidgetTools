@@ -221,7 +221,7 @@ void ElaCalendarPrivate::_updateSwitchButtonText()
     {
     case YearMode:
     {
-        _modeSwitchButton->setText(QString("%1-%2").arg(data.year - 5).arg(data.year + 10));
+        _modeSwitchButton->setText(tr("%1-%2").arg(data.year - 5).arg(data.year + 10));
         break;
     }
     case MonthMode:

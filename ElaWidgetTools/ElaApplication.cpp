@@ -101,16 +101,17 @@ void ElaApplication::init( const QString& ConfigFilePath, bool IsPlugin )
     //默认字体
     if( QFile::exists( ":/translations/ElaWidgetTools_ko.qm" ) == true )
     {
-        QTranslator* ko = new QTranslator();
-        if( ko->load( QLocale::Korean, ":/translations/ElaWidgetTools_ko.qm" ) == true )
-            qApp->installTranslator( ko );
+        if( ko == nullptr )
+        {
+            ko = new QTranslator;
+            ko->load( QLocale::Korean, ":/translations/ElaWidgetTools_ko.qm" );
+        }
     }
 
     if( QFile::exists( ":/translations/ElaWidgetTools_en.qm" ) == true )
     {
-        QTranslator* en = new QTranslator();
-        if( en->load( QLocale::English, ":/translations/ElaWidgetTools_en.qm" ) == true )
-            qApp->installTranslator( en );
+        en = new QTranslator();
+        en->load( QLocale::English, ":/translations/ElaWidgetTools_en.qm" );
     }
 
     int Theme = -1;
@@ -242,4 +243,28 @@ bool ElaApplication::containsCursorToItem(QWidget* item)
         return true;
     }
     return false;
+}
+
+void ElaApplication::switchLanguageTo( const QString& Lang )
+{
+    if( Lang.compare( "ko", Qt::CaseInsensitive ) == 0 ||
+        Lang.compare( "korea", Qt::CaseInsensitive ) == 0 ||
+        Lang.compare( "korean", Qt::CaseInsensitive ) == 0 )
+    {
+        if( en != nullptr )
+            qApp->removeTranslator(en);
+
+        if( ko != nullptr && ko->isEmpty() == false )
+            qApp->installTranslator( ko );
+    }
+
+    if( Lang.compare( "en", Qt::CaseInsensitive ) == 0 ||
+        Lang.compare( "english", Qt::CaseInsensitive ) == 0 )
+    {
+        if( ko != nullptr )
+            qApp->removeTranslator(ko);
+
+        if( en != nullptr && en->isEmpty() == false )
+            qApp->installTranslator( en );
+    }
 }

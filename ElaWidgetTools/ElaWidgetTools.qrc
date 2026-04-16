@@ -6,4 +6,8 @@
         <file>Image/noise.png</file>
         <file>Image/MicaBase.png</file>
     </qresource>
+    <qresource prefix="/translations">
+        <file>ElaWidgetTools_en.qm</file>
+        <file>ElaWidgetTools_ko.qm</file>
+    </qresource>
 </RCC>

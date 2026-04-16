@@ -2,7 +2,28 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US" sourcelanguage="_US">
 <context>
+    <name>ElaCalendar</name>
+    <message>
+        <location filename="ElaCalendar.cpp" line="56"/>
+        <source>1924年1月</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ElaCalendarModel</name>
+    <message>
+        <location filename="DeveloperComponents/ElaCalendarModel.cpp" line="109"/>
+        <source>%1月</source>
+        <translation>%1Mon</translation>
+    </message>
+</context>
+<context>
     <name>ElaCalendarPrivate</name>
+    <message>
+        <location filename="private/ElaCalendarPrivate.cpp" line="224"/>
+        <source>%1-%2</source>
+        <translation>%1 ~ %2</translation>
+    </message>
     <message>
         <location filename="private/ElaCalendarPrivate.cpp" line="229"/>
         <source>%1年</source>
@@ -88,27 +109,27 @@
 <context>
     <name>ElaContentDialog</name>
     <message>
-        <location filename="ElaContentDialog.cpp" line="50"/>
+        <location filename="ElaContentDialog.cpp" line="45"/>
         <source>cancel</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="62"/>
+        <location filename="ElaContentDialog.cpp" line="57"/>
         <source>minimum</source>
         <translation>Minimize</translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="74"/>
+        <location filename="ElaContentDialog.cpp" line="69"/>
         <source>exit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="98"/>
+        <location filename="ElaContentDialog.cpp" line="93"/>
         <source>退出</source>
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="ElaContentDialog.cpp" line="101"/>
+        <location filename="ElaContentDialog.cpp" line="96"/>
         <source>确定要退出程序吗</source>
         <translation>Are you sure you want to quit the program?</translation>
     </message>
@@ -204,7 +225,7 @@
 <context>
     <name>ElaKeyBinderPrivate</name>
     <message>
-        <location filename="private/ElaKeyBinderPrivate.cpp" line="10"/>
+        <location filename="private/ElaKeyBinderPrivate.cpp" line="12"/>
         <source>按下任意按键以进行绑定</source>
         <translation>Please press the key to bind</translation>
     </message>
@@ -212,37 +233,37 @@
 <context>
     <name>ElaLineEdit</name>
     <message>
-        <location filename="ElaLineEdit.cpp" line="188"/>
+        <location filename="ElaLineEdit.cpp" line="192"/>
         <source>撤销</source>
         <translation>Undo(&amp;U)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="192"/>
+        <location filename="ElaLineEdit.cpp" line="196"/>
         <source>恢复</source>
         <translation>Redo(&amp;R)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="200"/>
+        <location filename="ElaLineEdit.cpp" line="204"/>
         <source>剪切</source>
         <translation>Cut(&amp;T)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="205"/>
+        <location filename="ElaLineEdit.cpp" line="209"/>
         <source>复制</source>
         <translation>Copy(&amp;C)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="211"/>
+        <location filename="ElaLineEdit.cpp" line="215"/>
         <source>粘贴</source>
         <translation>Paste(&amp;P)</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="218"/>
+        <location filename="ElaLineEdit.cpp" line="222"/>
         <source>删除</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="ElaLineEdit.cpp" line="233"/>
+        <location filename="ElaLineEdit.cpp" line="237"/>
         <source>全选</source>
         <translation>Select All(&amp;S)</translation>
     </message>
@@ -250,7 +271,7 @@
 <context>
     <name>ElaNavigationView</name>
     <message>
-        <location filename="DeveloperComponents/ElaNavigationView.cpp" line="102"/>
+        <location filename="DeveloperComponents/ElaNavigationView.cpp" line="100"/>
         <source>在新窗口中打开</source>
         <translation>Open in new window</translation>
     </message>
@@ -364,12 +385,12 @@
 <context>
     <name>ElaSpinBox</name>
     <message>
-        <location filename="ElaSpinBox.cpp" line="128"/>
+        <location filename="ElaSpinBox.cpp" line="132"/>
         <source>增加</source>
         <translation>Up</translation>
     </message>
     <message>
-        <location filename="ElaSpinBox.cpp" line="130"/>
+        <location filename="ElaSpinBox.cpp" line="134"/>
         <source>减少</source>
         <translation>Down</translation>
     </message>
@@ -377,37 +398,37 @@
 <context>
     <name>ElaSpinBoxPrivate</name>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="46"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="40"/>
         <source>撤销</source>
         <translation>Undo(&amp;U)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="50"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="44"/>
         <source>恢复</source>
         <translation>Redo(&amp;R)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="58"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="52"/>
         <source>剪切</source>
         <translation>Cut(&amp;T)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="63"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="57"/>
         <source>复制</source>
         <translation>Copy(&amp;C)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="69"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="63"/>
         <source>粘贴</source>
         <translation>Paste(&amp;P)</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="76"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="70"/>
         <source>删除</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="private/ElaSpinBoxPrivate.cpp" line="91"/>
+        <location filename="private/ElaSpinBoxPrivate.cpp" line="85"/>
         <source>全选</source>
         <translation>Select All(&amp;S)</translation>
     </message>
@@ -415,7 +436,7 @@
 <context>
     <name>ElaSuggestBox</name>
     <message>
-        <location filename="ElaSuggestBox.cpp" line="35"/>
+        <location filename="ElaSuggestBox.cpp" line="48"/>
         <source>查找功能</source>
         <translation>Search</translation>
     </message>
