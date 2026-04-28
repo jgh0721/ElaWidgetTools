@@ -5,6 +5,7 @@
 #include <QWidget>
 
 #include "ElaDef.h"
+#include "ElaIconButton.h"
 
 #ifdef Q_OS_WIN
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
@@ -77,6 +78,8 @@ public:
     void setWindowButtonFlag(ElaAppBarType::ButtonType buttonFlag, bool isEnable = true);
     void setWindowButtonFlags(ElaAppBarType::ButtonFlags buttonFlags);
     ElaAppBarType::ButtonFlags getWindowButtonFlags() const;
+    // closeButton = ElaIconButton, others = ElaToolButton
+    QAbstractButton* getWindowButton( ElaAppBarType::ButtonType buttonType );
 
     QLabel *    iconLabel() const;
     ElaText*    titleLabel() const;

@@ -65,6 +65,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     setObjectName("ElaAppBar");
     setStyleSheet("ElaAppBar{background-color:transparent;}");
     d->_routeBackButton = new ElaToolButton(this);
+    d->_routeBackButton->setObjectName("RouteBackButton");
     d->_routeBackButton->setElaIcon(ElaIconType::ArrowLeft);
     d->_routeBackButton->setFixedSize(35, 30);
     d->_routeBackButton->setEnabled(false);
@@ -72,6 +73,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     connect(d->_routeBackButton, &ElaIconButton::clicked, this, &ElaAppBar::routeBackButtonClicked);
 
     d->_routeForwardButton = new ElaToolButton(this);
+    d->_routeForwardButton->setObjectName("RouteForwardButton");
     d->_routeForwardButton->setElaIcon(ElaIconType::ArrowRight);
     d->_routeForwardButton->setFixedSize(35, 30);
     d->_routeForwardButton->setEnabled(false);
@@ -88,6 +90,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 
     // 设置置顶
     d->_stayTopButton = new ElaToolButton(this);
+    d->_stayTopButton->setObjectName("StayTopButton");
     d->_stayTopButton->setElaIcon(ElaIconType::Thumbtack, 45);
     d->_stayTopButton->setFixedSize(40, 30);
     connect(d->_stayTopButton, &ElaToolButton::clicked, this, [=]() {
@@ -97,6 +100,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 
     //图标
     d->_iconLabel = new QLabel(this);
+    d->_iconLabel->setObjectName("IconLabel");
     d->_iconLabelLayout = d->_createVLayout(d->_iconLabel);
     d->_iconLabelLayout->setAlignment(Qt::AlignCenter);
     if (parent->windowIcon().isNull())
@@ -116,6 +120,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 
     //标题
     d->_titleLabel = new ElaText(this);
+    d->_titleLabel->setObjectName("TitleLabel");
     d->_titleLabel->setIsWrapAnywhere(true);
     d->_titleLabel->setTextPixelSize(13);
     d->_titleLabel->setAlignment(Qt::AlignVCenter);
@@ -140,6 +145,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 
     // 主题变更
     d->_themeChangeButton = new ElaToolButton(this);
+    d->_themeChangeButton->setObjectName("ThemeChangeButton");
     d->_themeChangeButton->setElaIcon(ElaIconType::MoonStars);
     d->_themeChangeButton->setFixedSize(40, 30);
     connect(d->_themeChangeButton, &ElaToolButton::clicked, this, &ElaAppBar::themeChangeButtonClicked);
@@ -148,15 +154,18 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     });
 
     d->_minButton = new ElaToolButton(this);
+    d->_minButton->setObjectName("MinButton");
     d->_minButton->setElaIcon(ElaIconType::Dash);
     d->_minButton->setFixedSize(40, 30);
     connect(d->_minButton, &ElaToolButton::clicked, d, &ElaAppBarPrivate::onMinButtonClicked);
     d->_maxButton = new ElaToolButton(this);
+    d->_maxButton->setObjectName("MaxButton");
     d->_maxButton->setIconSize(QSize(18, 18));
     d->_maxButton->setElaIcon(ElaIconType::Square);
     d->_maxButton->setFixedSize(40, 30);
     connect(d->_maxButton, &ElaToolButton::clicked, d, &ElaAppBarPrivate::onMaxButtonClicked);
     d->_closeButton = new ElaIconButton(ElaIconType::Xmark, 18, 40, 30, this);
+    d->_closeButton->setObjectName("CloseButton");
     d->_closeButton->setLightHoverColor(QColor(0xE8, 0x11, 0x23));
     d->_closeButton->setDarkHoverColor(QColor(0xE8, 0x11, 0x23));
     d->_closeButton->setLightHoverIconColor(Qt::white);
@@ -439,6 +448,23 @@ void ElaAppBar::setWindowButtonFlags(ElaAppBarType::ButtonFlags buttonFlags)
 ElaAppBarType::ButtonFlags ElaAppBar::getWindowButtonFlags() const
 {
     return d_ptr->_buttonFlags;
+}
+
+QAbstractButton * ElaAppBar::getWindowButton(ElaAppBarType::ButtonType buttonType)
+{
+    Q_D(const ElaAppBar);
+    switch( buttonType ) {
+        case ElaAppBarType::RouteBackButtonHint: { return d->_routeBackButton; } break;
+        case ElaAppBarType::RouteForwardButtonHint: { return d->_routeForwardButton; } break;
+        case ElaAppBarType::NavigationButtonHint: { return d->_navigationButton; } break;
+        case ElaAppBarType::StayTopButtonHint: { return d->_stayTopButton; } break;
+        case ElaAppBarType::ThemeChangeButtonHint: { return d->_themeChangeButton; } break;
+        case ElaAppBarType::MinimizeButtonHint: { return d->_minButton; } break;
+        case ElaAppBarType::MaximizeButtonHint: { return d->_maxButton; } break;
+        case ElaAppBarType::CloseButtonHint: { return d->_closeButton; } break;
+    }
+
+    return nullptr;
 }
 
 QLabel* ElaAppBar::iconLabel() const
