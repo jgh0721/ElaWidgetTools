@@ -219,7 +219,12 @@ void ElaNavigationStyle::drawControl(ControlElement element, const QStyleOption*
                 const qreal dpr = painter->device()->devicePixelRatioF();
                 QPixmap pm = Ico.pixmap( QSize( qRound( IconSize * dpr ), qRound( IconSize * dpr ) ) );
                 pm.setDevicePixelRatio( dpr );
-                painter->drawPixmap( QRect(itemRect.x(), itemRect.y(), _iconAreaWidth, itemRect.height()), pm );
+                const QRect iconRect( itemRect.x() + ( _iconAreaWidth - IconSize ) / 2, itemRect.y() + ( itemRect.height() - IconSize ) / 2, IconSize, IconSize );
+                const bool oneToOne = ( pm.width() / pm.devicePixelRatioF() == IconSize ) && ( pm.height() / pm.devicePixelRatioF() == IconSize );
+                painter->save();
+                painter->setRenderHint( QPainter::SmoothPixmapTransform, !oneToOne );
+                painter->drawPixmap( iconRect, pm );
+                painter->restore();
             }
 
             int viewWidth = widget->width();
@@ -297,7 +302,10 @@ void ElaNavigationStyle::drawControl(ControlElement element, const QStyleOption*
             }
             else
             {
-                drawKeyPoints(painter, node, itemRect);
+                if( _pNavigationView->getNavigationBarPrivate()->_currentDisplayMode != ElaNavigationType::NavigationDisplayMode::Compact )
+                {
+                    drawKeyPoints( painter, node, itemRect );
+                }
             }
             painter->restore();
         }
