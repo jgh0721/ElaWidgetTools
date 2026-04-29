@@ -81,7 +81,7 @@ void ElaCalendarDelegate::_drawYearOrMonth(QPainter* painter, const QStyleOption
     QRectF itemRect = option.rect;
     bool isNow = false;
     ElaCalendarData data = index.data(Qt::UserRole).value<ElaCalendarData>();
-    qreal baseRadius = _pItemWidth * 0.5;
+    qreal baseRadius = _pItemWidth * 0.5 - 4.0;
     // 当前日期绘制
     ElaCalendarType displayMode = _calendarModel->getDisplayMode();
     if ((displayMode == ElaCalendarType::YearMode && data.year == _nowDate.year()) || (displayMode == ElaCalendarType::MonthMode && data.month == _nowDate.month() && data.year == _nowDate.year()))
@@ -120,7 +120,7 @@ void ElaCalendarDelegate::_drawYearOrMonth(QPainter* painter, const QStyleOption
 void ElaCalendarDelegate::_drawDays(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
     qreal penWidth = 1.5;
-    qreal baseRadius = _pItemWidth * 0.5 - penWidth;
+    qreal baseRadius = _pItemWidth * 0.5 - penWidth - 4.0;
     QVariant variant = index.data(Qt::UserRole);
     if (variant.isValid())
     {

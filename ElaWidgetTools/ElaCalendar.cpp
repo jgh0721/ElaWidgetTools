@@ -82,7 +82,7 @@ ElaCalendar::ElaCalendar(QWidget* parent)
     buttonLayout->addWidget(d->_downButton);
 
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
-    mainLayout->setContentsMargins(5, 0, 0, 0);
+    mainLayout->setContentsMargins(5, 0, 0, 8);
     mainLayout->addLayout(buttonLayout);
     mainLayout->addWidget(d->_calendarTitleView);
     mainLayout->addWidget(d->_calendarView);
