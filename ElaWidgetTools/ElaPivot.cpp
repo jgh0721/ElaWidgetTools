@@ -16,7 +16,7 @@ ElaPivot::ElaPivot(QWidget* parent)
     d->_pTextPixelSize = 20;
     setFixedHeight(40);
     setObjectName("ElaPivot");
-    setStyleSheet("ElaPivot{background-color:transparent;}");
+    setStyleSheet("#ElaPivot{background-color:transparent;}");
     setMouseTracking(true);
 
     d->_listView = new ElaPivotView(this);

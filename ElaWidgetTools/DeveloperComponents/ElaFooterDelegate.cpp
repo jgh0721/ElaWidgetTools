@@ -152,7 +152,7 @@ void ElaFooterDelegate::paint(QPainter* painter, const QStyleOptionViewItem& opt
         if (index == _pPressIndex)
         {
             // 点击时颜色
-            painter->fillPath(path, ElaThemeColor(_themeMode, BasicSelectedHoverAlpha));
+            painter->fillPath(path, ElaThemeColor(_themeMode, BasicPressAlpha));
         }
         else
         {
@@ -283,8 +283,5 @@ bool ElaFooterDelegate::_compareItemY(ElaNavigationNode* node1, ElaNavigationNod
     {
         return true;
     }
-    else
-    {
-        return false;
-    }
+    return false;
 }

@@ -18,7 +18,7 @@ ElaPlainTextEdit::ElaPlainTextEdit(QWidget* parent)
     Q_D(ElaPlainTextEdit);
     d->q_ptr = this;
     setObjectName("ElaPlainTextEdit");
-    setStyleSheet("ElaPlainTextEdit{background-color:transparent;}");
+    setStyleSheet("#ElaPlainTextEdit{background-color:transparent;}");
     setHorizontalScrollBar(new ElaScrollBar(this));
     setVerticalScrollBar(new ElaScrollBar(this));
     setMouseTracking(true);

@@ -1,10 +1,10 @@
 #ifndef ELAPLAINTEXTEDITPRIVATE_H
 #define ELAPLAINTEXTEDITPRIVATE_H
 
-#include <QObject>
-#include <QColor>
-
 #include "ElaDef.h"
+#include <QObject>
+#include <QVariantMap>
+#include <QColor>
 class ElaEvent;
 class ElaPlainTextEdit;
 class ElaPlainTextEditStyle;

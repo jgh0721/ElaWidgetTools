@@ -8,8 +8,6 @@
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, int, BorderRadius)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightDefaultColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkDefaultColor)
-Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightAlternateColor)
-Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkAlternateColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightHoverColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, DarkHoverColor)
 Q_PROPERTY_CREATE_Q_CPP(ElaPushButton, QColor, LightPressColor)
@@ -30,8 +28,6 @@ ElaPushButton::ElaPushButton(QWidget* parent)
     d->_themeMode = eTheme->getThemeMode();
     d->_pLightDefaultColor = ElaThemeColor(ElaThemeType::Light, BasicBase);
     d->_pDarkDefaultColor = ElaThemeColor(ElaThemeType::Dark, BasicBase);
-    d->_pLightAlternateColor = ElaThemeColor(ElaThemeType::Light, BasicBaseAlternate);
-    d->_pDarkAlternateColor = ElaThemeColor(ElaThemeType::Dark, BasicBaseAlternate);
     d->_pLightHoverColor = ElaThemeColor(ElaThemeType::Light, BasicHover);
     d->_pDarkHoverColor = ElaThemeColor(ElaThemeType::Dark, BasicHover);
     d->_pLightPressColor = ElaThemeColor(ElaThemeType::Light, BasicPress);
@@ -49,7 +45,7 @@ ElaPushButton::ElaPushButton(QWidget* parent)
     font.setPixelSize(15);
     setFont(font);
     setObjectName("ElaPushButton");
-    setStyleSheet("ElaPushButton{background-color:transparent;}");
+    setStyleSheet("#ElaPushButton{background-color:transparent;}");
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         d->_themeMode = themeMode;
     });
@@ -149,10 +145,7 @@ QColor ElaPushButton::retrieveBackgroundColor() const
             if( underMouse() == true )
                 return d->_pLightHoverColor;
 
-            if( isDefault() == true )
-                return d->_pLightDefaultColor;
-
-            return d->_pLightAlternateColor;
+            return d->_pLightDefaultColor;
         }
 
         return d->_pLightDisabledColor;
@@ -166,10 +159,7 @@ QColor ElaPushButton::retrieveBackgroundColor() const
         if( underMouse() == true )
             return d->_pDarkHoverColor;
 
-        if( isDefault() == true )
-            return d->_pDarkDefaultColor;
-
-        return d->_pDarkAlternateColor;
+        return d->_pDarkDefaultColor;
     }
 
     return d->_pDarkDisabledColor;

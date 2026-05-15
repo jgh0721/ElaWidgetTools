@@ -37,7 +37,7 @@ ElaToggleButton::ElaToggleButton(QWidget* parent)
     font.setPixelSize(15);
     setFont(font);
     setObjectName("ElaToggleButton");
-    setStyleSheet("ElaToggleButton{background-color:transparent;}");
+    setStyleSheet("#ElaToggleButton{background-color:transparent;}");
     connect(eTheme, &ElaTheme::themeModeChanged, this, [=](ElaThemeType::ThemeMode themeMode) {
         d->_themeMode = themeMode;
     });

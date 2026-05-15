@@ -71,7 +71,7 @@ ElaMessageBar::ElaMessageBar(ElaMessageBarType::PositionPolicy policy, ElaMessag
     mainLayout->addStretch();
     mainLayout->addWidget(d->_closeButton);
     setObjectName("ElaMessageBar");
-    setStyleSheet("ElaMessageBar{background-color:transparent;}");
+    setStyleSheet("#ElaMessageBar{background-color:transparent;}");
     d->_messageBarCreate(displayMsec);
 }
 
@@ -85,7 +85,7 @@ ElaMessageBar* ElaMessageBar::success(ElaMessageBarType::PositionPolicy policy, 
     if (!parent)
     {
         QList<QWidget*> widgetList = QApplication::topLevelWidgets();
-        for (auto widget : widgetList)
+        for (auto widget: widgetList)
         {
             if (widget->property("ElaBaseClassName").toString() == "ElaWindow")
             {
@@ -106,7 +106,7 @@ ElaMessageBar* ElaMessageBar::warning(ElaMessageBarType::PositionPolicy policy, 
     if (!parent)
     {
         QList<QWidget*> widgetList = QApplication::topLevelWidgets();
-        for (auto widget : widgetList)
+        for (auto widget: widgetList)
         {
             if (widget->property("ElaBaseClassName").toString() == "ElaWindow")
             {
@@ -127,7 +127,7 @@ ElaMessageBar* ElaMessageBar::information(ElaMessageBarType::PositionPolicy poli
     if (!parent)
     {
         QList<QWidget*> widgetList = QApplication::topLevelWidgets();
-        for (auto widget : widgetList)
+        for (auto widget: widgetList)
         {
             if (widget->property("ElaBaseClassName").toString() == "ElaWindow")
             {
@@ -147,7 +147,7 @@ ElaMessageBar* ElaMessageBar::error(ElaMessageBarType::PositionPolicy policy, QS
     if (!parent)
     {
         QList<QWidget*> widgetList = QApplication::topLevelWidgets();
-        for (auto widget : widgetList)
+        for (auto widget: widgetList)
         {
             if (widget->property("ElaBaseClassName").toString() == "ElaWindow")
             {

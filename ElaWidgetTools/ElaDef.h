@@ -3,7 +3,7 @@
 #include <QObject>
 
 #include "ElaProperty.h"
-#define ElaDefVersion "2.0.2"
+#define ElaDefVersion "2.0.3"
 
 //枚举类导出  兼容QT5低版本
 #if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
@@ -88,7 +88,6 @@ enum ThemeColor
     BasicBorderDeep,
     BasicBorderHover,
     BasicBase,
-    BasicBaseAlternate,
     BasicBaseDeep,
     BasicDisable,
     BasicHover,

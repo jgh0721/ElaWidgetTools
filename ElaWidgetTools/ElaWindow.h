@@ -98,7 +98,8 @@ public:
     void setWindowMovieRate(qreal rate);
     qreal getWindowMovieRate() const;
 
-    void closeWindow();
+    void tabifyDockWidget(QDockWidget* targetDockWidget, QDockWidget* dockWidget);
+    void tabifyDockWidget(Qt::DockWidgetArea area, const QString& targetDockTitle, QDockWidget* dockWidget);
 
 public slots:
     bool Refresh() { return doRefresh(); }
@@ -127,6 +128,10 @@ protected:
     virtual bool eventFilter(QObject* watched, QEvent* event) override;
     virtual QMenu* createPopupMenu() override;
     virtual void paintEvent(QPaintEvent* event) override;
+
+private:
+    QWidget* centralWidget() const;
+    void setCentralWidget(QWidget* widget);
 };
 
 #endif // ELAWINDOW_H

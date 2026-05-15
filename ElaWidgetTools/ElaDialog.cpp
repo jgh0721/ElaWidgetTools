@@ -11,7 +11,7 @@
 #include <QVBoxLayout>
 Q_TAKEOVER_NATIVEEVENT_CPP(ElaDialog, d_func()->_appBar);
 ElaDialog::ElaDialog( QWidget* parent, Qt::WindowFlags flags )
-    : QDialog(parent, flags & ~Qt::FramelessWindowHint), d_ptr(new ElaDialogPrivate())
+    : QDialog{parent}, d_ptr(new ElaDialogPrivate())
 {
     Q_D(ElaDialog);
     d->q_ptr = this;
@@ -22,7 +22,7 @@ ElaDialog::ElaDialog( QWidget* parent, Qt::WindowFlags flags )
     setAttribute(Qt::WA_Hover);
 #endif
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
-    setStyleSheet("ElaDialog{background-color:transparent;}");
+    setStyleSheet("#ElaDialog{background-color:transparent;}");
 #endif
     // 自定义AppBar
     d->_appBar = new ElaAppBar(this);
@@ -313,7 +313,7 @@ void ElaDialog::paintEvent(QPaintEvent* event)
         painter.save();
         painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
         painter.setPen(Qt::NoPen);
-        painter.setBrush(ElaThemeColor(d->_themeMode, WindowBase));
+        painter.setBrush(ElaThemeColor(d->_themeMode, DialogBase));
         painter.drawRect(rect());
         painter.restore();
     }

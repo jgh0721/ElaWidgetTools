@@ -8,6 +8,8 @@
 #include "ElaIconButton.h"
 #include "ElaNavigationBar.h"
 #include "ElaText.h"
+
+#include <QApplication>
 #include <QDebug>
 #include <QGuiApplication>
 #include <QLabel>
@@ -17,6 +19,7 @@
 #include <QVBoxLayout>
 #include <QWidget>
 #include <QWindow>
+#include <QtMath>
 
 ElaAppBarPrivate::ElaAppBarPrivate(QObject* parent)
     : QObject{parent}
@@ -54,7 +57,13 @@ void ElaAppBarPrivate::onCloseButtonClicked()
     Q_Q(ElaAppBar);
     if (_pIsDefaultClosed)
     {
-        q->window()->close();
+        const auto window = q->window();
+        window->close();
+        QApplication::processEvents();
+        if (const auto windowHandle = window->windowHandle())
+        {
+            windowHandle->close();
+        }
     }
     else
     {

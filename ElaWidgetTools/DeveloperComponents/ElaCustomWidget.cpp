@@ -13,7 +13,7 @@ ElaCustomWidget::ElaCustomWidget(QWidget* parent)
     setObjectName("ElaCustomWidget");
     setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::WindowSystemMenuHint | Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint | Qt::WindowFullscreenButtonHint);
 #if (QT_VERSION < QT_VERSION_CHECK(6, 5, 3) || QT_VERSION > QT_VERSION_CHECK(6, 6, 1))
-    setStyleSheet("ElaCustomWidget{background-color:transparent;}");
+    setStyleSheet("#ElaCustomWidget{background-color:transparent;}");
 #endif
     // 自定义AppBar
     _appBar = new ElaAppBar(this);

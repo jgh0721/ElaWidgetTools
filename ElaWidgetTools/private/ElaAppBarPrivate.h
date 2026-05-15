@@ -4,6 +4,7 @@
 #include <QSize>
 
 #include "ElaDef.h"
+
 class QLabel;
 class QScreen;
 class QHBoxLayout;
@@ -38,7 +39,6 @@ public:
 private:
     ElaThemeType::ThemeMode _themeMode;
     QHBoxLayout* _mainLayout{nullptr};
-    QHBoxLayout* _middleLayout{nullptr};
     QVBoxLayout* _iconLabelLayout{nullptr};
     QVBoxLayout* _titleLabelLayout{nullptr};
     ElaAppBarType::ButtonFlags _buttonFlags;

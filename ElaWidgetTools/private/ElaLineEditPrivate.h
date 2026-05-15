@@ -1,10 +1,11 @@
 #ifndef ELALINEEDITPRIVATE_H
 #define ELALINEEDITPRIVATE_H
 
+#include "ElaDef.h"
 #include <QObject>
+#include <QVariantMap>
 #include <QColor>
 
-#include "ElaDef.h"
 class ElaEvent;
 class ElaLineEdit;
 class ElaLineEditPrivate : public QObject

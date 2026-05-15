@@ -11,7 +11,7 @@ ElaDrawerContainer::ElaDrawerContainer(QWidget* parent)
     _pOpacity = 0;
     _pContainerPix = QPixmap();
     setObjectName("ElaDrawerContainer");
-    setStyleSheet("ElaDrawerContainer{background-color:transparent;}");
+    setStyleSheet("#ElaDrawerContainer{background-color:transparent;}");
 
     _mainLayout = new QVBoxLayout(this);
     _mainLayout->setSizeConstraint(QLayout::SetMinAndMaxSize);

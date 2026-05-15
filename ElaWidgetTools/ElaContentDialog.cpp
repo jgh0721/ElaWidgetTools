@@ -230,6 +230,7 @@ void ElaContentDialog::showEvent(QShowEvent* event)
         d->_maskWidget->setFixedSize(parentWidget()->size());
         d->_maskWidget->doMaskAnimation(90);
     }
+    d->_moveToCenter();
     QDialog::showEvent(event);
 }
 
@@ -251,5 +252,18 @@ void ElaContentDialog::paintEvent(QPaintEvent* event)
 
 void ElaContentDialog::keyPressEvent(QKeyEvent* event)
 {
+    Q_D(ElaContentDialog);
+    switch (event->key())
+    {
+    case Qt::Key_Escape:
+    {
+        d->_doCloseAnimation(false);
+        break;
+    }
+    default:
+    {
+        break;
+    }
+    }
     event->accept();
 }

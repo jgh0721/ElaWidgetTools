@@ -18,8 +18,14 @@ void ElaTextPrivate::onThemeChanged(ElaThemeType::ThemeMode themeMode)
     _themeMode = themeMode;
     QPalette palette = q->palette();
     if( eTheme->getThemeMode() == ElaThemeType::Light )
+	{
+        palette.setColor( QPalette::Text, _pLightTextColor.isValid() ? _pLightTextColor : ElaThemeColor(_themeMode, BasicText) );
         palette.setColor( QPalette::WindowText, _pLightTextColor.isValid() ? _pLightTextColor : ElaThemeColor(_themeMode, BasicText) );
+	}
     if( eTheme->getThemeMode() == ElaThemeType::Dark )
+	{
+        palette.setColor( QPalette::Text, _pDarkTextColor.isValid() ? _pDarkTextColor : ElaThemeColor(_themeMode, BasicText) );
         palette.setColor( QPalette::WindowText, _pDarkTextColor.isValid() ? _pDarkTextColor : ElaThemeColor(_themeMode, BasicText) );
+	}
     q->setPalette(palette);
 }

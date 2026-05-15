@@ -63,7 +63,7 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 #endif
     setMouseTracking(true);
     setObjectName("ElaAppBar");
-    setStyleSheet("ElaAppBar{background-color:transparent;}");
+    setStyleSheet("#ElaAppBar{background-color:transparent;}");
     d->_routeBackButton = new ElaToolButton(this);
     d->_routeBackButton->setObjectName("RouteBackButton");
     d->_routeBackButton->setElaIcon(ElaIconType::ArrowLeft);
@@ -188,9 +188,6 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     leftLayout->addLayout(d->_titleLabelLayout);
     d->_mainLayout->addLayout(leftLayout);
 
-    d->_middleLayout = new QHBoxLayout();
-    d->_middleLayout->setSpacing(0);
-    d->_middleLayout->setContentsMargins(0, 0, 0, 0);
     auto leftAreaWidget = new QWidget(this);
     leftAreaWidget->setVisible(false);
     auto middleAreaWidget = new QWidget(this);
@@ -200,10 +197,9 @@ ElaAppBar::ElaAppBar(QWidget* parent)
     d->_customAreaWidgetList[0] = leftAreaWidget;
     d->_customAreaWidgetList[1] = middleAreaWidget;
     d->_customAreaWidgetList[2] = rightAreaWidget;
-    d->_middleLayout->addWidget(leftAreaWidget);
-    d->_middleLayout->addWidget(middleAreaWidget);
-    d->_middleLayout->addWidget(rightAreaWidget);
-    d->_mainLayout->addLayout(d->_middleLayout);
+    d->_mainLayout->addWidget(leftAreaWidget);
+    d->_mainLayout->addWidget(middleAreaWidget);
+    d->_mainLayout->addWidget(rightAreaWidget);
 
     QHBoxLayout* rightLayout = new QHBoxLayout();
     rightLayout->setSpacing(0);
@@ -282,8 +278,8 @@ void ElaAppBar::setCustomWidget(ElaAppBarType::CustomArea customArea, QWidget* w
     widget->setMaximumHeight(height());
     widget->setParent(this);
     int customAreaIndex = (int)customArea - 1;
-    d->_middleLayout->removeWidget(d->_customAreaWidgetList[customAreaIndex]);
-    d->_middleLayout->insertWidget(customAreaIndex + 1, widget);
+    d->_mainLayout->removeWidget(d->_customAreaWidgetList[customAreaIndex]);
+    d->_mainLayout->insertWidget(customAreaIndex + 1, widget);
     d->_customAreaWidgetList[customAreaIndex] = widget;
     d->_customAreaHitTestObjectList[customAreaIndex] = hitTestObject;
     d->_customAreaHitTestFunctionNameList[customAreaIndex] = hitTestFunctionName;
@@ -489,31 +485,6 @@ void ElaAppBar::setRouteForwardButtonEnable(bool isEnable)
 {
     Q_D(ElaAppBar);
     d->_routeForwardButton->setEnabled(isEnable);
-}
-
-void ElaAppBar::closeWindow()
-{
-    Q_D(ElaAppBar);
-    QPropertyAnimation* closeOpacityAnimation = new QPropertyAnimation(window(), "windowOpacity");
-    connect(closeOpacityAnimation, &QPropertyAnimation::finished, this, [=]() {
-        window()->close();
-    });
-    closeOpacityAnimation->setStartValue(1);
-    closeOpacityAnimation->setEndValue(0);
-    closeOpacityAnimation->setEasingCurve(QEasingCurve::InOutSine);
-    closeOpacityAnimation->start(QAbstractAnimation::DeleteWhenStopped);
-    if (window()->isMaximized() || window()->isFullScreen() || d->_pIsFixedHorizontalSize || d->_pIsFixedVerticalSize)
-    {
-        return;
-    }
-    QPropertyAnimation* geometryAnimation = new QPropertyAnimation(window(), "geometry");
-    QRect geometry = window()->geometry();
-    geometryAnimation->setStartValue(geometry);
-    qreal targetWidth = (geometry.width() - d->_lastMinTrackWidth) * 0.7 + d->_lastMinTrackWidth;
-    qreal targetHeight = (geometry.height() - window()->minimumHeight()) * 0.7 + window()->minimumHeight();
-    geometryAnimation->setEndValue(QRectF(geometry.center().x() - targetWidth / 2, geometry.center().y() - targetHeight / 2, targetWidth, targetHeight));
-    geometryAnimation->setEasingCurve(QEasingCurve::InOutSine);
-    geometryAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 #ifdef Q_OS_WIN

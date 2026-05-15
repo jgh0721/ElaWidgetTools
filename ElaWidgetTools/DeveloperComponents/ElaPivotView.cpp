@@ -16,7 +16,7 @@ ElaPivotView::ElaPivotView(QWidget* parent)
     _pCurrentIndexRect = QRect();
     _pIsAnimationFinished = true;
     setObjectName("ElaPivotView");
-    setStyleSheet("ElaPivotView{background-color:transparent;}");
+    setStyleSheet("#ElaPivotView{background-color:transparent;}");
     setMouseTracking(true);
     setVerticalScrollBar(new ElaScrollBar(this));
     setHorizontalScrollBar(new ElaScrollBar(this));

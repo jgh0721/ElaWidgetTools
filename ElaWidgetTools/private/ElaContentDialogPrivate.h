@@ -35,6 +35,7 @@ private:
     ElaPushButton* _middleButton{nullptr};
     ElaPushButton* _rightButton{nullptr};
     void _doCloseAnimation(bool isAccept);
+    void _moveToCenter();
 };
 
 #endif // ELACONTENTDIALOGPRIVATE_H
