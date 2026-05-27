@@ -37,7 +37,6 @@ ElaAppBar::ElaAppBar(QWidget* parent)
 {
     Q_D(ElaAppBar);
     d->_buttonFlags = ElaAppBarType::RouteBackButtonHint | ElaAppBarType::RouteForwardButtonHint | ElaAppBarType::StayTopButtonHint | ElaAppBarType::ThemeChangeButtonHint | ElaAppBarType::MinimizeButtonHint | ElaAppBarType::MaximizeButtonHint | ElaAppBarType::CloseButtonHint;
-    window()->setAttribute(Qt::WA_Mapped);
     d->_pAppBarHeight = 45;
     setFixedHeight(d->_pAppBarHeight);
     window()->setContentsMargins(0, this->height(), 0, 0);
@@ -227,14 +226,14 @@ ElaAppBar::ElaAppBar(QWidget* parent)
         connect(qApp->screens().at(i), &QScreen::logicalDotsPerInchChanged, this, [=] {
             if (d->_pIsFixedHorizontalSize || d->_pIsFixedVerticalSize)
             {
-                HWND hwnd = (HWND)(d->_currentWinID);
+                HWND hwnd = (HWND)(quintptr)(d->_currentWinID);
                 SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE | SWP_FRAMECHANGED);
             }
         });
     }
     //主屏幕变更处理
     connect(qApp, &QApplication::primaryScreenChanged, this, [=]() {
-        HWND hwnd = (HWND)(d->_currentWinID);
+        HWND hwnd = (HWND)(quintptr)(d->_currentWinID);
         ::SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOOWNERZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
         ::RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
     });
@@ -329,7 +328,7 @@ void ElaAppBar::setIsFixedHorizontalSize(bool isFixedSize)
     Q_D(ElaAppBar);
     d->_pIsFixedHorizontalSize = isFixedSize;
 #ifdef Q_OS_WIN
-    HWND hwnd = (HWND)d->_currentWinID;
+    HWND hwnd = (HWND)(quintptr)d->_currentWinID;
     DWORD style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
     if (d->_pIsFixedHorizontalSize || d->_pIsFixedHorizontalSize)
     {
@@ -367,7 +366,7 @@ void ElaAppBar::setIsFixedVerticalSize(bool isFixedSize)
     Q_D(ElaAppBar);
     d->_pIsFixedVerticalSize = isFixedSize;
 #ifdef Q_OS_WIN
-    HWND hwnd = (HWND)d->_currentWinID;
+    HWND hwnd = (HWND)(quintptr)d->_currentWinID;
     DWORD style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
     if (d->_pIsFixedHorizontalSize || d->_pIsFixedHorizontalSize)
     {
@@ -859,7 +858,7 @@ bool ElaAppBar::eventFilter(QObject* obj, QEvent* event)
     {
         QSize size = parentWidget()->size();
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))
-        if (::IsZoomed((HWND)d->_currentWinID))
+        if (::IsZoomed((HWND)(quintptr)d->_currentWinID))
         {
             this->resize(size.width() - 14, this->height());
         }
@@ -875,9 +874,10 @@ bool ElaAppBar::eventFilter(QObject* obj, QEvent* event)
 #ifdef Q_OS_WIN
     case QEvent::Show:
     {
+        this->setAttribute(Qt::WA_Mapped, true);
         if ( (!d->_pIsFixedHorizontalSize || !d->_pIsFixedVerticalSize) && !d->_pIsOnlyAllowMinAndClose)
         {
-            HWND hwnd = (HWND)d->_currentWinID;
+            HWND hwnd = (HWND)(quintptr)d->_currentWinID;
             DWORD style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
             style &= ~WS_SYSMENU;
             ::SetWindowLongPtr(hwnd, GWL_STYLE, style | WS_MAXIMIZEBOX | WS_THICKFRAME);
@@ -887,7 +887,7 @@ bool ElaAppBar::eventFilter(QObject* obj, QEvent* event)
             }
         }
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 3) && QT_VERSION <= QT_VERSION_CHECK(6, 6, 1))
-        HWND hwnd = (HWND)d->_currentWinID;
+        HWND hwnd = (HWND)(quintptr)d->_currentWinID;
         ElaWinShadowHelper::getInstance()->setWindowShadow(d->_currentWinID);
         DWORD style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
         bool hasCaption = (style & WS_CAPTION) == WS_CAPTION;
@@ -1033,7 +1033,7 @@ void ElaAppBar::paintEvent(QPaintEvent* event)
         QPainter painter(this);
         painter.save();
         painter.setRenderHints(QPainter::Antialiasing);
-        auto borderWidth = eWinHelper->getSystemMetricsForDpi((HWND)d->_currentWinID, SM_CXBORDER);
+        auto borderWidth = eWinHelper->getSystemMetricsForDpi((HWND)(quintptr)d->_currentWinID, SM_CXBORDER);
         painter.setPen(QPen(window()->isActiveWindow() ? ElaThemeColor(d->_themeMode, Win10BorderActive) : ElaThemeColor(d->_themeMode, Win10BorderInactive), borderWidth));
         painter.drawLine(QPoint(0, 0), QPoint(window()->width(), 0));
         painter.restore();

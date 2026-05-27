@@ -1,4 +1,4 @@
-#include "ElaAppBarPrivate.h"
+﻿#include "ElaAppBarPrivate.h"
 
 #include "ElaToolButton.h"
 #ifdef Q_OS_WIN
@@ -74,7 +74,7 @@ void ElaAppBarPrivate::onCloseButtonClicked()
 void ElaAppBarPrivate::onStayTopButtonClicked()
 {
 #ifdef Q_OS_WIN
-    HWND hwnd = (HWND)_currentWinID;
+    HWND hwnd = (HWND)(quintptr)_currentWinID;
     ::SetWindowPos(hwnd, _pIsStayTop ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 #else
     Q_Q(ElaAppBar);
@@ -125,7 +125,7 @@ void ElaAppBarPrivate::_showAppBarMenu(QPoint point)
 	    }
 	    const QPoint origin = screen->geometry().topLeft();
 	    auto nativePos = QPointF(QPointF(point - origin) * screen->devicePixelRatio()).toPoint() + origin;
-	    HWND hwnd = reinterpret_cast<HWND>(q->window()->winId());
+	    HWND hwnd = (HWND)(quintptr)(q->window()->winId());
 	    const HMENU hMenu = ::GetSystemMenu(hwnd, FALSE);
 	    if (q->window()->isMaximized() || q->window()->isFullScreen())
 	    {

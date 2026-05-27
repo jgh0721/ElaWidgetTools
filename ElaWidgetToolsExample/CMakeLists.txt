@@ -32,18 +32,10 @@ if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
     )
-    #遍历所有资源文件
-    file(GLOB_RECURSE RES_PATHS *.png *.jpg *.svg *.ico *.ttf *.webp *.js)
-    foreach (filepath ${RES_PATHS})
-        string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/" "" filename ${filepath})
-        list(APPEND resource_files ${filename})
-    endforeach (filepath)
-
-    qt_add_resources(${PROJECT_NAME} "ElaWidgetToolsExample"
-        RESOURCES PREFIX "/"
-        FILES
-        ${resource_files}
+    qt_add_big_resources(EXAMPLE_BIG_RESOURCES
+        ElaWidgetToolsExample.qrc
     )
+    target_sources(${PROJECT_NAME} PRIVATE ${EXAMPLE_BIG_RESOURCES})
 else ()
     qt5_add_big_resources(PROJECT_SOURCES
         ElaWidgetToolsExample.qrc

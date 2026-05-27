@@ -1,4 +1,4 @@
-#include "ElaWinShadowHelper.h"
+﻿#include "ElaWinShadowHelper.h"
 
 #ifdef Q_OS_WIN
 #include <QDebug>
@@ -108,7 +108,7 @@ bool ElaWinShadowHelper::initWinAPI()
 void ElaWinShadowHelper::setWindowShadow(quint64 hwnd)
 {
     static const MARGINS shadow = {1, 0, 0, 0};
-    _dwmExtendFrameIntoClientArea((HWND)hwnd, &shadow);
+    _dwmExtendFrameIntoClientArea((HWND)(quintptr)hwnd, &shadow);
 }
 
 void ElaWinShadowHelper::setWindowThemeMode(quint64 hwnd, bool isLightMode)
@@ -119,12 +119,12 @@ void ElaWinShadowHelper::setWindowThemeMode(quint64 hwnd, bool isLightMode)
     }
     BOOL bIsLightMode = !isLightMode;
     _DWMWINDOWATTRIBUTE dwAttritube = compareWindowsVersion(Win10_20H1) ? _DWMWA_USE_IMMERSIVE_DARK_MODE : _DWMWA_USE_IMMERSIVE_DARK_MODE_BEFORE_20H1;
-    _dwmSetWindowAttribute((HWND)hwnd, dwAttritube, &bIsLightMode, sizeof(bIsLightMode));
+    _dwmSetWindowAttribute((HWND)(quintptr)hwnd, dwAttritube, &bIsLightMode, sizeof(bIsLightMode));
 }
 
 void ElaWinShadowHelper::setWindowDisplayMode(QWidget* widget, ElaApplicationType::WindowDisplayMode displayMode, ElaApplicationType::WindowDisplayMode lastDisplayMode)
 {
-    HWND winHwnd = (HWND)widget->winId();
+    HWND winHwnd = (HWND)(quintptr)widget->winId();
     switch (lastDisplayMode)
     {
     case ElaApplicationType::Mica:

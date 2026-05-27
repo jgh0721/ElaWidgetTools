@@ -1,4 +1,4 @@
-#include "ElaDockWidget.h"
+﻿#include "ElaDockWidget.h"
 
 #include <QEvent>
 #include <QLayout>
@@ -86,7 +86,7 @@ bool ElaDockWidget::event(QEvent* event)
     case QEvent::Show:
     case QEvent::MouseButtonRelease:
     {
-        HWND hwnd = (HWND)d->_currentWinID;
+        HWND hwnd = (HWND)(quintptr)d->_currentWinID;
         DWORD style = ::GetWindowLongPtr(hwnd, GWL_STYLE);
         ::SetWindowLongPtr(hwnd, GWL_STYLE, style | WS_MAXIMIZEBOX | WS_THICKFRAME);
         ElaWinShadowHelper::getInstance()->setWindowShadow(d->_currentWinID);
